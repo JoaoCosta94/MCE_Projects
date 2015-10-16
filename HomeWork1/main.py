@@ -24,10 +24,10 @@ def rectangle_function(x, spacing, left_limit, w, h):
                 index_left = i
     # finding the right limit index
     index_right = index_left + w / spacing
+    heights = h*pl.ones((w / spacing + 1,))
 
     # rearranging the rectangle
-    for i in pl.arange(index_left, index_right, spacing):
-        rec[i] = h
+    rec[index_left:index_right+1] = heights
     return rec
 
 def cosine(x, left_limit, right_limit, spacing, w):
@@ -67,8 +67,22 @@ t = pl.arange(left_limit, right_limit, dt)
 a = 2 # This may be changed
 rec = rectangle_function(t, dt, -a, 2*a, 1)
 # Definition of original cosine function
-w = 4 # This may be changed
+w = 5*2*np.pi # This may be changed
 c = pl.cos(w * t)
+
+# FFT of original signals
+fft, fftFreq = fourier_numerical((rec, c))
+recFFT = fft[0]
+cFFT = fft[1]
+
+# Convolutions
+# By numpy.convolve
+convNP = np.convolve(rec, c, "same")
+# By convolution theorem
+conv = recFFT * cFFT
+conv = np.fft.ifft(conv)
+print len(conv)
+
 
 # Plotting of original signals
 pl.figure(1)
@@ -79,18 +93,22 @@ pl.plot(t,rec, label = "rec(t)")
 pl.plot(t, c, label = "cos(wt)")
 pl.legend()
 
-# FFT of original signals
-fft, fftFreq = fourier_numerical((rec, c))
-recFFT = np.absolute(fft[0])
-cFFT = np.absolute(fft[1])
-
 # Plotting FFTs
 pl.figure(2)
 pl.title("REC FFT")
-pl.plot(fftFreq[0], recFFT)
+pl.plot(fftFreq[0], recFFT.real)
 pl.figure(3)
 pl.title("COS FFT")
-pl.plot(fftFreq[1], cFFT)
+pl.plot(fftFreq[1], cFFT.real)
+
+# Plotting convolutions
+pl.figure(4)
+pl.title("Convolution by Numpy Convolve")
+pl.plot(t, convNP)
+pl.figure(5)
+pl.title("Convolution by Convolution Theorem")
+pl.plot(t, conv)
+
 
 pl.show()
 
