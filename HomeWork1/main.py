@@ -1,5 +1,6 @@
 import pylab as pl
 import numpy as np
+from scipy.fftpack import fft, fftfreq, ifft
 
 def rectangle_function(x, spacing, left_limit, w, h):
     """
@@ -12,7 +13,7 @@ def rectangle_function(x, spacing, left_limit, w, h):
     :return:            Array with desired rectangle
     """
     # generates a array with nPoints zeros
-    rec = pl.zeros(x.shape)
+    rec = np.zeros(x.shape)
 
     # generating the actual rectangle function
     # finding the start index of the rectangle
@@ -24,7 +25,7 @@ def rectangle_function(x, spacing, left_limit, w, h):
                 index_left = i
     # finding the right limit index
     index_right = index_left + w / spacing
-    heights = h*pl.ones((w / spacing + 1,))
+    heights = h*np.ones((w / spacing + 1,))
 
     # rearranging the rectangle
     rec[index_left:index_right+1] = heights
@@ -38,8 +39,8 @@ def cosine(x, left_limit, right_limit, spacing, w):
     :param w:           Angular velocity
     :return:            Array with desired cosine function
     """
-    x = pl.arange(left_limit, right_limit, spacing)
-    return pl.cos(w * x)
+    x = np.arange(left_limit, right_limit, spacing)
+    return np.cos(w * x)
 
 def fourier_numerical(signalsList):
 
@@ -52,63 +53,64 @@ def fourier_numerical(signalsList):
     signalsFFT = []
     fftFreqs = []
     for signal in signalsList:
-        signalsFFT.append(np.fft.fft(signal))
-        fftFreqs.append(np.fft.fftfreq(signal.size))
+        signalsFFT.append(fft(signal))
+        fftFreqs.append(fftfreq(signal.size))
 
     return (signalsFFT, fftFreqs)
 
-# Definition of general conditions of margins and time (may be changed)
-left_limit = -5
-right_limit = 5
-dt = 0.01
-t = pl.arange(left_limit, right_limit, dt)
 
-# Definition of rectangle
-a = 2 # This may be changed
-rec = rectangle_function(t, dt, -a, 2*a, 1)
-# Definition of original cosine function
-w = 5*2*np.pi # This may be changed
-c = pl.cos(w * t)
+if __name__  == "__main__":
+    # Definition of general conditions of margins and time (may be changed)
+    left_limit = -5
+    right_limit = 5
+    dt = 0.01
+    t = np.arange(left_limit, right_limit, dt)
 
-# FFT of original signals
-fft, fftFreq = fourier_numerical((rec, c))
-recFFT = fft[0]
-cFFT = fft[1]
+    # Definition of rectangle
+    a = 2 # This may be changed
+    rec = rectangle_function(t, dt, -a, 2*a, 1)
+    # Definition of original cosine function
+    w = 5*2*np.pi # This may be changed
+    c = np.cos(w * t)
 
-# Convolutions
-# By numpy.convolve
-convNP = np.convolve(rec, c, "same")
-# By convolution theorem
-conv = recFFT * cFFT
-conv = np.fft.ifft(conv)
-print len(conv)
+    # FFT of original signals
+    fftRes, fftFreq = fourier_numerical((rec, c))
+    recFFT = fftRes[0]
+    cFFT = fftRes[1]
 
-
-# Plotting of original signals
-pl.figure(1)
-pl.title("Original Signals")
-pl.xlabel("time")
-pl.ylabel("f(t)")
-pl.plot(t,rec, label = "rec(t)")
-pl.plot(t, c, label = "cos(wt)")
-pl.legend()
-
-# Plotting FFTs
-pl.figure(2)
-pl.title("REC FFT")
-pl.plot(fftFreq[0], recFFT.real)
-pl.figure(3)
-pl.title("COS FFT")
-pl.plot(fftFreq[1], cFFT.real)
-
-# Plotting convolutions
-pl.figure(4)
-pl.title("Convolution by Numpy Convolve")
-pl.plot(t, convNP)
-pl.figure(5)
-pl.title("Convolution by Convolution Theorem")
-pl.plot(t, conv)
+    # Convolutions
+    # By numpy.convolve
+    convNP = np.convolve(rec, c, "same")
+    # By convolution theorem
+    conv = recFFT * cFFT
+    conv = ifft(conv)
+    print len(conv)
 
 
-pl.show()
+    # Plotting of original signals
+    pl.figure(1)
+    pl.title("Original Signals")
+    pl.xlabel("time")
+    pl.ylabel("f(t)")
+    pl.plot(t,rec, label = "rec(t)")
+    pl.plot(t, c, label = "cos(wt)")
+    pl.legend()
+
+    # Plotting FFTs
+    pl.figure(2)
+    pl.title("REC FFT")
+    pl.plot(fftFreq[0], recFFT.real)
+    pl.figure(3)
+    pl.title("COS FFT")
+    pl.plot(fftFreq[1], cFFT.real)
+
+    # Plotting convolutions
+    pl.figure(4)
+    pl.title("Convolution by Numpy Convolve")
+    pl.plot(t, convNP)
+    pl.figure(5)
+    pl.title("Convolution by Convolution Theorem")
+    pl.plot(t, conv)
+
+    pl.show()
 
