@@ -13,14 +13,14 @@ def f(x,y):
     """
     return (np.sin(x) + np.sin(x+y) + np.sin(x*y))*np.exp(-(x*x + y*y)/sigma)
 
-def analyticalLapf(x,y, o):
+def analyticalLapf(x, y, o):
     """
     This function returns de analytical laplacian of function f
     :param X:
     :param Y:
     :return:
     """
-    return (-x**2*sin(x*y) - sin(x + y))*exp(-(x**2 + y**2)**2/o) + (-y**2*sin(x*y) - sin(x) - sin(x + y))*exp(-(x**2 + y**2)**2/o) - 8*x**2*(sin(x) + sin(x*y) + sin(x + y))*exp(-(x**2 + y**2)**2/o)/o - 8*x*(x**2 + y**2)*(y*cos(x*y) + cos(x) + cos(x + y))*exp(-(x**2 + y**2)**2/o)/o - 8*y**2*(sin(x) + sin(x*y) + sin(x + y))*exp(-(x**2 + y**2)**2/o)/o - 8*y*(x**2 + y**2)*(x*cos(x*y) + cos(x + y))*exp(-(x**2 + y**2)**2/o)/o - 8*(x**2 + y**2)*(sin(x) + sin(x*y) + sin(x + y))*exp(-(x**2 + y**2)**2/o)/o + 16*x**2*(x**2 + y**2)**2*(sin(x) + sin(x*y) + sin(x + y))*exp(-(x**2 + y**2)**2/o)/o**2 + 16*y**2*(x**2 + y**2)**2*(sin(x) + sin(x*y) + sin(x + y))*exp(-(x**2 + y**2)**2/o)/o**2
+    return (-x**2*sin(x*y) - sin(x + y))*exp((-x**2 - y**2)/o) + (-y**2*sin(x*y) - sin(x) - sin(x + y))*exp((-x**2 - y**2)/o) - 4*x*(y*cos(x*y) + cos(x) + cos(x + y))*exp((-x**2 - y**2)/o)/o - 4*y*(x*cos(x*y) + cos(x + y))*exp((-x**2 - y**2)/o)/o - 4*(sin(x) + sin(x*y) + sin(x + y))*exp((-x**2 - y**2)/o)/o + 4*x**2*(sin(x) + sin(x*y) + sin(x + y))*exp((-x**2 - y**2)/o)/o**2 + 4*y**2*(sin(x) + sin(x*y) + sin(x + y))*exp((-x**2 - y**2)/o)/o**2
 
 def dx2For(G, h):
     """
@@ -111,7 +111,17 @@ def fftMethod(G, h):
     :param h:   Derivative step
     :return:    Laplacian of f(X,Y) using a FT
     """
-    return "cenas"
+    start = time.time()
+    sizeX = len(G)
+    sizeY = len(G[0])
+    # Sampling frequencies
+    fX, fY = np.meshgrid(np.fft.fftfreq(sizeX, d = h), np.fft.fftfreq(sizeY, d = h))
+    # FFT2D of f(X,Y)
+    transf2D = np.fft.fft2(G)
+    # FT Laplacian = -(Wx^2 + Wy^2) * F(Wx, Wy)
+    lapFourier = transf2D * (2.0*np.pi)**2 * (-(fX**2 + fY**2))
+    # Laplacian = FT^-1(FT Laplacian)
+    return (np.fft.ifft2(lapFourier).real, time.time() - start)
 
 if __name__  == "__main__":
     # Initial conditions (Maybe changed)
@@ -140,8 +150,9 @@ if __name__  == "__main__":
     error_fft_list = []
 
     analyticalSol_list = []
+    # Beginning of calculations
+    start = time.time()
     for h in h_list:
-        print h
         # Creation of the points grid to evaluate the second derivative
         X, Y = np.mgrid[-xLim:xLim+h:h, -yLim:yLim+h:h]
         # Calculation of f(X,Y)
@@ -168,11 +179,31 @@ if __name__  == "__main__":
         time_conv_list.append(t)
         error_conv_list.append(np.average(abs(result - lapAnalytical)).ravel())
 
-        # # By FT laplacian
-        # result, t = fftMethod(fXY, h)
-        # result_fft_list.append(result)
-        # time_fft_list.append(t)
-        # error_fft_list.append(np.average(abs(result - lapAnalytical)).ravel())
+        # By FT laplacian
+        result, t = fftMethod(fXY, h)
+        result_fft_list.append(result)
+        time_fft_list.append(t)
+        error_fft_list.append(np.average(abs(result - lapAnalytical)).ravel())
+
+    print "Calculations took " + str(time.time() - start) + " seconds"
+
+    start = time.time()
+    min_h = min(h_list)
+    j = h_list.index(min_h)
+    # Determination of color scale. Using the analytical solution for reference
+    min_level = min(analyticalSol_list[j].ravel())
+    max_level = max(analyticalSol_list[j].ravel())
+    n_levels = 1000
+    levels = np.linspace(min_level, max_level, n_levels)
+
+    # Plot of Analytical solution
+    X, Y = np.mgrid[-xLim:xLim+min_h:min_h, -yLim:yLim+min_h:min_h]
+    pl.figure("Analytical Solution")
+    pl.title("Analytical Solution")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X, Y, analyticalSol_list[j], levels = levels)
+    pl.colorbar()
 
     # Plotting of results
     for i in range(len(h_list)):
@@ -183,7 +214,7 @@ if __name__  == "__main__":
         pl.title("For")
         pl.xlabel("x")
         pl.ylabel("y")
-        pl.contourf(X, Y, result_for_list[i], levels = np.linspace(min(result_for_list[i].ravel()),max(result_for_list[i].ravel()),1000))
+        pl.contourf(X, Y, result_for_list[i], levels = levels)
         pl.colorbar()
 
         # Plot of roll method results
@@ -191,7 +222,7 @@ if __name__  == "__main__":
         pl.title("Numpy Roll")
         pl.xlabel("x")
         pl.ylabel("y")
-        pl.contourf(X, Y, result_roll_list[i], levels = np.linspace(min(result_roll_list[i].ravel()),max(result_roll_list[i].ravel()),1000))
+        pl.contourf(X, Y, result_roll_list[i], levels = levels)
         pl.colorbar()
 
         # Plot of computational molecule method results
@@ -199,41 +230,36 @@ if __name__  == "__main__":
         pl.title("Computational Molecule")
         pl.xlabel("x")
         pl.ylabel("y")
-        pl.contourf(X, Y, result_conv_list[i], levels = np.linspace(min(result_conv_list[i].ravel()),max(result_conv_list[i].ravel()),1000))
+        pl.contourf(X, Y, result_conv_list[i], levels = levels)
         pl.colorbar()
 
-        # # Plot of FT laplacian method result
-        # pl.subplot(224)
-        # pl.title("FT")
-        # pl.xlabel("x")
-        # pl.ylabel("y")
-        # pl.contourf(X, Y, result_fft_list[i], levels = np.linspace(min(result_fft_list[i].ravel()),max(result_fft_list[i].ravel()),1000))
-        # pl.colorbar()
+        # Plot of FT laplacian method result
+        pl.subplot(224)
+        pl.title("FT")
+        pl.xlabel("x")
+        pl.ylabel("y")
+        pl.contourf(X, Y, result_fft_list[i], levels = levels)
+        pl.colorbar()
 
-        # # Plot of Analytical solution
-        # pl.subplot(224)
-        # pl.title("Analytical Solution")
-        # pl.xlabel("x")
-        # pl.ylabel("y")
-        # pl.contourf(X, Y, analyticalSol_list[i], levels = np.linspace(min(analyticalSol_list[i].ravel()),max(analyticalSol_list[i].ravel()),1000))
-        # pl.colorbar()
+    # # Plot of statical variables
+    # pl.figure("Satistical analisys")
+    # pl.subplot(211)
+    # pl.plot(h_list, time_for_list, label = "For Method")
+    # pl.plot(h_list, time_roll_list, label = "Roll Method")
+    # pl.plot(h_list, time_conv_list, label = "Conv Method")
+    # # pl.plot(h_list, time_fft_list, label = "For Method")
+    # pl.xlabel("h")
+    # pl.ylabel("Calculation Time (s)")
+    # pl.legend()
+    # pl.subplot(212)
+    # pl.plot(h_list, error_for_list, label = "For Method")
+    # pl.plot(h_list, error_roll_list, label = "Roll Method")
+    # pl.plot(h_list, error_conv_list, label = "Conv Method")
+    # # pl.plot(h_list, error_fft_list, label = "For Method")
+    # pl.xlabel("h")
+    # pl.ylabel("Average Error")
+    # pl.legend()
 
-    pl.figure("Satistical analisys")
-    pl.subplot(211)
-    pl.plot(h_list, time_for_list, label = "For Method")
-    pl.plot(h_list, time_roll_list, label = "Roll Method")
-    pl.plot(h_list, time_conv_list, label = "Conv Method")
-    # pl.plot(h_list, time_fft_list, label = "For Method")
-    pl.xlabel("h")
-    pl.ylabel("Calculation Time (s)")
-    pl.legend()
-    pl.subplot(212)
-    pl.plot(h_list, error_for_list, label = "For Method")
-    pl.plot(h_list, error_roll_list, label = "Roll Method")
-    pl.plot(h_list, error_conv_list, label = "Conv Method")
-    # pl.plot(h_list, error_fft_list, label = "For Method")
-    pl.xlabel("h")
-    pl.ylabel("Average Error")
-    pl.legend()
+    print "Plotting graphs took " + str(time.time() - start) + " seconds"
 
     pl.show()
