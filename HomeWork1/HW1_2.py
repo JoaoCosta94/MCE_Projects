@@ -204,7 +204,8 @@ if __name__  == "__main__":
     pl.ylabel("y")
     pl.contourf(X, Y, analyticalSol_list[j], levels = levels)
     pl.colorbar()
-
+    
+    # TODO: Fix margins between figures
     # Plotting of results
     for i in range(len(h_list)):
         X, Y = np.mgrid[-xLim:xLim+h_list[i]:h_list[i], -yLim:yLim+h_list[i]:h_list[i]]
@@ -241,24 +242,24 @@ if __name__  == "__main__":
         pl.contourf(X, Y, result_fft_list[i], levels = levels)
         pl.colorbar()
 
-    # # Plot of statical variables
-    # pl.figure("Satistical analisys")
-    # pl.subplot(211)
-    # pl.plot(h_list, time_for_list, label = "For Method")
-    # pl.plot(h_list, time_roll_list, label = "Roll Method")
-    # pl.plot(h_list, time_conv_list, label = "Conv Method")
-    # # pl.plot(h_list, time_fft_list, label = "For Method")
-    # pl.xlabel("h")
-    # pl.ylabel("Calculation Time (s)")
-    # pl.legend()
-    # pl.subplot(212)
-    # pl.plot(h_list, error_for_list, label = "For Method")
-    # pl.plot(h_list, error_roll_list, label = "Roll Method")
-    # pl.plot(h_list, error_conv_list, label = "Conv Method")
-    # # pl.plot(h_list, error_fft_list, label = "For Method")
-    # pl.xlabel("h")
-    # pl.ylabel("Average Error")
-    # pl.legend()
+    # Plot of statical variables
+    pl.figure("Satistical analisys")
+    pl.subplot(211)
+    pl.plot(h_list, time_for_list, label = "For Method")
+    pl.plot(h_list, time_roll_list, label = "Roll Method")
+    pl.plot(h_list, time_conv_list, label = "Conv Method")
+    # pl.plot(h_list, time_fft_list, label = "For Method")
+    pl.xlabel("h")
+    pl.ylabel("Calculation Time (s)")
+    pl.legend()
+    pl.subplot(212)
+    pl.plot(h_list, error_for_list, label = "For Method")
+    pl.plot(h_list, error_roll_list, label = "Roll Method")
+    pl.plot(h_list, error_conv_list, label = "Conv Method")
+    # pl.plot(h_list, error_fft_list, label = "For Method")
+    pl.xlabel("h")
+    pl.ylabel("Average Error")
+    pl.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=3, mode="expand", borderaxespad=0.)
 
     print "Plotting graphs took " + str(time.time() - start) + " seconds"
 
