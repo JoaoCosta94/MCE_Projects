@@ -131,7 +131,7 @@ if __name__  == "__main__":
     yLim = 5.0
 
     # Creation of list of derivative steps to evaluate (May be changed)
-    h_list = [1.0, 0.1, 0.01]
+    h_list = [1.0, 0.5, 0.1, 0.05, 0.01]
 
     result_for_list = []
     time_for_list = []
@@ -240,6 +240,8 @@ if __name__  == "__main__":
         pl.contourf(X, Y, result_fft_list[i], levels = levels)
         pl.colorbar()
 
+        pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
+
     # Plot of statical variables
     pl.figure("Satistical analisys")
     pl.subplot(211)
@@ -260,5 +262,5 @@ if __name__  == "__main__":
     pl.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=3, mode="expand", borderaxespad=0.)
 
     print "Plotting graphs took " + str(time.time() - start) + " seconds"
-
+    pl.subplots_adjust(hspace = 0.5)
     pl.show()

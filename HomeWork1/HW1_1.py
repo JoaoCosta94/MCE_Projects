@@ -85,6 +85,8 @@ def plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq):
     pl.ylabel("F(f)")
     for i in range(len(rec_list)):
         pl.plot(fftFreq, rec_fourier_list[i] / max(rec_fourier_list[i]), label = "Analytical - a = " + str(a_list[i]))
+
+    pl.subplots_adjust(hspace = .5)
     pl.legend()
 
 def plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq):
@@ -103,6 +105,7 @@ def plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq):
     for i in range(len(cs_list)):
         pl.plot(fftFreq, cs_fourier_list[i] / max(cs_fourier_list[i]), label = "Analytical - w = " + str(w_list[i]))
     pl.legend()
+    pl.subplots_adjust(hspace = .5)
 
 def plotConvolutios(conv_NP_list, conv_list):
     pl.figure("Convolutions")
@@ -126,6 +129,9 @@ def plotConvolutios(conv_NP_list, conv_list):
     pl.ylabel ("f X g")
     pl.plot(t, conv_NP_list[2], label = "NP Convolve")
     pl.plot(t, conv_list[2], label = "FFT Convolve")
+
+    pl.subplots_adjust(hspace = .7)
+    pl.legend()
 
 if __name__  == "__main__":
 
@@ -167,12 +173,18 @@ if __name__  == "__main__":
         pl.title("Rectangular Pulses")
         pl.xlim((-left_limit, left_limit))
         pl.ylim((0, max(a_list)+0.15))
+        pl.xlabel("t")
+        pl.ylabel("f(t)")
         pl.plot(t, rec_list[i], linestyle = linestyles[i], label = "a = " + str(a_list[i]))
         pl.subplot(212)
         pl.title("Cosines")
         pl.xlim((-left_limit, left_limit))
         pl.ylim((-1.2, 1.2))
+        pl.xlabel("t")
+        pl.ylabel("f(t)")
         pl.plot(t, cs_list[i],label = "w = " + str(w_list[i]))
+
+    pl.subplots_adjust(hspace = .5)
     pl.legend()
 
     # Fourier Transform of original signals

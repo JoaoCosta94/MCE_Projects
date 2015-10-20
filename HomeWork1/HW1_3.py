@@ -125,4 +125,5 @@ if __name__  == "__main__":
     pl.ylabel(r'$\sigma$')
     pl.plot(it, sigma)
 
+    pl.subplots_adjust(hspace = .5)
     pl.show()
