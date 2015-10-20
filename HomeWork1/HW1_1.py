@@ -1,7 +1,7 @@
 import pylab as pl
 import numpy as np
 from scipy.signal import fftconvolve
-from time import time
+import time
 
 def rectangle_function(x, spacing, left_limit, w, h):
     """
@@ -13,23 +13,13 @@ def rectangle_function(x, spacing, left_limit, w, h):
     :param h:           Height of the rectangle
     :return:            Array with desired rectangle
     """
-    # generates a array with nPoints zeros
+    # Start of by creating array of zeros
     rec = np.zeros(x.shape)
-
-    # generating the actual rectangle function
-    # finding the start index of the rectangle
-    try:
-        index_left = x.tolist().index(left_limit)
-    except:
-        for i in range(len(x)):
-            if (x[i] >= left_limit - spacing) and (x[i] <= left_limit + spacing):
-                index_left = i
-    # finding the right limit index
-    index_right = index_left + w / spacing
-    heights = h*np.ones((w / spacing + 1,))
-
-    # rearranging the rectangle
-    rec[index_left:index_right+1] = heights
+    # Finding the nearest points with desired value for limits
+    i_right = (np.abs(x + left_limit+w)).argmin()
+    i_left = (np.abs(x+left_limit)).argmin()
+    # Generating rectangle pulse on that interval
+    rec[i_right:i_left+1] = h
     return rec
 
 def fourier_numerical(signalsList, spacing):
@@ -135,9 +125,11 @@ def plotConvolutios(conv_NP_list, conv_list):
 
 if __name__  == "__main__":
 
-    # Auxiliary variables to plotting
+    global t
     global colors
     global linestyles
+
+    # Auxiliary variables to plotting
     colors = {0: 'b', 1:'g', 2:'r', 3:'y'}
     linestyles = {0: '-', 1:'--', 2:':', 3:'-.'}
 
@@ -145,7 +137,6 @@ if __name__  == "__main__":
     left_limit = -10
     right_limit = 10
     dt = 0.01
-    global t
     t = np.arange(left_limit, right_limit, dt)
 
     # Definition of rectangle width and cosine angular velocity (may be changed)
@@ -157,14 +148,11 @@ if __name__  == "__main__":
     # Obtaining original signals
     rec_list = []
     cs_list = []
-    start = time()
     for i in range(len(a_list)):
         a = a_list[i]
         w = w_list[i]
         rec_list.append(rectangle_function(t, dt, -a, 2*a, 1))
         cs_list.append(np.cos(w * t))
-    end = time()
-    print "Calculating original signals took " + str (end-start)
 
     # Plotting original signals
     pl.figure("Original Signals")
@@ -192,7 +180,6 @@ if __name__  == "__main__":
     cs_FFT_list  = []
     rec_fourier_list = []
     cs_fourier_list = []
-    start = time()
     for i in range(len(rec_list)):
         # Numerical solutions
         fftRes, fftFreq = fourier_numerical((rec_list[i], cs_list[i]), dt)
@@ -207,21 +194,67 @@ if __name__  == "__main__":
     plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq[0])
 
     # Convolutions
-    # By numpy.convolve
     conv_NP_list =[]
     conv_list = []
-    times_NP = []
-    times_FFT = []
     for i in range(len(rec_list)):
-        start = time()
+        # By numpy.convolve
         conv_NP_list.append(np.convolve(rec_list[i], cs_list[i], "same"))
-        end = time()
-        times_NP.append(end-start)
+        # By FFT Convolve
         conv_list.append(fftconvolve(rec_list[i], cs_list[i], "same"))
-        end_2 = time()
-        times_FFT.append(end_2-end)
-
     # Plotting Convolutions
     plotConvolutios(conv_NP_list, conv_list)
+
+########################################################################################
+#                                  Study of time vs h                                  #
+########################################################################################
+
+    # Time conditions
+    t_min = -10.0
+    t_max = 10.0
+    dtArray = np.linspace(0.0001, 1.0, 1000)
+
+    # For this study rectangular pulse and cosine parameters will be fixed
+    a = 1.0
+    w = 2.0 * np.pi
+
+    # Lists to store calculation information
+    times_rec = []
+    times_cos = []
+    times_conv = []
+    times_conv_fft = []
+    for dt in dtArray:
+        # Times
+        t = np.arange(t_min, t_max, dt)
+        # Original signals
+        rec = rectangle_function(t, dt, -a, 2.0*a, 1)
+        cos = np.cos(w*t)
+        # Rectangular pulse FFT
+        start = time.time()
+        recFFT = fourier_numerical([rec], dt)[0]
+        times_rec.append(time.time()-start)
+        # Cosine FFT
+        start = time.time()
+        cosFFT = fourier_numerical([cos], dt)[0]
+        times_cos.append(time.time()-start)
+        # NP Convolve
+        start = time.time()
+        np.convolve(rec, cos, "same")
+        times_conv.append(time.time()-start)
+        # FFT Convolve
+        start = time.time()
+        fftconvolve(rec, cos, "same")
+        times_conv_fft.append(time.time()-start)
+
+    pl.figure("Computation Times")
+    pl.title("Computation Times")
+    pl.xlabel('h')
+    pl.ylabel('time (s)')
+    pl.yscale("log")
+    pl.plot(dtArray, times_rec, label = "Rec")
+    pl.plot(dtArray, times_cos, label = "Cos")
+    pl.plot(dtArray, times_conv, label = "NP Conv")
+    pl.plot(dtArray, times_conv_fft, label = "FFT Conv")
+    pl.legend()
+
     pl.show()
 
