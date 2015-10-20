@@ -1,0 +1,2 @@
+TODO: Edit graph spacings
+TODO: Error analysis for h in ex1

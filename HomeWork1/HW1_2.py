@@ -204,8 +204,6 @@ if __name__  == "__main__":
     pl.ylabel("y")
     pl.contourf(X, Y, analyticalSol_list[j], levels = levels)
     pl.colorbar()
-    
-    # TODO: Fix margins between figures
     # Plotting of results
     for i in range(len(h_list)):
         X, Y = np.mgrid[-xLim:xLim+h_list[i]:h_list[i], -yLim:yLim+h_list[i]:h_list[i]]

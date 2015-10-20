@@ -56,11 +56,19 @@ def recFourier(f, hw):
     return hw*np.sinc(2.0*hw*f)*2.0
 
 def cosFourier(f, w):
-    # TODO: Finish this
-    # 3 points around desired frequency
-    w = w / (2.0 * np.numpy)
-    return "cenas"
-
+    """
+    This function calculates the analytical Fourier Transform of a cosine
+    :param f: Fourier Frequencies
+    :param w: Angular velocity
+    :return:  Array with fourier transform of given cosine
+    """
+    freq = w / (2.0 * np.pi)
+    result = np.zeros(f.shape)
+    i_right = (np.abs(f-freq)).argmin()
+    i_left = (np.abs(f+freq)).argmin()
+    result[i_right-1:i_right+2] = 1
+    result[i_left-1:i_left+2] = 1
+    return result
 
 def plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq):
     pl.figure("Fourier Transforms - Rectangular Pulses")
@@ -78,39 +86,23 @@ def plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq):
     for i in range(len(rec_list)):
         pl.plot(fftFreq, rec_fourier_list[i] / max(rec_fourier_list[i]), label = "Analytical - a = " + str(a_list[i]))
     pl.legend()
-    # pl.subplot(313)
-    # pl.title("Difference")
-    # pl.xlabel("f")
-    # pl.ylabel("Error")
-    # for i in range(len(rec_list)):
-    #     pl.plot(fftFreq, abs(rec_fourier_list[i] / max(rec_fourier_list[i]) - rec_FFT_list[i] / max(rec_FFT_list[i])),
-    #             label = "Error - a = " + str(a_list[i]))
-    # pl.legend()
 
 def plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq):
     pl.figure("Fourier Transforms - Cosines")
-    pl.subplot(111)
+    pl.subplot(211)
     pl.title("FFT")
     pl.xlabel("f")
     pl.ylabel("F(f)")
     for i in range(len(cs_list)):
         pl.plot(fftFreq, cs_FFT_list[i] / max(cs_FFT_list[i]), label = "w = " + str(w_list[i]))
     pl.legend()
-    # pl.subplot(312)
-    # pl.title("Analytical FT")
-    # pl.xlabel("f")
-    # pl.ylabel("F(f)")
-    # for i in range(len(cs_list)):
-    #     pl.plot(fftFreq, cs_fourier_list[i] / max(cs_fourier_list[i]), label = "Analytical - w = " + str(w_list[i]))
-    # pl.legend()
-    # pl.subplot(313)
-    # pl.title("Difference")
-    # pl.xlabel("f")
-    # pl.ylabel("Error")
-    # for i in range(len(cs_list)):
-    #     pl.plot(fftFreq, abs(cs_fourier_list[i] / max(cs_fourier_list[i]) - cs_FFT_list[i] / max(cs_FFT_list[i])),
-    #             label = "Error - a = " + str(a_list[i]))
-    # pl.legend()
+    pl.subplot(212)
+    pl.title("Analytical FT")
+    pl.xlabel("f")
+    pl.ylabel("F(f)")
+    for i in range(len(cs_list)):
+        pl.plot(fftFreq, cs_fourier_list[i] / max(cs_fourier_list[i]), label = "Analytical - w = " + str(w_list[i]))
+    pl.legend()
 
 def plotConvolutios(conv_NP_list, conv_list):
     pl.figure("Convolutions")
