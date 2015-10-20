@@ -55,6 +55,13 @@ def recFourier(f, hw):
     """
     return hw*np.sinc(2.0*hw*f)*2.0
 
+def cosFourier(f, w):
+    # TODO: Finish this
+    # 3 points around desired frequency
+    w = w / (2.0 * np.numpy)
+    return "cenas"
+
+
 def plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq):
     pl.figure("Fourier Transforms - Rectangular Pulses")
     pl.subplot(211)
@@ -189,6 +196,7 @@ if __name__  == "__main__":
         cs_FFT_list.append(abs(fftRes[1]))
         # Analytical solutions
         rec_fourier_list.append(abs((recFourier(fftFreq[0], a_list[i]))))
+        cs_fourier_list.append(abs(cosFourier(fftFreq[0], w_list[i])))
 
     # Plotting of Fourier Transforms
     plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq[0])
