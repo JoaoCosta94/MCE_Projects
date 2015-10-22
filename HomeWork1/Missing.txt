@@ -1,2 +1,0 @@
-TODO: Spectral analysis for ex1
-TODO: Time only counting 3 decimal places
