@@ -152,92 +152,92 @@ if __name__  == "__main__":
     global linestyles
     global dt
 
-    # # Auxiliary variables to plotting
-    # colors = {0: 'b', 1:'g', 2:'r', 3:'y'}
-    # linestyles = {0: '-', 1:'--', 2:':', 3:'-.'}
-    #
-    # # Definition of general conditions of margins and time (may be changed)
-    # left_limit = -10
-    # right_limit = 10
-    # dt = 0.01
-    # t = np.arange(left_limit, right_limit, dt)
-    #
-    # # Definition of rectangle width and cosine angular velocity (may be changed)
-    # global a_list
-    # global w_list
-    # a_list = [1, 0.5, 0.1]
-    # w_list = [1, 8, 8*np.pi]
-    #
-    # # Obtaining original signals
-    # rec_list = []
-    # cs_list = []
-    # for i in range(len(a_list)):
-    #     a = a_list[i]
-    #     w = w_list[i]
-    #     rec = rectangle_function(t, dt, -a, 2*a, 1)
-    #     rec_list.append(rec)
-    #     cs_list.append(np.cos(w * t))
-    #
-    # # Plotting original signals
-    # pl.figure("Original Signals")
-    # for i in range(len(rec_list)):
-    #     pl.subplot(211)
-    #     pl.title("Rectangular Pulses")
-    #     pl.xlim((-left_limit, left_limit))
-    #     pl.ylim((0, max(a_list)+0.15))
-    #     pl.xlabel("t")
-    #     pl.ylabel("f(t)")
-    #     pl.plot(t, rec_list[i], linestyle = linestyles[i], label = "a = " + str(a_list[i]))
-    #     pl.subplot(212)
-    #     pl.title("Cosines")
-    #     pl.xlim((-left_limit, left_limit))
-    #     pl.ylim((-1.2, 1.2))
-    #     pl.xlabel("t")
-    #     pl.ylabel("f(t)")
-    #     pl.plot(t, cs_list[i],label = "w = " + str(w_list[i]))
-    #
-    # pl.subplots_adjust(hspace = .5)
-    # pl.legend()
-    #
-    # # Fourier Transform of original signals
-    # rec_FFT_list = []
-    # cs_FFT_list  = []
-    # rec_fourier_list = []
-    # cs_fourier_list = []
-    # rec_FFT_spec = []
-    # cos_FFT_spec = []
-    # original_spectrum = []
-    # for i in range(len(rec_list)):
-    #     # Numerical solutions
-    #     fftRes, fftFreq = fourier_numerical((rec_list[i], cs_list[i]), dt)
-    #     rec_FFT_list.append(abs(fftRes[0]))
-    #     cs_FFT_list.append(abs(fftRes[1]))
-    #     # Calculate FFT Spectrums
-    #     rec_FFT_spec.append(abs(fftRes[0])**2)
-    #     cos_FFT_spec.append(abs(fftRes[1])**2)
-    #     # Analytical solutions
-    #     rec_fourier = abs((recFourier(fftFreq[0], a_list[i])))
-    #     rec_fourier_list.append(rec_fourier)
-    #     cs_fourier_list.append(abs(cosFourier(fftFreq[0], w_list[i])))
-    #     original_spectrum.append(rec_fourier**2)
-    #
-    # # Plotting of Fourier Transforms
-    # plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq[0])
-    # plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq[0])
-    #
-    # # Convolutions
-    # conv_NP_list =[]
-    # conv_list = []
-    # for i in range(len(rec_list)):
-    #     # By numpy.convolve
-    #     conv_NP_list.append(np.convolve(rec_list[i], cs_list[i], "same"))
-    #     # By FFT Convolve
-    #     conv_list.append(fftconvolve(rec_list[i], cs_list[i], "same"))
-    # # Plotting Convolutions
-    # plotConvolutios(conv_NP_list, conv_list)
-    #
-    # # Plotting Spectrums
-    # plotSpectrum(rec_FFT_spec, fftFreq[0], original_spectrum)
+    # Auxiliary variables to plotting
+    colors = {0: 'b', 1:'g', 2:'r', 3:'y'}
+    linestyles = {0: '-', 1:'--', 2:':', 3:'-.'}
+
+    # Definition of general conditions of margins and time (may be changed)
+    left_limit = -10
+    right_limit = 10
+    dt = 0.01
+    t = np.arange(left_limit, right_limit, dt)
+
+    # Definition of rectangle width and cosine angular velocity (may be changed)
+    global a_list
+    global w_list
+    a_list = [1, 0.5, 0.1]
+    w_list = [1, 8, 8*np.pi]
+
+    # Obtaining original signals
+    rec_list = []
+    cs_list = []
+    for i in range(len(a_list)):
+        a = a_list[i]
+        w = w_list[i]
+        rec = rectangle_function(t, dt, -a, 2*a, 1)
+        rec_list.append(rec)
+        cs_list.append(np.cos(w * t))
+
+    # Plotting original signals
+    pl.figure("Original Signals")
+    for i in range(len(rec_list)):
+        pl.subplot(211)
+        pl.title("Rectangular Pulses")
+        pl.xlim((-left_limit, left_limit))
+        pl.ylim((0, max(a_list)+0.15))
+        pl.xlabel("t")
+        pl.ylabel("f(t)")
+        pl.plot(t, rec_list[i], linestyle = linestyles[i], label = "a = " + str(a_list[i]))
+        pl.subplot(212)
+        pl.title("Cosines")
+        pl.xlim((-left_limit, left_limit))
+        pl.ylim((-1.2, 1.2))
+        pl.xlabel("t")
+        pl.ylabel("f(t)")
+        pl.plot(t, cs_list[i],label = "w = " + str(w_list[i]))
+
+    pl.subplots_adjust(hspace = .5)
+    pl.legend()
+
+    # Fourier Transform of original signals
+    rec_FFT_list = []
+    cs_FFT_list  = []
+    rec_fourier_list = []
+    cs_fourier_list = []
+    rec_FFT_spec = []
+    cos_FFT_spec = []
+    original_spectrum = []
+    for i in range(len(rec_list)):
+        # Numerical solutions
+        fftRes, fftFreq = fourier_numerical((rec_list[i], cs_list[i]), dt)
+        rec_FFT_list.append(abs(fftRes[0]))
+        cs_FFT_list.append(abs(fftRes[1]))
+        # Calculate FFT Spectrums
+        rec_FFT_spec.append(abs(fftRes[0])**2)
+        cos_FFT_spec.append(abs(fftRes[1])**2)
+        # Analytical solutions
+        rec_fourier = abs((recFourier(fftFreq[0], a_list[i])))
+        rec_fourier_list.append(rec_fourier)
+        cs_fourier_list.append(abs(cosFourier(fftFreq[0], w_list[i])))
+        original_spectrum.append(rec_fourier**2)
+
+    # Plotting of Fourier Transforms
+    plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq[0])
+    plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq[0])
+
+    # Convolutions
+    conv_NP_list =[]
+    conv_list = []
+    for i in range(len(rec_list)):
+        # By numpy.convolve
+        conv_NP_list.append(np.convolve(rec_list[i], cs_list[i], "same"))
+        # By FFT Convolve
+        conv_list.append(fftconvolve(rec_list[i], cs_list[i], "same"))
+    # Plotting Convolutions
+    plotConvolutios(conv_NP_list, conv_list)
+
+    # Plotting Spectrums
+    plotSpectrum(rec_FFT_spec, fftFreq[0], original_spectrum)
 
 ########################################################################################
 #                                  Study of time vs h                                  #
