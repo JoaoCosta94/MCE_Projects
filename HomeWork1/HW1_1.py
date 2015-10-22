@@ -31,7 +31,7 @@ def fourier_numerical(signalsList, spacing):
     signalsFFT = []
     fftFreqs = []
     for signal in signalsList:
-        signalsFFT.append(np.fft.fftshift(np.fft.fft(signal)))
+        signalsFFT.append(np.fft.fftshift(np.fft.fft(signal))*dt)
         fftFreqs.append(np.fft.fftshift(np.fft.fftfreq(signal.size, d=spacing)))
 
     return (signalsFFT, fftFreqs)
@@ -123,11 +123,34 @@ def plotConvolutios(conv_NP_list, conv_list):
     pl.subplots_adjust(hspace = .7)
     pl.legend()
 
+def plotSpectrum(rec_spectrum, freq, original_spectrum):
+    pl.figure("Spectrum")
+    pl.subplot(211)
+    pl.title("FFT Spectrum")
+    pl.xlabel("f")
+    pl.ylabel ("|F(f)|^2")
+    pl.xlim(-5,5)
+    for i in range(len(a_list)):
+        pl.plot(freq, rec_spectrum[i], label = "a = " + str(a_list[i]))
+    pl.legend()
+
+    pl.subplot(212)
+    pl.title("Original Spectrum")
+    pl.xlabel("t")
+    pl.ylabel ("|f(t)|^2")
+    pl.xlim(-5,5)
+    for i in range(len(a_list)):
+        pl.plot(freq, original_spectrum[i], label = "a = " + str(a_list[i]))
+
+    pl.legend()
+    pl.subplots_adjust(hspace = .7)
+
 if __name__  == "__main__":
 
     global t
     global colors
     global linestyles
+    global dt
 
     # Auxiliary variables to plotting
     colors = {0: 'b', 1:'g', 2:'r', 3:'y'}
@@ -151,7 +174,8 @@ if __name__  == "__main__":
     for i in range(len(a_list)):
         a = a_list[i]
         w = w_list[i]
-        rec_list.append(rectangle_function(t, dt, -a, 2*a, 1))
+        rec = rectangle_function(t, dt, -a, 2*a, 1)
+        rec_list.append(rec)
         cs_list.append(np.cos(w * t))
 
     # Plotting original signals
@@ -180,14 +204,22 @@ if __name__  == "__main__":
     cs_FFT_list  = []
     rec_fourier_list = []
     cs_fourier_list = []
+    rec_FFT_spec = []
+    cos_FFT_spec = []
+    original_spectrum = []
     for i in range(len(rec_list)):
         # Numerical solutions
         fftRes, fftFreq = fourier_numerical((rec_list[i], cs_list[i]), dt)
         rec_FFT_list.append(abs(fftRes[0]))
         cs_FFT_list.append(abs(fftRes[1]))
+        # Calculate FFT Spectrums
+        rec_FFT_spec.append(abs(fftRes[0])**2)
+        cos_FFT_spec.append(abs(fftRes[1])**2)
         # Analytical solutions
-        rec_fourier_list.append(abs((recFourier(fftFreq[0], a_list[i]))))
+        rec_fourier = abs((recFourier(fftFreq[0], a_list[i])))
+        rec_fourier_list.append(rec_fourier)
         cs_fourier_list.append(abs(cosFourier(fftFreq[0], w_list[i])))
+        original_spectrum.append(rec_fourier**2)
 
     # Plotting of Fourier Transforms
     plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq[0])
@@ -203,6 +235,9 @@ if __name__  == "__main__":
         conv_list.append(fftconvolve(rec_list[i], cs_list[i], "same"))
     # Plotting Convolutions
     plotConvolutios(conv_NP_list, conv_list)
+
+    # Plotting Spectrums
+    plotSpectrum(rec_FFT_spec, fftFreq[0], original_spectrum)
 
 ########################################################################################
 #                                  Study of time vs h                                  #
