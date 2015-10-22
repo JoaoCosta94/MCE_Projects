@@ -125,7 +125,7 @@ def plotConvolutios(conv_NP_list, conv_list):
 
 def plotSpectrum(rec_spectrum, freq, original_spectrum):
     pl.figure("Spectrum")
-    pl.subplot(211)
+    pl.subplot(311)
     pl.title("FFT Spectrum")
     pl.xlabel("f")
     pl.ylabel ("|F(f)|^2")
@@ -134,15 +134,26 @@ def plotSpectrum(rec_spectrum, freq, original_spectrum):
         pl.plot(freq, rec_spectrum[i], label = "a = " + str(a_list[i]))
     pl.legend()
 
-    pl.subplot(212)
+    pl.subplot(312)
     pl.title("Original Spectrum")
-    pl.xlabel("t")
-    pl.ylabel ("|f(t)|^2")
+    pl.xlabel("f")
+    pl.ylabel ("|F(f)|^2")
     pl.xlim(-5,5)
     for i in range(len(a_list)):
         pl.plot(freq, original_spectrum[i], label = "a = " + str(a_list[i]))
 
     pl.legend()
+
+    pl.subplot(313)
+    pl.title("Error Analysis")
+    pl.xlabel("f")
+    pl.ylabel ("Error")
+    pl.xlim(-5,5)
+    for i in range(len(a_list)):
+        pl.plot(freq, abs(original_spectrum[i]-rec_spectrum[i]), label = "a = " + str(a_list[i]))
+
+    pl.legend()
+
     pl.subplots_adjust(hspace = .7)
 
 if __name__  == "__main__":
@@ -188,6 +199,7 @@ if __name__  == "__main__":
         pl.xlabel("t")
         pl.ylabel("f(t)")
         pl.plot(t, rec_list[i], linestyle = linestyles[i], label = "a = " + str(a_list[i]))
+        pl.legend()
         pl.subplot(212)
         pl.title("Cosines")
         pl.xlim((-left_limit, left_limit))
@@ -195,9 +207,9 @@ if __name__  == "__main__":
         pl.xlabel("t")
         pl.ylabel("f(t)")
         pl.plot(t, cs_list[i],label = "w = " + str(w_list[i]))
+        pl.legend()
 
     pl.subplots_adjust(hspace = .5)
-    pl.legend()
 
     # Fourier Transform of original signals
     rec_FFT_list = []
@@ -293,6 +305,7 @@ if __name__  == "__main__":
     # Plot of computation times
     pl.figure("Computation Times")
     pl.title("Computation Times")
+    pl.subplot(211)
     pl.xlabel('h')
     pl.ylabel('time (s)')
     pl.ylim(0.0, 0.2)
@@ -304,12 +317,15 @@ if __name__  == "__main__":
     pl.legend()
 
     # Plot of error in fft
-    pl.figure("Average error in FFT")
+    pl.subplot(212)
+    pl.title("Average error in FFT")
     pl.plot(dtArray, rec_fft_error, label = "Rec")
     pl.plot(dtArray, cos_fft_error, label = "Cos")
     pl.xlabel('h')
     pl.ylabel('average error')
     pl.legend()
+
+    pl.subplots_adjust(hspace = .5)
 
     pl.show()
 
