@@ -131,8 +131,8 @@ if __name__  == "__main__":
     yLim = 5.0
 
     # Creation of list of derivative steps to evaluate (May be changed)
-    h_list = [1.0, 0.5, 0.1, 0.05, 0.01]
-
+    h_list = np.linspace(0.001, 1.0, 100)
+    # h_list = [0.01]
     result_for_list = []
     time_for_list = []
     error_for_list = []
@@ -150,6 +150,7 @@ if __name__  == "__main__":
     error_fft_list = []
 
     analyticalSol_list = []
+
     # Beginning of calculations
     start = time.time()
     for h in h_list:
@@ -186,9 +187,6 @@ if __name__  == "__main__":
         error_fft_list.append(np.average(abs(result - lapAnalytical)).ravel())
 
     print "Calculations took " + str(time.time() - start) + " seconds"
-
-    # Error analysis for smaller h
-
 
     start = time.time()
     # min_h = min(h_list)
@@ -244,6 +242,42 @@ if __name__  == "__main__":
     #     pl.colorbar()
     #
     #     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
+
+    # Plot of smaller h 2D error
+    # Preparation of variables
+    i = np.argmin(h_list)
+    minh_for = result_for_list[i] - analyticalSol_list[i]
+    minh_roll = result_roll_list[i] - analyticalSol_list[i]
+    minh_conv = result_conv_list[i] - analyticalSol_list[i]
+    minh_fft = result_fft_list[i] - analyticalSol_list[i]
+    levels = np.linspace(-8, 8, 5)
+    # Actual plots
+    pl.figure("Lalplacian Error")
+    pl.subplot(221)
+    pl.title("For")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X,Y, minh_for, levels = levels)
+    pl.colorbar()
+    pl.subplot(222)
+    pl.title("Roll")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X,Y, minh_roll, levels = levels)
+    pl.colorbar()
+    pl.subplot(223)
+    pl.title("Conv")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X,Y, minh_conv, levels = levels)
+    pl.colorbar()
+    pl.subplot(224)
+    pl.title("FFT")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X,Y, minh_fft, levels = levels)
+    pl.colorbar()
+    pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
 
     # Plot of statical variables
     pl.figure("Statistical analyses")
