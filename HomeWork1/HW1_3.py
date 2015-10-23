@@ -141,13 +141,13 @@ if __name__  == "__main__":
     pl.ylim(0.20, 0.23)
     pl.plot(it, sigma)
 
-    # Plot of correlation coefiecients
+    # Plot of correlation coefficients
     pl.figure("Correlation Coefficients")
     corr_points = [0] + corr_points.tolist()
     subplots_list = [221,222,223,224]
     for i in range(len(corr_coefs)):
         pl.subplot(subplots_list[i])
-        pl.title("Iterarions: " + str(corr_points[i]))
+        pl.title("Iterations: " + str(corr_points[i]))
         pl.xlabel("x")
         pl.ylabel("y")
         pl.contourf(X, Y, grid, levels = np.arange(0.0, 1.1, 0.1))

@@ -187,80 +187,83 @@ if __name__  == "__main__":
 
     print "Calculations took " + str(time.time() - start) + " seconds"
 
+    # Error analysis for smaller h
+
+
     start = time.time()
-    min_h = min(h_list)
-    j = h_list.index(min_h)
-    # Determination of color scale. Using the analytical solution for reference
-    min_level = min(analyticalSol_list[j].ravel())
-    max_level = max(analyticalSol_list[j].ravel())
-    n_levels = 1000
-    levels = np.linspace(min_level, max_level, n_levels)
-
-    # Plot of Analytical solution
-    X, Y = np.mgrid[-xLim:xLim+min_h:min_h, -yLim:yLim+min_h:min_h]
-    pl.figure("Analytical Solution")
-    pl.title("Analytical Solution")
-    pl.xlabel("x")
-    pl.ylabel("y")
-    pl.contourf(X, Y, analyticalSol_list[j], levels = levels)
-    pl.colorbar()
-    # Plotting of results
-    for i in range(len(h_list)):
-        X, Y = np.mgrid[-xLim:xLim+h_list[i]:h_list[i], -yLim:yLim+h_list[i]:h_list[i]]
-        pl.figure("h = " + str(h_list[i]))
-        # Plot of for method results
-        pl.subplot(221)
-        pl.title("For")
-        pl.xlabel("x")
-        pl.ylabel("y")
-        pl.contourf(X, Y, result_for_list[i], levels = levels)
-        pl.colorbar()
-
-        # Plot of roll method results
-        pl.subplot(222)
-        pl.title("Numpy Roll")
-        pl.xlabel("x")
-        pl.ylabel("y")
-        pl.contourf(X, Y, result_roll_list[i], levels = levels)
-        pl.colorbar()
-
-        # Plot of computational molecule method results
-        pl.subplot(223)
-        pl.title("Computational Molecule")
-        pl.xlabel("x")
-        pl.ylabel("y")
-        pl.contourf(X, Y, result_conv_list[i], levels = levels)
-        pl.colorbar()
-
-        # Plot of FT laplacian method result
-        pl.subplot(224)
-        pl.title("FT")
-        pl.xlabel("x")
-        pl.ylabel("y")
-        pl.contourf(X, Y, result_fft_list[i], levels = levels)
-        pl.colorbar()
-
-        pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
+    # min_h = min(h_list)
+    # j = h_list.index(min_h)
+    # # Determination of color scale. Using the analytical solution for reference
+    # min_level = min(analyticalSol_list[j].ravel())
+    # max_level = max(analyticalSol_list[j].ravel())
+    # n_levels = 1000
+    # levels = np.linspace(min_level, max_level, n_levels)
+    #
+    # # Plot of Analytical solution
+    # X, Y = np.mgrid[-xLim:xLim+min_h:min_h, -yLim:yLim+min_h:min_h]
+    # pl.figure("Analytical Solution")
+    # pl.title("Analytical Solution")
+    # pl.xlabel("x")
+    # pl.ylabel("y")
+    # pl.contourf(X, Y, analyticalSol_list[j], levels = levels)
+    # pl.colorbar()
+    # # Plotting of results
+    # for i in range(len(h_list)):
+    #     X, Y = np.mgrid[-xLim:xLim+h_list[i]:h_list[i], -yLim:yLim+h_list[i]:h_list[i]]
+    #     pl.figure("h = " + str(h_list[i]))
+    #     # Plot of for method results
+    #     pl.subplot(221)
+    #     pl.title("For")
+    #     pl.xlabel("x")
+    #     pl.ylabel("y")
+    #     pl.contourf(X, Y, result_for_list[i], levels = levels)
+    #     pl.colorbar()
+    #
+    #     # Plot of roll method results
+    #     pl.subplot(222)
+    #     pl.title("Numpy Roll")
+    #     pl.xlabel("x")
+    #     pl.ylabel("y")
+    #     pl.contourf(X, Y, result_roll_list[i], levels = levels)
+    #     pl.colorbar()
+    #
+    #     # Plot of computational molecule method results
+    #     pl.subplot(223)
+    #     pl.title("Computational Molecule")
+    #     pl.xlabel("x")
+    #     pl.ylabel("y")
+    #     pl.contourf(X, Y, result_conv_list[i], levels = levels)
+    #     pl.colorbar()
+    #
+    #     # Plot of FT laplacian method result
+    #     pl.subplot(224)
+    #     pl.title("FT")
+    #     pl.xlabel("x")
+    #     pl.ylabel("y")
+    #     pl.contourf(X, Y, result_fft_list[i], levels = levels)
+    #     pl.colorbar()
+    #
+    #     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
 
     # Plot of statical variables
-    pl.figure("Satistical analisys")
+    pl.figure("Statistical analyses")
     pl.subplot(211)
-    pl.plot(h_list, time_for_list, label = "For Method")
-    pl.plot(h_list, time_roll_list, label = "Roll Method")
-    pl.plot(h_list, time_conv_list, label = "Conv Method")
-    # pl.plot(h_list, time_fft_list, label = "For Method")
+    pl.plot(h_list, time_for_list, label = "For Method", ls = "", marker = '+')
+    pl.plot(h_list, time_roll_list, label = "Roll Method", ls = "", marker = 'o')
+    pl.plot(h_list, time_conv_list, label = "Conv Method", ls  = "", marker = 'D')
+    pl.plot(h_list, time_fft_list, label = "FFT Method", ls = "", marker = 'p')
     pl.xlabel("h")
     pl.ylabel("Calculation Time (s)")
     pl.legend()
     pl.subplot(212)
-    pl.plot(h_list, error_for_list, label = "For Method")
-    pl.plot(h_list, error_roll_list, label = "Roll Method")
-    pl.plot(h_list, error_conv_list, label = "Conv Method")
-    # pl.plot(h_list, error_fft_list, label = "For Method")
+    pl.plot(h_list, error_for_list, label = "For Method", ls = "", marker = '+')
+    pl.plot(h_list, error_roll_list, label = "Roll Method", ls = "", marker = 'o')
+    pl.plot(h_list, error_conv_list, label = "Conv Method", ls  = "", marker = 'D')
+    pl.plot(h_list, error_fft_list, label = "FFT Method", ls = "", marker = 'p')
     pl.xlabel("h")
     pl.ylabel("Average Error")
     pl.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=3, mode="expand", borderaxespad=0.)
 
     print "Plotting graphs took " + str(time.time() - start) + " seconds"
-    pl.subplots_adjust(hspace = 0.5)
+    pl.subplots_adjust(hspace = 0.8)
     pl.show()
