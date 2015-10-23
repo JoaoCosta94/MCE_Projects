@@ -150,7 +150,7 @@ if __name__  == "__main__":
         pl.title("Iterations: " + str(corr_points[i]))
         pl.xlabel("x")
         pl.ylabel("y")
-        pl.contourf(X, Y, grid, levels = np.arange(0.0, 1.1, 0.1))
+        pl.contourf(X, Y, corr_coefs[i], levels = np.arange(0.0, 1.1, 0.1))
         pl.colorbar()
 
     pl.subplots_adjust(hspace = .5)
