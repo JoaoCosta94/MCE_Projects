@@ -79,7 +79,8 @@ if __name__  == "__main__":
     gridShape = (dimX, dimY)
     N = 1
     X, Y = np.mgrid[0.0:dimX:N, 0.0:dimY:N]
-
+    n_points = 4
+    corr_points = np.linspace(1, iterations-1, n_points-1).astype(int)
     # Generation of random 2D grid with desired dim
     grid = np.random.random(gridShape)
 
@@ -98,6 +99,7 @@ if __name__  == "__main__":
     it = np.arange(0, iterations + 1, 1)
     av = [gridAverage(grid)]
     sigma = [gridStd(grid)]
+    corr_coefs = [np.corrcoef(grid)]
     for i in range(iterations):
         # Calculation of local average
         newGrid = localAverage(grid, dimX, dimY)
@@ -112,6 +114,9 @@ if __name__  == "__main__":
         # Calculation of statistical variables
         av.append(gridAverage(grid))
         sigma.append(gridStd(grid))
+        # Calculation of correlation coefficient
+        if i in corr_points:
+            corr_coefs.append(np.corrcoef(grid))
 
     # Plot of the average value evolution
     pl.subplot(312)
@@ -124,5 +129,31 @@ if __name__  == "__main__":
     pl.xlabel("iterations")
     pl.ylabel(r'$\sigma$')
     pl.plot(it, sigma)
+
+    pl.subplots_adjust(hspace = .5)
+
+    # Plot of standard deviation close up
+    pl.figure("Close Up")
+    pl.title(r'$\sigma$' + ' close up')
+    pl.xlabel("iterations")
+    pl.ylabel(r'$\sigma$')
+    pl.xlim(iterations / 2, iterations)
+    pl.ylim(0.20, 0.23)
+    pl.plot(it, sigma)
+
+    # Plot of correlation coefficients
+    pl.figure("Correlation Coefficients")
+    corr_points = [0] + corr_points.tolist()
+    subplots_list = [221,222,223,224]
+    for i in range(len(corr_coefs)):
+        pl.subplot(subplots_list[i])
+        pl.title("Iterations: " + str(corr_points[i]))
+        pl.xlabel("x")
+        pl.ylabel("y")
+        pl.contourf(X, Y, corr_coefs[i], levels = np.arange(0.0, 1.1, 0.1))
+        pl.colorbar()
+
+    pl.subplots_adjust(hspace = .5)
+
 
     pl.show()

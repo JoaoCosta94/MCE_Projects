@@ -1,7 +1,7 @@
 import pylab as pl
 import numpy as np
 from scipy.signal import fftconvolve
-from time import time
+import time
 
 def rectangle_function(x, spacing, left_limit, w, h):
     """
@@ -13,23 +13,13 @@ def rectangle_function(x, spacing, left_limit, w, h):
     :param h:           Height of the rectangle
     :return:            Array with desired rectangle
     """
-    # generates a array with nPoints zeros
+    # Start of by creating array of zeros
     rec = np.zeros(x.shape)
-
-    # generating the actual rectangle function
-    # finding the start index of the rectangle
-    try:
-        index_left = x.tolist().index(left_limit)
-    except:
-        for i in range(len(x)):
-            if (x[i] >= left_limit - spacing) and (x[i] <= left_limit + spacing):
-                index_left = i
-    # finding the right limit index
-    index_right = index_left + w / spacing
-    heights = h*np.ones((w / spacing + 1,))
-
-    # rearranging the rectangle
-    rec[index_left:index_right+1] = heights
+    # Finding the nearest points with desired value for limits
+    i_right = (np.abs(x + left_limit+w)).argmin()
+    i_left = (np.abs(x+left_limit)).argmin()
+    # Generating rectangle pulse on that interval
+    rec[i_right:i_left+1] = h
     return rec
 
 def fourier_numerical(signalsList, spacing):
@@ -41,7 +31,7 @@ def fourier_numerical(signalsList, spacing):
     signalsFFT = []
     fftFreqs = []
     for signal in signalsList:
-        signalsFFT.append(np.fft.fftshift(np.fft.fft(signal)))
+        signalsFFT.append(np.fft.fftshift(np.fft.fft(signal))*dt)
         fftFreqs.append(np.fft.fftshift(np.fft.fftfreq(signal.size, d=spacing)))
 
     return (signalsFFT, fftFreqs)
@@ -54,6 +44,21 @@ def recFourier(f, hw):
     :return:    Array with fourier transform of given rectangular pulse
     """
     return hw*np.sinc(2.0*hw*f)*2.0
+
+def cosFourier(f, w):
+    """
+    This function calculates the analytical Fourier Transform of a cosine
+    :param f: Fourier Frequencies
+    :param w: Angular velocity
+    :return:  Array with fourier transform of given cosine
+    """
+    freq = w / (2.0 * np.pi)
+    result = np.zeros(f.shape)
+    i_right = (np.abs(f-freq)).argmin()
+    i_left = (np.abs(f+freq)).argmin()
+    result[i_right-1:i_right+2] = 1
+    result[i_left-1:i_left+2] = 1
+    return result
 
 def plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq):
     pl.figure("Fourier Transforms - Rectangular Pulses")
@@ -70,40 +75,27 @@ def plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq):
     pl.ylabel("F(f)")
     for i in range(len(rec_list)):
         pl.plot(fftFreq, rec_fourier_list[i] / max(rec_fourier_list[i]), label = "Analytical - a = " + str(a_list[i]))
+
+    pl.subplots_adjust(hspace = .5)
     pl.legend()
-    # pl.subplot(313)
-    # pl.title("Difference")
-    # pl.xlabel("f")
-    # pl.ylabel("Error")
-    # for i in range(len(rec_list)):
-    #     pl.plot(fftFreq, abs(rec_fourier_list[i] / max(rec_fourier_list[i]) - rec_FFT_list[i] / max(rec_FFT_list[i])),
-    #             label = "Error - a = " + str(a_list[i]))
-    # pl.legend()
 
 def plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq):
     pl.figure("Fourier Transforms - Cosines")
-    pl.subplot(111)
+    pl.subplot(211)
     pl.title("FFT")
     pl.xlabel("f")
     pl.ylabel("F(f)")
     for i in range(len(cs_list)):
         pl.plot(fftFreq, cs_FFT_list[i] / max(cs_FFT_list[i]), label = "w = " + str(w_list[i]))
     pl.legend()
-    # pl.subplot(312)
-    # pl.title("Analytical FT")
-    # pl.xlabel("f")
-    # pl.ylabel("F(f)")
-    # for i in range(len(cs_list)):
-    #     pl.plot(fftFreq, cs_fourier_list[i] / max(cs_fourier_list[i]), label = "Analytical - w = " + str(w_list[i]))
-    # pl.legend()
-    # pl.subplot(313)
-    # pl.title("Difference")
-    # pl.xlabel("f")
-    # pl.ylabel("Error")
-    # for i in range(len(cs_list)):
-    #     pl.plot(fftFreq, abs(cs_fourier_list[i] / max(cs_fourier_list[i]) - cs_FFT_list[i] / max(cs_FFT_list[i])),
-    #             label = "Error - a = " + str(a_list[i]))
-    # pl.legend()
+    pl.subplot(212)
+    pl.title("Analytical FT")
+    pl.xlabel("f")
+    pl.ylabel("F(f)")
+    for i in range(len(cs_list)):
+        pl.plot(fftFreq, cs_fourier_list[i] / max(cs_fourier_list[i]), label = "Analytical - w = " + str(w_list[i]))
+    pl.legend()
+    pl.subplots_adjust(hspace = .5)
 
 def plotConvolutios(conv_NP_list, conv_list):
     pl.figure("Convolutions")
@@ -128,11 +120,50 @@ def plotConvolutios(conv_NP_list, conv_list):
     pl.plot(t, conv_NP_list[2], label = "NP Convolve")
     pl.plot(t, conv_list[2], label = "FFT Convolve")
 
+    pl.subplots_adjust(hspace = .7)
+    pl.legend()
+
+def plotSpectrum(rec_spectrum, freq, original_spectrum):
+    pl.figure("Spectrum")
+    pl.subplot(311)
+    pl.title("FFT Spectrum")
+    pl.xlabel("f")
+    pl.ylabel ("|F(f)|^2")
+    pl.xlim(-5,5)
+    for i in range(len(a_list)):
+        pl.plot(freq, rec_spectrum[i], label = "a = " + str(a_list[i]))
+    pl.legend()
+
+    pl.subplot(312)
+    pl.title("Original Spectrum")
+    pl.xlabel("f")
+    pl.ylabel ("|F(f)|^2")
+    pl.xlim(-5,5)
+    for i in range(len(a_list)):
+        pl.plot(freq, original_spectrum[i], label = "a = " + str(a_list[i]))
+
+    pl.legend()
+
+    pl.subplot(313)
+    pl.title("Error Analysis")
+    pl.xlabel("f")
+    pl.ylabel ("Error")
+    pl.xlim(-5,5)
+    for i in range(len(a_list)):
+        pl.plot(freq, abs(original_spectrum[i]-rec_spectrum[i]), label = "a = " + str(a_list[i]))
+
+    pl.legend()
+
+    pl.subplots_adjust(hspace = .7)
+
 if __name__  == "__main__":
 
-    # Auxiliary variables to plotting
+    global t
     global colors
     global linestyles
+    global dt
+
+    # Auxiliary variables to plotting
     colors = {0: 'b', 1:'g', 2:'r', 3:'y'}
     linestyles = {0: '-', 1:'--', 2:':', 3:'-.'}
 
@@ -140,7 +171,6 @@ if __name__  == "__main__":
     left_limit = -10
     right_limit = 10
     dt = 0.01
-    global t
     t = np.arange(left_limit, right_limit, dt)
 
     # Definition of rectangle width and cosine angular velocity (may be changed)
@@ -152,14 +182,12 @@ if __name__  == "__main__":
     # Obtaining original signals
     rec_list = []
     cs_list = []
-    start = time()
     for i in range(len(a_list)):
         a = a_list[i]
         w = w_list[i]
-        rec_list.append(rectangle_function(t, dt, -a, 2*a, 1))
+        rec = rectangle_function(t, dt, -a, 2*a, 1)
+        rec_list.append(rec)
         cs_list.append(np.cos(w * t))
-    end = time()
-    print "Calculating original signals took " + str (end-start)
 
     # Plotting original signals
     pl.figure("Original Signals")
@@ -168,48 +196,136 @@ if __name__  == "__main__":
         pl.title("Rectangular Pulses")
         pl.xlim((-left_limit, left_limit))
         pl.ylim((0, max(a_list)+0.15))
+        pl.xlabel("t")
+        pl.ylabel("f(t)")
         pl.plot(t, rec_list[i], linestyle = linestyles[i], label = "a = " + str(a_list[i]))
+        pl.legend()
         pl.subplot(212)
         pl.title("Cosines")
         pl.xlim((-left_limit, left_limit))
         pl.ylim((-1.2, 1.2))
+        pl.xlabel("t")
+        pl.ylabel("f(t)")
         pl.plot(t, cs_list[i],label = "w = " + str(w_list[i]))
-    pl.legend()
+        pl.legend()
+
+    pl.subplots_adjust(hspace = .5)
 
     # Fourier Transform of original signals
     rec_FFT_list = []
     cs_FFT_list  = []
     rec_fourier_list = []
     cs_fourier_list = []
-    start = time()
+    rec_FFT_spec = []
+    cos_FFT_spec = []
+    original_spectrum = []
     for i in range(len(rec_list)):
         # Numerical solutions
         fftRes, fftFreq = fourier_numerical((rec_list[i], cs_list[i]), dt)
         rec_FFT_list.append(abs(fftRes[0]))
         cs_FFT_list.append(abs(fftRes[1]))
+        # Calculate FFT Spectrums
+        rec_FFT_spec.append(abs(fftRes[0])**2)
+        cos_FFT_spec.append(abs(fftRes[1])**2)
         # Analytical solutions
-        rec_fourier_list.append(abs((recFourier(fftFreq[0], a_list[i]))))
+        rec_fourier = abs((recFourier(fftFreq[0], a_list[i])))
+        rec_fourier_list.append(rec_fourier)
+        cs_fourier_list.append(abs(cosFourier(fftFreq[0], w_list[i])))
+        original_spectrum.append(rec_fourier**2)
 
     # Plotting of Fourier Transforms
     plotFTRectangluar(rec_FFT_list, rec_fourier_list, fftFreq[0])
     plotFTCosine(cs_FFT_list, cs_fourier_list, fftFreq[0])
 
     # Convolutions
-    # By numpy.convolve
     conv_NP_list =[]
     conv_list = []
-    times_NP = []
-    times_FFT = []
     for i in range(len(rec_list)):
-        start = time()
+        # By numpy.convolve
         conv_NP_list.append(np.convolve(rec_list[i], cs_list[i], "same"))
-        end = time()
-        times_NP.append(end-start)
+        # By FFT Convolve
         conv_list.append(fftconvolve(rec_list[i], cs_list[i], "same"))
-        end_2 = time()
-        times_FFT.append(end_2-end)
-
     # Plotting Convolutions
     plotConvolutios(conv_NP_list, conv_list)
+
+    # Plotting Spectrums
+    plotSpectrum(rec_FFT_spec, fftFreq[0], original_spectrum)
+
+########################################################################################
+#                                  Study of time vs h                                  #
+########################################################################################
+
+    # Time conditions
+    t_min = -10.0
+    t_max = 10.0
+    dtArray = np.linspace(0.0001, 0.03, 100)
+
+    # For this study rectangular pulse and cosine parameters will be fixed
+    a = 1.0
+    w = 2.0 * np.pi
+
+    # Lists to store calculation information
+    times_rec = []
+    times_cos = []
+    times_conv = []
+    times_conv_fft = []
+    rec_fft_error = []
+    cos_fft_error = []
+    for dt in dtArray:
+        # Times
+        t = np.arange(t_min, t_max, dt)
+        # Original signals
+        rec = rectangle_function(t, dt, -a, 2.0*a, 1)
+        cos = np.cos(w*t)
+        # Rectangular pulse FFT
+        start = time.time()
+        recFFT, fftFreq = fourier_numerical([rec], dt)
+        times_rec.append(time.time()-start)
+        # Error
+        recFFT = abs(recFFT[0])
+        rec_fourier = abs((recFourier(fftFreq[0], a)))
+        rec_fft_error.append(np.average(abs(recFFT - rec_fourier)))
+        # Cosine FFT
+        start = time.time()
+        cosFFT, fftFreq = fourier_numerical([cos], dt)
+        times_cos.append(time.time()-start)
+        # Error
+        cosFFT = abs(cosFFT[0])
+        cos_fourier = abs(cosFourier(fftFreq[0], w))
+        cos_fft_error.append(np.average(abs(cosFFT-cos_fourier)))
+        # NP Convolve
+        start = time.time()
+        np.convolve(rec, cos, "same")
+        times_conv.append(time.time()-start)
+        # FFT Convolve
+        start = time.time()
+        fftconvolve(rec, cos, "same")
+        times_conv_fft.append(time.time()-start)
+
+    # Plot of computation times
+    pl.figure("Computation Times")
+    pl.title("Computation Times")
+    pl.subplot(211)
+    pl.xlabel('h')
+    pl.ylabel('time (s)')
+    pl.ylim(0.0, 0.2)
+    # pl.yscale("log")
+    pl.plot(dtArray, times_rec, label = "Rec")
+    pl.plot(dtArray, times_cos, label = "Cos")
+    pl.plot(dtArray, times_conv, label = "NP Conv")
+    pl.plot(dtArray, times_conv_fft, label = "FFT Conv")
+    pl.legend()
+
+    # Plot of error in fft
+    pl.subplot(212)
+    pl.title("Average error in FFT")
+    pl.plot(dtArray, rec_fft_error, label = "Rec")
+    pl.plot(dtArray, cos_fft_error, label = "Cos")
+    pl.xlabel('h')
+    pl.ylabel('average error')
+    pl.legend()
+
+    pl.subplots_adjust(hspace = .5)
+
     pl.show()
 
