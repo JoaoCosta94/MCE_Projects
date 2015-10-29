@@ -29,7 +29,6 @@ def calculateMatrixNorm(M, manual = False):
     """
     if (manual):
         col = len(M)
-        line = len(M[0])
         sums = []
         for i in range(col):
             sums.append(sum[M[i, :]])
@@ -93,9 +92,12 @@ if __name__ == "__main__":
 
     pl.figure("Condition number")
     # TODO: Change epsilon hardcoded to raw string
-    pl.title("Condition number vs epsilon")
+    pl.title(r'Condition number($\epsilon$)')
     pl.plot(e_array, condNumber_list_numerical, label = 'N. inverse')
     pl.plot(e_array, condNumber_list_analytical, label = 'A. inverse')
+    pl.yscale('log')
+    pl.ylabel('Log(C. Number)')
+    pl.xlabel(r'$\epsilon$')
     pl.legend()
 
     pl.show()
