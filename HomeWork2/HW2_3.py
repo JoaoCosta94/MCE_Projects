@@ -20,7 +20,7 @@ def analyticalLapf(x, y):
     :param y:   y coordinate (float or numpy array)
     :return:    lap(f) (float or numpy array)
     """
-    return np.exp(-1.0 * (x*x + y*y) + 0.5 * x * y)*((17.0*x*x - 16.0*x*y + 17.0*y*y - 20.0*np.pi*np.pi - 16.0)*np.sin(np.pi*(x + 2.0*y)) - 4.0*np.pi*(2.0*x + 7.0*y)*np.cos(np.pi*(x + 2.0*np.pi)))
+    return np.exp(-1.0 * (x*x + y*y) + 0.5 * x * y)*((17.0*x*x - 16.0*x*y + 17.0*y*y - 20.0*np.pi*np.pi - 16.0)*np.sin(np.pi*(x + 2.0*y)) - 4.0*np.pi*(2.0*x + 7.0*y)*np.cos(np.pi*(x + 2.0*np.pi)))/4.0
 
 def matrixMethod(G):
     return "cenas"
@@ -92,6 +92,33 @@ if __name__ == '__main__':
     # pl.xlabel("x")
     # pl.ylabel("y")
     # pl.contourf(X, Y, matrix_result, levels = levels)
+    # pl.colorbar()
+
+    pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
+
+    # Error Plots
+
+    pl.figure("Results Error")
+
+    pl.subplot(221)
+    pl.title("Roll")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X, Y, roll_error)
+    pl.colorbar()
+
+    pl.subplot(222)
+    pl.title("Convolution")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X, Y, conv_error)
+    pl.colorbar()
+
+    # pl.subplot(223)
+    # pl.title("Matrix")
+    # pl.xlabel("x")
+    # pl.ylabel("y")
+    # pl.contourf(X, Y, matrix_error)
     # pl.colorbar()
 
     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
