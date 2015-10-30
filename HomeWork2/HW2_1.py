@@ -9,7 +9,7 @@ def analyticalInverse(e):
     :param e:   Matrix variables
     :return:    Inverse matrix
     """
-    return np.array([[e - 1.0, e + 1.0], [1.0, -1.0]], dtype =np.float32) / e
+    return np.array([[e - 1.0, 1.0], [e + 1.0, -1.0]], dtype =np.float32) / e
 
 def invertMatrix(M):
     """
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     for e in e_array:
 
         # Creation of matrix for respective e value
-        M = 0.5 * np.array([[1.0, 1.0 + e], [1.0 + e, 1.0 - e]])
+        M = 0.5 * np.array([[1.0, 1.0], [1.0 + e, 1.0 - e]])
         # Calculation of inverse matrix of M
         iM = invertMatrix(M)
         # Calculation of condition number for matrix M
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     print analyticalInverse(1.0E-10)
 
     print 'Numerical Inverse'
-    print invertMatrix(0.5 * np.array([[1.0, 1.0 + 1.0E-10], [1.0 + e, 1.0 - 1.0E-10]]))
+    print invertMatrix(0.5 * np.array([[1.0, 1.0], [1.0 + 1.0E-10, 1.0 - 1.0E-10]]))
 
     pl.figure("Condition number")
     # TODO: Change epsilon hardcoded to raw string
