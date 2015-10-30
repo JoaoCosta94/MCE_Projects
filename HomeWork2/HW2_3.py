@@ -1,4 +1,5 @@
 import numpy as np
+from scipy import ndimage
 import pylab as pl
 import time
 
@@ -22,8 +23,99 @@ def analyticalLapf(x, y):
     """
     return np.exp(-1.0 * (x*x + y*y) + 0.5 * x * y)*((17.0*x*x - 16.0*x*y + 17.0*y*y - 20.0*np.pi*np.pi - 16.0)*np.sin(np.pi*(x + 2.0*y)) - 4.0*np.pi*(2.0*x + 7.0*y)*np.cos(np.pi*(x + 2.0*np.pi)))/4.0
 
-def matrixMethod(G):
-    return "cenas"
+def ravelIdx(idx, shape):
+    idx = [shape[i] + idx[i] if idx[i] < 0 else idx[i] for i in range(len(idx))]
+    I = 0
+    dim = 1
+    for i in range(-1, -len(idx) - 1, -1):
+        I += idx[i]*dim
+        dim *= shape[i]
+    return I
+
+def laplacianMatrix(shape):
+    L = np.zeros((shape[0]*shape[1], shape[0]*shape[1]), dtype = np.int8)
+
+    for i in range(1, shape[0] - 1):
+        for j in range(1, shape[1] - 1):
+            L[ravelIdx((i, j), shape), ravelIdx((i, j), shape)] -= 4
+            L[ravelIdx((i, j), shape), ravelIdx((i, j - 1), shape)] += 1
+            L[ravelIdx((i, j), shape), ravelIdx((i, j + 1), shape)] += 1
+            L[ravelIdx((i, j), shape), ravelIdx((i - 1, j), shape)] += 1
+            L[ravelIdx((i, j), shape), ravelIdx((i + 1, j), shape)] += 1
+
+    for i in range(1, shape[0] - 1):
+        L[ravelIdx((i, 0), shape), ravelIdx((i - 1, 0), shape)] += 1
+        L[ravelIdx((i, 0), shape), ravelIdx((i + 1, 0), shape)] += 1
+
+        L[ravelIdx((i, 0), shape), ravelIdx((i, 1), shape)] -= 5
+        L[ravelIdx((i, 0), shape), ravelIdx((i, 2), shape)] += 4
+        L[ravelIdx((i, 0), shape), ravelIdx((i, 3), shape)] -= 1
+
+
+        L[ravelIdx((i, -1), shape), ravelIdx((i - 1, -1), shape)] += 1
+        L[ravelIdx((i, -1), shape), ravelIdx((i + 1, -1), shape)] += 1
+
+        L[ravelIdx((i, -1), shape), ravelIdx((i, -2), shape)] -= 5
+        L[ravelIdx((i, -1), shape), ravelIdx((i, -3), shape)] += 4
+        L[ravelIdx((i, -1), shape), ravelIdx((i, -4), shape)] -= 1
+
+
+    for j in range(1, shape[1] - 1):
+        L[ravelIdx((0, j), shape), ravelIdx((0, j - 1), shape)] += 1
+        L[ravelIdx((0, j), shape), ravelIdx((0, j + 1), shape)] += 1
+
+        L[ravelIdx((0, j), shape), ravelIdx((1, j), shape)] -= 5
+        L[ravelIdx((0, j), shape), ravelIdx((2, j), shape)] += 4
+        L[ravelIdx((0, j), shape), ravelIdx((3, j), shape)] -= 1
+
+
+        L[ravelIdx((-1, j), shape), ravelIdx((-1, j - 1), shape)] += 1
+        L[ravelIdx((-1, j), shape), ravelIdx((-1, j + 1), shape)] += 1
+
+        L[ravelIdx((-1, j), shape), ravelIdx((-2, j), shape)] -= 5
+        L[ravelIdx((-1, j), shape), ravelIdx((-3, j), shape)] += 4
+        L[ravelIdx((-1, j), shape), ravelIdx((-4, j), shape)] -= 1
+
+
+    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  0), shape)] += 4
+    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  1), shape)] -= 5
+    L[ravelIdx(( 0,  0), shape), ravelIdx(( 1,  0), shape)] -= 5
+    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  2), shape)] += 4
+    L[ravelIdx(( 0,  0), shape), ravelIdx(( 2,  0), shape)] += 4
+    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  3), shape)] -= 1
+    L[ravelIdx(( 0,  0), shape), ravelIdx(( 3,  0), shape)] -= 1
+
+    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -1), shape)] += 4
+    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -2), shape)] -= 5
+    L[ravelIdx(( 0, -1), shape), ravelIdx(( 1, -1), shape)] -= 5
+    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -3), shape)] += 4
+    L[ravelIdx(( 0, -1), shape), ravelIdx(( 2, -1), shape)] += 4
+    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -4), shape)] -= 1
+    L[ravelIdx(( 0, -1), shape), ravelIdx(( 3, -1), shape)] -= 1
+
+    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  0), shape)] += 4
+    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  1), shape)] -= 5
+    L[ravelIdx((-1,  0), shape), ravelIdx((-2,  0), shape)] -= 5
+    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  2), shape)] += 4
+    L[ravelIdx((-1,  0), shape), ravelIdx((-3,  0), shape)] += 4
+    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  3), shape)] -= 1
+    L[ravelIdx((-1,  0), shape), ravelIdx((-4,  0), shape)] -= 1
+
+    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -1), shape)] += 4
+    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -2), shape)] -= 5
+    L[ravelIdx((-1, -1), shape), ravelIdx((-2, -1), shape)] -= 5
+    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -3), shape)] += 4
+    L[ravelIdx((-1, -1), shape), ravelIdx((-3, -1), shape)] += 4
+    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -4), shape)] -= 1
+    L[ravelIdx((-1, -1), shape), ravelIdx((-4, -1), shape)] -= 1
+
+    return L
+
+def matrixMethod(G, h):
+    oShape = G.shape
+    lapM = laplacianMatrix(oShape)
+    mul = np.dot(lapM, G.ravel())
+    return mul.reshape(oShape)/(h*h)
 
 if __name__ == '__main__':
 
@@ -38,6 +130,7 @@ if __name__ == '__main__':
     # Function f values on points (X,Y)
     fXY = f(X,Y)
 
+
     # Analytical result for laplacian of f(X,Y)
     start = time.time()
     analytical = analyticalLapf(X,Y)
@@ -51,13 +144,21 @@ if __name__ == '__main__':
     conv_result, cTime = hw1.convMethod(fXY, h)
     conv_error = conv_result - analytical
 
-    # # Matrix method result
-    # start = time.time()
-    # matrix_result = matrixMethod(fXY)
-    # mTime = time.time() - start
-    # matrix_error = matrix_result - analytical
+    # Matrix method result
+    start = time.time()
+    matrix_result = matrixMethod(fXY, h)
+    mTime = time.time() - start
+    matrix_error = matrix_result - analytical
 
     ##############################################
+
+    # Plot of f(X,Y)
+    pl.figure("Original function")
+    pl.title("f(x,y)")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X, Y, fXY)
+    pl.colorbar()
 
     min_level = min(analytical.ravel())
     max_level = max(analytical.ravel())
@@ -87,12 +188,12 @@ if __name__ == '__main__':
     pl.contourf(X, Y, conv_result, levels = levels)
     pl.colorbar()
 
-    # pl.subplot(224)
-    # pl.title("Matrix")
-    # pl.xlabel("x")
-    # pl.ylabel("y")
-    # pl.contourf(X, Y, matrix_result, levels = levels)
-    # pl.colorbar()
+    pl.subplot(224)
+    pl.title("Matrix")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X, Y, matrix_result, levels = levels)
+    pl.colorbar()
 
     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
 
@@ -114,12 +215,12 @@ if __name__ == '__main__':
     pl.contourf(X, Y, conv_error)
     pl.colorbar()
 
-    # pl.subplot(223)
-    # pl.title("Matrix")
-    # pl.xlabel("x")
-    # pl.ylabel("y")
-    # pl.contourf(X, Y, matrix_error)
-    # pl.colorbar()
+    pl.subplot(223)
+    pl.title("Matrix")
+    pl.xlabel("x")
+    pl.ylabel("y")
+    pl.contourf(X, Y, matrix_error)
+    pl.colorbar()
 
     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
 
