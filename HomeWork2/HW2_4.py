@@ -3,7 +3,11 @@ from scipy.linalg import lu, solve
 import pylab as pl
 
 def luDecomp(M):
-    return lu(M)
+    return np.tril(M), np.triu(M)
+
+def getDiagonal(M):
+    return np.diag(np.diag(M))
+
 
 def extendedMatrix(A, b):
     M = np.zeros((A.shape[0], A.shape[1] + 1), dtype= A.dtype)
@@ -38,7 +42,7 @@ def gaussElimination(A, b):
 
 def Seidel(A, b, x0, iterations):
     # Obtaining M = D + L an N = U matrices
-    L = np.tril(A)
+    L, U = luDecomp(A)
     U = A - L
     # Initializing with given seed / guess
     x = np.empty_like(x0)
@@ -46,9 +50,17 @@ def Seidel(A, b, x0, iterations):
     convergence = [abs(x - analyticalSol)]
     # Iteration
     for i in range(iterations):
+        aux = - np.dot(U, x) + b
         x = np.dot(np.linalg.inv(L), b - np.dot(U, x))
         convergence.append(abs(x - analyticalSol))
     return x, np.array(convergence)
+
+def SORelaxation(A, b, x0, l, iterations):
+    L, U = luDecomp(A)
+    D = getDiagonal(A)
+    L = L - D
+    U = U -D
+    return "cenas"
 
 if __name__ == '__main__':
 
@@ -84,6 +96,9 @@ if __name__ == '__main__':
     sXConv = seidelConv[:,0]
     sYConv = seidelConv[:,1]
     sZConv = seidelConv[:,2]
+
+    # By successive over relaxation
+    print SORelaxation(A,b,x0,1,1)
 
     print "Gauss Elimination Solution"
     print gauss
