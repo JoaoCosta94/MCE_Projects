@@ -91,7 +91,6 @@ if __name__ == "__main__":
     print invertMatrix(0.5 * np.array([[1.0, 1.0], [1.0 + 1.0E-10, 1.0 - 1.0E-10]]))
 
     pl.figure("Condition number")
-    # TODO: Change epsilon hardcoded to raw string
     pl.title(r'Condition number($\epsilon$)')
     pl.plot(e_array, condNumber_list_numerical, label = 'N. inverse')
     pl.plot(e_array, condNumber_list_analytical, label = 'A. inverse')

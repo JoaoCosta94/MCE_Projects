@@ -198,7 +198,7 @@ if __name__ == '__main__':
     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
 
     # Error Plots
-
+    # TODO: Fix error scales
     pl.figure("Results Error")
 
     pl.subplot(221)
@@ -223,5 +223,7 @@ if __name__ == '__main__':
     pl.colorbar()
 
     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
+
+    # TODO: Time plots
 
     pl.show()

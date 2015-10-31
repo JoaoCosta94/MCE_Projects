@@ -1,5 +1,6 @@
 import numpy as np
-from scipy.linalg import lu
+from scipy.linalg import lu, solve
+import pylab as pl
 
 def luDecomp(M):
     return lu(M)
@@ -35,7 +36,23 @@ def gaussElimination(A, b):
         k = k-1
     return x
 
+def Seidel(A, b, x0, iterations):
+    # Obtaining M = D + L an N = U matrices
+    L = np.tril(A)
+    U = A - L
+    # Initializing with given seed / guess
+    x = np.empty_like(x0)
+    x[:] = x0[:]
+    convergence = [abs(x - analyticalSol)]
+    # Iteration
+    for i in range(iterations):
+        x = np.dot(np.linalg.inv(L), b - np.dot(U, x))
+        convergence.append(abs(x - analyticalSol))
+    return x, np.array(convergence)
+
 if __name__ == '__main__':
+
+    global analyticalSol
 
     # Initialization
     A = np.array([[3.0, 1.0, 1.0],
@@ -50,8 +67,53 @@ if __name__ == '__main__':
                    [1.0],
                    [1.0]])
 
-    P, L, U = luDecomp(A)
+    iterations = 10 # Number of iterations for Gauss-Seidel method
 
-    A_extended = extendedMatrix(A, b)
+    # analyticalSol = np.array([])
+    analyticalSol = solve(A, b.ravel())
+    print "Analytical Solution"
+    print analyticalSol
 
-    print gaussElimination(A, b)
+    # Solving with Ax = b different methods
+    # By Gauss elimination
+    gauss = gaussElimination(A, b.ravel())
+
+    # By Gauss-Seidel iterative method
+    seidel, seidelConv = Seidel(A, b.ravel(), x0.ravel(), iterations)
+    # Convergence on each axis for this method
+    sXConv = seidelConv[:,0]
+    sYConv = seidelConv[:,1]
+    sZConv = seidelConv[:,2]
+
+    print "Gauss Elimination Solution"
+    print gauss
+    print "Gauss-Seidel Solution"
+    print seidel
+
+
+    # Plotting convergence
+    # TODO: FIx Scales
+    itArray = np.arange(0, iterations+1, 1)
+
+    pl.figure("Gauss-Seidel Method")
+    pl.subplot(311)
+    pl.title("Convergence of x1")
+    pl.xlabel("Iteration")
+    pl.ylabel("Convergence")
+    pl.plot(itArray, sXConv)
+
+    pl.subplot(312)
+    pl.title("Convergence of x2")
+    pl.xlabel("Iteration")
+    pl.ylabel("Convergence")
+    pl.plot(itArray, sYConv)
+
+    pl.subplot(313)
+    pl.title("Convergence of x3")
+    pl.xlabel("Iteration")
+    pl.ylabel("Convergence")
+    pl.plot(itArray, sZConv)
+
+    pl.subplots_adjust(hspace = 0.7)
+
+    pl.show()
