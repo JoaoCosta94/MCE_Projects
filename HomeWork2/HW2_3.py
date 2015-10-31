@@ -114,8 +114,10 @@ def laplacianMatrix(shape):
 def matrixMethod(G, h):
     oShape = G.shape
     lapM = laplacianMatrix(oShape)
+    start = time.time()
     mul = np.dot(lapM, G.ravel())
-    return mul.reshape(oShape)/(h*h)
+    mTime = time.time() - start
+    return mul.reshape(oShape)/(h*h), mTime
 
 if __name__ == '__main__':
 
@@ -129,7 +131,6 @@ if __name__ == '__main__':
 
     # Function f values on points (X,Y)
     fXY = f(X,Y)
-
 
     # Analytical result for laplacian of f(X,Y)
     start = time.time()
@@ -145,10 +146,13 @@ if __name__ == '__main__':
     conv_error = conv_result - analytical
 
     # Matrix method result
-    start = time.time()
-    matrix_result = matrixMethod(fXY, h)
-    mTime = time.time() - start
+    matrix_result, mTime = matrixMethod(fXY, h)
     matrix_error = matrix_result - analytical
+
+    # Print of computation times
+    print "Roll method took " + str(rTime) + " seconds"
+    print "Convolution method took " + str(cTime) + " seconds"
+    print "Matrix method took " + str(mTime) + " seconds"
 
     ##############################################
 
@@ -160,13 +164,14 @@ if __name__ == '__main__':
     pl.contourf(X, Y, fXY)
     pl.colorbar()
 
+    # Plotting results
     min_level = min(analytical.ravel())
     max_level = max(analytical.ravel())
     n_levels = 1000
     levels = np.linspace(min_level, max_level, n_levels)
 
-    # Plotting results
     pl.figure("Laplacian Results")
+
     pl.subplot(221)
     pl.title("Analytical")
     pl.xlabel("x")
@@ -198,32 +203,36 @@ if __name__ == '__main__':
     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
 
     # Error Plots
-    # TODO: Fix error scales
+    # min_level = min([np.min(roll_error), np.min(conv_error), np.min(matrix_error)])
+    # max_level = max([np.max(roll_error), np.max(conv_error), np.max(matrix_error)])
+    min_level = -20.0
+    max_level = 20.0
+    n_levels = 100
+    levels = np.linspace(min_level, max_level, n_levels)
+
     pl.figure("Results Error")
 
     pl.subplot(221)
     pl.title("Roll")
     pl.xlabel("x")
     pl.ylabel("y")
-    pl.contourf(X, Y, roll_error)
+    pl.contourf(X, Y, roll_error, levels = levels)
     pl.colorbar()
 
     pl.subplot(222)
     pl.title("Convolution")
     pl.xlabel("x")
     pl.ylabel("y")
-    pl.contourf(X, Y, conv_error)
+    pl.contourf(X, Y, conv_error, levels = levels)
     pl.colorbar()
 
     pl.subplot(223)
     pl.title("Matrix")
     pl.xlabel("x")
     pl.ylabel("y")
-    pl.contourf(X, Y, matrix_error)
+    pl.contourf(X, Y, matrix_error, levels = levels)
     pl.colorbar()
 
     pl.subplots_adjust(hspace = 0.5, wspace = 0.5)
-
-    # TODO: Time plots
 
     pl.show()

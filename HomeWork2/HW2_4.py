@@ -3,19 +3,41 @@ from scipy.linalg import lu, solve
 import pylab as pl
 
 def luDecomp(M):
+    """
+    This function calculates the Lower (L) and Upper (U) triangular matrices of M
+    :param M:   Matrix M
+    :return:    Matrices L and U, respectively
+    """
     return np.tril(M), np.triu(M)
 
 def getDiagonal(M):
+    """
+    This function obtains the main diagonal of a matrix
+    :param M:   Matrix to obtain diagonal
+    :return:    Matrix with the diagonal elements of M
+    """
     return np.diag(np.diag(M))
 
 
 def extendedMatrix(A, b):
+    """
+    Given a matrix A and a vector b this function extends A with the values of b on a new column
+    :param A:   Matrix A
+    :param b:   Vector b
+    :return:    Extended matrix
+    """
     M = np.zeros((A.shape[0], A.shape[1] + 1), dtype= A.dtype)
-    M[:, :-1] = A
-    M[:, -1] = b.ravel()
+    M[:, :-1] = A # All values except last column are equal to those of A
+    M[:, -1] = b.ravel() # The values of last column are to the values of vector b
     return M
 
 def gaussElimination(A, b):
+    """
+    This function calculates the solution of Ax=b using Gauss elimination process
+    :param A:               Matrix A
+    :param b:               Vector b
+    :return:                Obtained x solution
+    """
     # Cloning original matrices
     M = np.empty_like(A)
     c = np.empty_like(b)
@@ -30,7 +52,6 @@ def gaussElimination(A, b):
             for j in range(k+1, n):
                 M[i,j] = M[i,j] - m*M[k,j]
             c[i] = c[i] - m*c[k]
-
     # Solving for x
     x = np.zeros(n)
     k = n-1
@@ -41,26 +62,55 @@ def gaussElimination(A, b):
     return x
 
 def Seidel(A, b, x0, iterations):
+    """
+    This function approximates a numerical solution of Ax=b using Gauss-Seidel method
+    :param A:               Matrix A
+    :param b:               Vector b
+    :param x0:              Initial seed / guess for the solution
+    :param iterations:      Number of iterations
+    :return:                Approximated x solution
+    """
     # Obtaining M = D + L an N = U matrices
     L, U = luDecomp(A)
     U = A - L
     # Initializing with given seed / guess
     x = np.empty_like(x0)
     x[:] = x0[:]
-    convergence = [abs(x - analyticalSol)]
+    convergence = [np.average(abs(x - analyticalSol))]
     # Iteration
     for i in range(iterations):
         aux = - np.dot(U, x) + b
-        x = np.dot(np.linalg.inv(L), b - np.dot(U, x))
-        convergence.append(abs(x - analyticalSol))
+        x = np.dot(np.linalg.inv(L), aux)
+        convergence.append(np.average(abs(x - analyticalSol)))
     return x, np.array(convergence)
 
 def SORelaxation(A, b, x0, l, iterations):
+    """
+    This function approximates a numerical solution of Ax=b using successive relaxation method
+    :param A:               Matrix A
+    :param b:               Vector b
+    :param x0:              Initial seed / guess for the solution
+    :param l:               lambda value for convergence speed up
+    :param iterations:      Number of iterations
+    :return:                Approximated x solution
+    """
+    # Obtaining D L U matrices
     L, U = luDecomp(A)
     D = getDiagonal(A)
     L = L - D
-    U = U -D
-    return "cenas"
+    U = U - D
+    # Auxiliary matrices corresponding to the ones need for the operations
+    Mi = np.linalg.inv(D/l + L) # Inverse of matrix M
+    N  = U - (1.0-l)*D/l
+    # Initializing with given seed / guess
+    x = np.empty_like(x0)
+    x[:] = x0[:]
+    convergence = [np.average(abs(x - analyticalSol))]
+    for i in range(iterations):
+        aux = b - np.dot(N, x)
+        x = np.dot(Mi, aux)
+        convergence.append(np.average(abs(x - analyticalSol)))
+    return x, np.array(convergence)
 
 if __name__ == '__main__':
 
@@ -80,6 +130,9 @@ if __name__ == '__main__':
                    [1.0]])
 
     iterations = 10 # Number of iterations for Gauss-Seidel method
+    lambda_array = np.array([0.0, 0.02, 0.5, 1.0, 1.5, 1.7]) # Lambda values for successive over relaxation method
+    # lambda_array = np.array([1.0])
+    l_default = 1.0 # Default lambda for
 
     # analyticalSol = np.array([])
     analyticalSol = solve(A, b.ravel())
@@ -92,43 +145,41 @@ if __name__ == '__main__':
 
     # By Gauss-Seidel iterative method
     seidel, seidelConv = Seidel(A, b.ravel(), x0.ravel(), iterations)
-    # Convergence on each axis for this method
-    sXConv = seidelConv[:,0]
-    sYConv = seidelConv[:,1]
-    sZConv = seidelConv[:,2]
 
-    # By successive over relaxation
-    print SORelaxation(A,b,x0,1,1)
+    # By successive over relaxation using different values for lambda defined above
+    sorConv_list = []
+    for l in lambda_array:
+        sor, sorConv = SORelaxation(A,b.ravel(),x0.ravel(), l, iterations)
+        sorConv_list.append(sorConv)
+    sorConv_list = np.array(sorConv_list)
 
+    sor, sorConv = SORelaxation(A,b.ravel(),x0.ravel(), l_default, iterations)
     print "Gauss Elimination Solution"
     print gauss
     print "Gauss-Seidel Solution"
     print seidel
+    print "Successive over relaxation Solution with l = " + str(l_default)
+    print sor
 
+    ##############################################################################################
 
     # Plotting convergence
-    # TODO: FIx Scales
     itArray = np.arange(0, iterations+1, 1)
 
-    pl.figure("Gauss-Seidel Method")
-    pl.subplot(311)
-    pl.title("Convergence of x1")
-    pl.xlabel("Iteration")
-    pl.ylabel("Convergence")
-    pl.plot(itArray, sXConv)
+    # Plotting of convergence for Guass-Seidel method
+    pl.figure("Gauss-Seidel Convergence")
+    pl.title("Gauss-Seidel Convergence")
+    pl.xlabel("iterations")
+    pl.ylabel("average error")
+    pl.plot(itArray, seidelConv)
 
-    pl.subplot(312)
-    pl.title("Convergence of x2")
-    pl.xlabel("Iteration")
-    pl.ylabel("Convergence")
-    pl.plot(itArray, sYConv)
-
-    pl.subplot(313)
-    pl.title("Convergence of x3")
-    pl.xlabel("Iteration")
-    pl.ylabel("Convergence")
-    pl.plot(itArray, sZConv)
-
-    pl.subplots_adjust(hspace = 0.7)
+    # Plotting of convergence for 'Successive Over Relaxation' method
+    pl.figure("Successive Over Relaxation Convergence")
+    pl.title("Successive Over Relaxation Convergence")
+    pl.xlabel("iterations")
+    pl.ylabel("average error")
+    for i in range(len(lambda_array)):
+        pl.plot(itArray, sorConv_list[i], label = r'$\lambda$ = ' + str(lambda_array[i]))
+    pl.legend()
 
     pl.show()
