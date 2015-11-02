@@ -54,8 +54,8 @@ def calculateCondNumber(M, iM = None):
 if __name__ == "__main__":
     #Initial Conditions
     e_min = 10.0**(-10) # minimum value for e
-    e_max = 10.0 # maximum value for e
-    nE = 1000 # number of values of e desired
+    e_max = 1.0 # maximum value for e
+    nE = 10000 # number of values of e desired
 
     # Arranging the values of e
     e_array = np.linspace(e_min, e_max, nE)
@@ -70,13 +70,13 @@ if __name__ == "__main__":
         # Creation of matrix for respective e value
         M = 0.5 * np.array([[1.0, 1.0], [1.0 + e, 1.0 - e]])
         # Calculation of inverse matrix of M
-        iM = invertMatrix(M)
+        numiM = invertMatrix(M)
         # Calculation of condition number for matrix M
-        condNumber_list_numerical.append(calculateCondNumber(M, iM))
+        condNumber_list_numerical.append(calculateCondNumber(M, numiM))
 
         # Calculations with analytical inverse matrix
-        iM = analyticalInverse(e)
-        condNumber_list_analytical.append(calculateCondNumber(M, iM))
+        aniM = analyticalInverse(e)
+        condNumber_list_analytical.append(calculateCondNumber(M, aniM))
 
     print '(Numerical) Condition number for e = ' + str(e_array[0])
     print condNumber_list_numerical[0]
@@ -85,11 +85,21 @@ if __name__ == "__main__":
     print condNumber_list_analytical[0]
 
     print 'Analytical Inverse'
-    print analyticalInverse(1.0E-10)
+    aI = analyticalInverse(1.0E-10)
+    print aI
 
     print 'Numerical Inverse'
-    print invertMatrix(0.5 * np.array([[1.0, 1.0], [1.0 + 1.0E-10, 1.0 - 1.0E-10]]))
+    nI = invertMatrix(0.5 * np.array([[1.0, 1.0], [1.0 + 1.0E-10, 1.0 - 1.0E-10]]))
+    print nI
 
+    print "Error Matrix"
+    err = nI - aI
+    print err
+
+    print "Deviation (%)"
+    print err / aI * 100
+
+    # Plotting condition number
     pl.figure("Condition number")
     pl.title(r'Condition number($\epsilon$)')
     pl.plot(e_array, condNumber_list_numerical, label = 'N. inverse')
