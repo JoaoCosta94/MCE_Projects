@@ -19,7 +19,7 @@ def normalModes(K):
     :param K:   K matrix of the system
     :return:    Array with the eigen frequencies
     """
-    return np.linalg.eig(K)[0]**0.5
+    return np.linalg.eig(K)[0]
 
 def massMovement(X0, w):
     """
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     A = systemMatrix(kArray)
 
     # Obtaining eigen frequencies of the mass-spring system : det(K-W/m) = 0
-    nModes = normalModes(A) / mArray
+    nModes = (normalModes(A) / mArray) ** 0.5
     print "The eigen frequencies are:"
     print nModes
 
@@ -112,7 +112,6 @@ if __name__ == '__main__':
     pl.subplots_adjust(hspace = 0.7)
 
     # Plotting spectrum
-    # TODO: Add vertical lines at eigen frequencies
     xMin = 0.0
     xMax = np.max(nModes) + 0.5
     pl.figure("Spectrum")
@@ -123,6 +122,9 @@ if __name__ == '__main__':
     pl.xlabel(r'$\omega$')
     pl.ylabel("X1")
     pl.plot(wArray, A1)
+    pl.axvline(x=nModes[0], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
+    pl.axvline(x=nModes[1], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
+    pl.axvline(x=nModes[2], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
 
     pl.subplot(312)
     pl.title("X2 frequency response")
@@ -130,13 +132,19 @@ if __name__ == '__main__':
     pl.xlabel(r'$\omega$')
     pl.ylabel("X2")
     pl.plot(wArray, A2)
-    pl.subplot(313)
+    pl.axvline(x=nModes[0], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
+    pl.axvline(x=nModes[1], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
+    pl.axvline(x=nModes[2], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
 
+    pl.subplot(313)
     pl.title("X3 frequency response")
     pl.xlim(xMin, xMax)
     pl.xlabel(r'$\omega$')
     pl.ylabel("X3")
     pl.plot(wArray, A3)
+    pl.axvline(x=nModes[0], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
+    pl.axvline(x=nModes[1], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
+    pl.axvline(x=nModes[2], ymin=0.0, ymax = 1.0, linewidth=0.7, color='k')
 
     pl.subplots_adjust(hspace = 0.7)
 

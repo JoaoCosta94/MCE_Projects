@@ -112,6 +112,12 @@ def laplacianMatrix(shape):
     return L
 
 def matrixMethod(G, h):
+    """
+    This function calculates the laplacian of f(X,Y) with a matrix for the laplacian operator approach
+    :param G:   f(X,Y)
+    :param h:   Derivative step
+    :return:    Laplacian of f(X,Y) using a matrix
+    """
     oShape = G.shape
     lapM = laplacianMatrix(oShape)
     start = time.time()

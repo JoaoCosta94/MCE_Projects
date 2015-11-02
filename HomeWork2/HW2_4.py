@@ -129,8 +129,8 @@ if __name__ == '__main__':
                    [1.0],
                    [1.0]])
 
-    iterations = 10 # Number of iterations for Gauss-Seidel method
-    lambda_array = np.array([0.0, 0.02, 0.5, 1.0, 1.5, 1.7]) # Lambda values for successive over relaxation method
+    iterations = 50 # Number of iterations for Gauss-Seidel method
+    lambda_array = np.array([0.0, 0.02, 0.5, 0.7, 0.8, 1.0, 1.5, 1.7]) # Lambda values for successive over relaxation method
     # lambda_array = np.array([1.0])
     l_default = 1.0 # Default lambda for
 
