@@ -21,10 +21,23 @@ def eigenValuesAndVectors(M):
         return error
 
 def assertResult(result):
+    """
+    This function asserts if there was a valid return from the eigenvectors and eigenvalues calculation
+    :param result:  Return of eigenValuesAndVectors
+    :return:        String of assertion's result
+    """
     if type(result) == tuple:
         return "Values: \n" + str(result[0]) + '\n Vectors: \n' + str(result[1])
     else:
         return "Can't be displayed because LinAlgError: " + str(result)
+
+def pseudoInv(M):
+    """
+    This function calculates the Penrose Pseudo-Inverse of a matrix
+    :param M:   Matrix to calculate Penrose Pseudo-Inverse
+    :return:    Penrose Pseudo-Inverse
+    """
+    return np.linalg.pinv(M)
 
 if __name__ == '__main__':
 
@@ -48,6 +61,10 @@ if __name__ == '__main__':
     print sA
     print "Matrix A eigen values and vectores, respectively"
     print assertResult(eigenValuesAndVectors(A))
+    print "Matrix A Penrose Pseudo-Inverse"
+    print pseudoInv(A)
+    print "Checking inverse validity A * A+ * A = A"
+    print np.allclose(A, np.dot(A, np.dot(pseudoInv(A), A)))
 
     print "######################"
     uB, sB, vB = svdDecomp(B)
@@ -55,3 +72,7 @@ if __name__ == '__main__':
     print sB
     print "Matrix B eigen values and vectores, respectively"
     print assertResult(eigenValuesAndVectors(B))
+    print "Matrix B Penrose Pseudo-Inverse"
+    print pseudoInv(B)
+    print "Checking inverse validity B * B+ * B = B"
+    print np.allclose(B, np.dot(B, np.dot(pseudoInv(B), B)))
