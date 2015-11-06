@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.linalg import lu, solve
 import pylab as pl
+import time
 
 def luDecomp(M):
     """
@@ -129,10 +130,10 @@ if __name__ == '__main__':
                    [1.0],
                    [1.0]])
 
-    iterations = 50 # Number of iterations for Gauss-Seidel method
+    iterations = 10 # Number of iterations for Gauss-Seidel method
     lambda_array = np.array([0.0, 0.02, 0.5, 0.7, 0.8, 1.0, 1.5, 1.7]) # Lambda values for successive over relaxation method
     # lambda_array = np.array([1.0])
-    l_default = 1.0 # Default lambda for
+    l_default = 0.8 # Default lambda for
 
     # analyticalSol = np.array([])
     analyticalSol = solve(A, b.ravel())
@@ -141,10 +142,16 @@ if __name__ == '__main__':
 
     # Solving with Ax = b different methods
     # By Gauss elimination
+    start = time.time()
     gauss = gaussElimination(A, b.ravel())
+    print "Gauss Elimination Time"
+    print time.time() - start
 
     # By Gauss-Seidel iterative method
+    start = time.time()
     seidel, seidelConv = Seidel(A, b.ravel(), x0.ravel(), iterations)
+    print "Gauss-Seidel Elimination Time"
+    print time.time()-start
 
     # By successive over relaxation using different values for lambda defined above
     sorConv_list = []
@@ -153,13 +160,22 @@ if __name__ == '__main__':
         sorConv_list.append(sorConv)
     sorConv_list = np.array(sorConv_list)
 
+    start = time.time()
     sor, sorConv = SORelaxation(A,b.ravel(),x0.ravel(), l_default, iterations)
+    print "Successive over relaxation Time with l = " + str(l_default)
+    print time.time()-start
+
     print "Gauss Elimination Solution"
     print gauss
     print "Gauss-Seidel Solution"
     print seidel
+    print "Gauss-Seidel Average Error"
+    print np.average(abs(seidel-analyticalSol)/analyticalSol) * 100
+
     print "Successive over relaxation Solution with l = " + str(l_default)
     print sor
+    print "Successive over relaxation Average Error with l = " + str(l_default)
+    print np.average(abs(sor-analyticalSol)/ analyticalSol) * 100
 
     ##############################################################################################
 
