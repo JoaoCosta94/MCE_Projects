@@ -14,7 +14,7 @@ def potV(X, Y, V0):
     :return:    Grid with potential distribution
     """
     Z = sp.zeros(X.shape)
-    indexes = sp.where((X**2 + (Y*(1+delta))**2) > R)
+    indexes = sp.where(((X/a)**2 + (Y/b)**2) > R)
     Z[indexes] = V0
     return Z
 
@@ -61,25 +61,13 @@ def iH(F, iterations = 10):
             S -= O
     return S
 
-if __name__ == '__main__':
-    # Potential well radius
-    global R
-    global spacing
-    global V
-    global delta
-    R = 1.0
-    delta = 2.0
-
-    # Grid initialization
-    nPoints = 2**8
-    xyMin = -3.0
-    xyMax = 3.0
-    xySpace = sp.linspace(xyMin, xyMax, nPoints)
-    X, Y = sp.meshgrid(xySpace, xySpace)
-    spacing  = xySpace[1]-xySpace[0]
-
-    # Initialization of the potential spacial distribution
-    V = potV(X, Y, 1.0)
+def firstState(X, Y):
+    """
+    This function calculates the first state distribution according to the given  potential
+    :param X:   X axis points
+    :param Y:   y axis points
+    :return:    |phi|^2
+    """
 
     # Definition of initial state and normalization
     phi = sp.empty(X.shape, complex)
@@ -93,7 +81,6 @@ if __name__ == '__main__':
     e1 = sp.sqrt(sum(abs(hPhi)**2)) / sp.sqrt(sum(abs(phi)**2))
     e2 = 0.0
     while abs(e2-e1) > de:
-        print abs(e2-e1)
         phi = iH(phi)
         phi /= sum(abs(phi)**2)*spacing**2
         e1 = e2
@@ -101,9 +88,36 @@ if __name__ == '__main__':
         e2 = sp.sqrt(sum(abs(hPhi)**2)) / sp.sqrt(sum(abs(phi)**2))
 
     phi = abs(phi)**2
-    levels = sp.linspace(phi.min(), phi.max(), 1000)
+    return phi
+
+if __name__ == '__main__':
+    # Global Parameters
+    global R
+    global spacing
+    global V
+    global a
+    global b
+    R = 1.0
+    a = 1.0
+    delta = 2.0
+    b = a / (1.0 + delta)
+
+    # Grid initialization
+    nPoints = 2**8
+    xyMin = -3.0
+    xyMax = 3.0
+    xySpace = sp.linspace(xyMin, xyMax, nPoints)
+    X, Y = sp.meshgrid(xySpace, xySpace)
+    spacing  = xySpace[1]-xySpace[0]
+
+    # Initialization of the potential spacial distribution
+    V = potV(X, Y, 1.0)
+
+    phi1 = firstState(X,Y)
+
+    levels = sp.linspace(phi1.min(), phi1.max(), 1000)
     pl.figure()
-    pl.contourf(X, Y, phi, levels = levels)
+    pl.contourf(X, Y, phi1, levels = levels)
     pl.colorbar()
     pl.contour(X,Y,V)
     pl.show()
