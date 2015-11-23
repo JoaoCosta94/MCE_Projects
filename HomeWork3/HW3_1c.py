@@ -14,7 +14,7 @@ def potV(X, Y, V0):
     :return:    Grid with potential distribution
     """
     Z = sp.zeros(X.shape)
-    indexes = sp.where((X**2 + Y**2) > R)
+    indexes = sp.where((X**2 + (Y*(1+delta))**2) > R)
     Z[indexes] = V0
     return Z
 
@@ -66,7 +66,9 @@ if __name__ == '__main__':
     global R
     global spacing
     global V
+    global delta
     R = 1.0
+    delta = 2.0
 
     # Grid initialization
     nPoints = 2**8
