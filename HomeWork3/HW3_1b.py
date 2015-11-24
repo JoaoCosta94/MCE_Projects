@@ -43,7 +43,7 @@ def invLap(F):
     :return:    lap^-1(F)
     """
     wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(F.shape[0], spacing), 2.0 * sp.pi * fftfreq(F.shape[1], spacing))
-    r = fft2(F)/((wx**2 + wy**2) - 0.5) * (-1.0)
+    r = fft2(F)/((wx**2 + wy**2) - 0.5e-1) * (-1.0)
     return ifft2(r)
 
 def iH(F, iterations = 10):

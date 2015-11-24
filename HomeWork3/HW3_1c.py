@@ -98,9 +98,9 @@ if __name__ == '__main__':
     global a
     global b
     R = 1.0
-    a = 1.0
-    delta = 2.0
-    b = a / (1.0 + delta)
+    b = 1.0
+    delta = 0.5
+    a = 1.0 + delta
 
     # Grid initialization
     nPoints = 2**8

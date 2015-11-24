@@ -43,7 +43,7 @@ def invLap(F):
     :return:    lap^-1(F)
     """
     wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(F.shape[0], spacing), 2.0 * sp.pi * fftfreq(F.shape[1], spacing))
-    r = fft2(F)/((wx**2 + wy**2) - 0.5) * (-1.0)
+    r = fft2(F)/((wx**2 + wy**2) - 0.01) * (-1.0)
     return ifft2(r)
 
 def iH(F, V, iterations = 10):
@@ -61,7 +61,7 @@ def iH(F, V, iterations = 10):
             S -= O
     return S
 
-def firstState(X,Y, V):
+def firstState(X, Y, V):
     """
     This function calculates the first state distribution according to the given  potential
     :param X:   X axis points
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     global a
     global b
     R = 1.0
-    a = 1.0
+    b = 1.0
 
     # Grid initialization
     nPoints = 2**8
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     e1Array = []
     for delta in deltaArray:
         # Initialization of the potential spacial distribution
-        b = a / (1.0 + delta)
+        a = 1.0 + delta
         V = potV(X, Y, 1.0)
 
         e1Array.append(firstState(X,Y,V)[1])
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     eArray = sp.array(e1Array)
 
     pl.figure()
-    pl.title('1st Energy vs. Delta')
+    pl.title('1st Energy vs.  ' + r'$\delta$')
     pl.plot(deltaArray, e1Array)
     pl.xlabel(r'$\delta$')
     pl.ylabel('1st energy')
