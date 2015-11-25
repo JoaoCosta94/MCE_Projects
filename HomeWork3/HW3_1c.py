@@ -3,6 +3,7 @@ __author__ = 'Joao Paulo'
 import scipy as sp
 import pylab as pl
 from scipy.fftpack import fft2, ifft2, fftfreq
+from scipy import linalg
 from numpy import sum
 
 def potV(X, Y, V0):
@@ -15,26 +16,26 @@ def potV(X, Y, V0):
     """
     Z = sp.zeros(X.shape)
     indexes = sp.where(((X/a)**2 + (Y/b)**2) > R)
-    Z[indexes] = V0
+    Z[indexes] = V0 - dV
     return Z
 
-def Lap(F):
+def Lap(F, wx, wy):
     """
     THis function calculates the laplacian of F using F. Space representation of the operator
     :param F:   phi
     :return:    lap(phi)
     """
     wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(F.shape[0], spacing), 2.0 * sp.pi * fftfreq(F.shape[1], spacing))
-    fourLap = fft2(F) * (wx**2 + wy**2) * (-1.0)
+    fourLap = fft2(F) * (wx**2 + wy**2)
     return ifft2(fourLap)
 
-def H(F):
+def H(F, wx, wy):
     """
     This function calculates H*Phi = (-laplacian + V)*phi
     :param F:   Given phi
     :return:    H*phi
     """
-    return V * F - Lap(F)
+    return V * F - Lap(F, wx, wy)
 
 def invLap(F):
     """
@@ -43,23 +44,23 @@ def invLap(F):
     :return:    lap^-1(F)
     """
     wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(F.shape[0], spacing), 2.0 * sp.pi * fftfreq(F.shape[1], spacing))
-    r = fft2(F)/((wx**2 + wy**2) - 0.5) * (-1.0)
+    r = fft2(F)/((wx**2 + wy**2)) * (-1.0)
     return ifft2(r)
 
-def iH(F, iterations = 10):
-    S = sp.zeros(F.shape, complex)
-    O = sp.zeros(F.shape, complex)
-
-    O -= invLap(F)
-    S += O
-
-    for i in range(1, iterations):
-        O  = -invLap(V * O)
-        if i%2 == 0:
-            S += O
-        else:
-            S -= O
-    return S
+# def iH(F, iterations = 10):
+#     A = sp.zeros(F.shape, complex)
+#     B = sp.zeros(F.shape, complex)
+#
+#     B -= invLap(F)
+#     A += B
+#
+#     for i in range(1, iterations):
+#         B  = -invLap(V * B)
+#         if i%2 == 0:
+#             A += B
+#         else:
+#             A -= B
+#     return A
 
 def firstState(X, Y):
     """
@@ -70,37 +71,40 @@ def firstState(X, Y):
     """
 
     # Definition of initial state and normalization
-    phi = sp.empty(X.shape, complex)
-    phi.real = 2.0 * sp.random.random(X.shape) - 1.0
-    phi.imag = 2.0 * sp.random.random(X.shape) - 1.0
+    phi = 2.0*(sp.random.random(X.shape)-0.5) + 1j * 2.0*(sp.random.random(X.shape)-0.5)
+    # Frequencies
+    wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(phi.shape[0], spacing), 2.0 * sp.pi * fftfreq(phi.shape[1], spacing))
+
     # Normalization
     phi /= sum(abs(phi)**2)*spacing**2
 
-    de = 1e-14
-    hPhi = H(phi)
-    e1 = sp.sqrt(sum(abs(hPhi)**2)) / sp.sqrt(sum(abs(phi)**2))
-    e2 = 0.0
-    while abs(e2-e1) > de:
-        phi = iH(phi)
+    energyTreshold = 1e-14
+    IK2 =  1.0 / (-(wx**2 + wy**2) + 1.0)
+    eO = 1.0
+    eN = 0.0
+    while abs(eN-eO) > energyTreshold:
+        phi = ipm(phi, IK2)
         phi /= sum(abs(phi)**2)*spacing**2
-        e1 = e2
-        hPhi = H(phi)
-        e2 = sp.sqrt(sum(abs(hPhi)**2)) / sp.sqrt(sum(abs(phi)**2))
+        eO = eN
+        hPhi = H(phi, wx, wy)
+        eN = sp.sqrt(sum(abs(hPhi)**2) / sum(abs(phi)**2))
 
     phi = abs(phi)**2
-    return phi
+    return phi, eO
 
 if __name__ == '__main__':
     # Global Parameters
     global R
     global spacing
     global V
+    global dV
     global a
     global b
     R = 1.0
-    a = 1.0
-    delta = 2.0
-    b = a / (1.0 + delta)
+    dV = 1e-4
+    b = 1.0
+    delta = 0.5
+    a = (1.0 + delta)
 
     # Grid initialization
     nPoints = 2**8
@@ -113,7 +117,7 @@ if __name__ == '__main__':
     # Initialization of the potential spacial distribution
     V = potV(X, Y, 1.0)
 
-    phi1 = firstState(X,Y)
+    phi1, e1 = firstState(X,Y)
 
     levels = sp.linspace(phi1.min(), phi1.max(), 1000)
     pl.figure()
