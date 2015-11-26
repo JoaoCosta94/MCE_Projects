@@ -29,7 +29,7 @@ pl.contourf(X,Y, phi, levels = sp.linspace(phi.min(), phi.max(), 100))
 pl.colorbar()
 pl.contour(X, Y, (R <= 1) * 1)
 
-# solving for first energy
+# solving for second energy
 fr = bess(1, R * special.jn_zeros(1, 1)[0])
 gt = sp.sin(theta)
 phi = (fr * gt) ** 2

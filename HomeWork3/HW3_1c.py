@@ -71,8 +71,8 @@ def firstState(X, Y):
 
     # Definition of initial state and normalization
     phi = sp.empty(X.shape, complex)
-    phi.real = 2.0 * sp.random.random(X.shape) - 1.0
-    phi.imag = 2.0 * sp.random.random(X.shape) - 1.0
+    phi.real = 2.0 * (sp.random.random(X.shape) - 0.5)
+    phi.imag = 2.0 * (sp.random.random(X.shape) - 0.5)
     # Normalization
     phi /= sum(abs(phi)**2)*spacing**2
 
@@ -99,9 +99,9 @@ if __name__ == '__main__':
     global b
     R = 1.0
     dV = 0.5
-    a = 1.0
-    delta = 2.0
-    b = a / (1.0 + delta)
+    b = 1.0
+    delta = 0.5
+    a = (1.0 + delta)
 
     # Grid initialization
     nPoints = 2**8
