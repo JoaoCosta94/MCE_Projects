@@ -43,7 +43,7 @@ def invLap(F):
     :return:    lap^-1(F)
     """
     wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(F.shape[0], spacing), 2.0 * sp.pi * fftfreq(F.shape[1], spacing))
-    r = fft2(F)/((wx**2 + wy**2) - 0.5) * (-1.0)
+    r = fft2(F)/((wx**2 + wy**2) - dV) * (-1.0)
     return ifft2(r)
 
 def iH(F, iterations = 10):
@@ -76,11 +76,10 @@ def firstState(X, Y):
     # Normalization
     phi /= sum(abs(phi)**2)*spacing**2
 
-    de = 1e-14
-    hPhi = H(phi)
-    e1 = sp.sqrt(sum(abs(hPhi)**2)) / sp.sqrt(sum(abs(phi)**2))
+    energyThreshold = 1e-14
+    e1 = 1.0
     e2 = 0.0
-    while abs(e2-e1) > de:
+    while abs(e2-e1) > energyThreshold:
         phi = iH(phi)
         phi /= sum(abs(phi)**2)*spacing**2
         e1 = e2
@@ -95,12 +94,14 @@ if __name__ == '__main__':
     global R
     global spacing
     global V
+    global dV
     global a
     global b
     R = 1.0
-    b = 1.0
-    delta = 0.5
-    a = 1.0 + delta
+    dV = 0.5
+    a = 1.0
+    delta = 2.0
+    b = a / (1.0 + delta)
 
     # Grid initialization
     nPoints = 2**8
