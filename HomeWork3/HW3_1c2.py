@@ -8,7 +8,7 @@ import platform
 
 def potV(X, Y, xyF, a, b, V0):
     Z = sp.zeros(X.shape)
-    indexes = sp.where( ( ( (X - 0.5 * xyF) /a )**2 + ((Y - 0.5 * xyF)/ b)**2) > 1.0 )
+    indexes = sp.where( ( ( (X - 0.5 * xyF) /a )**2 + ((Y - 0.5 * xyF)/ b)**2) < 1.0 )
     Z[indexes] = V0
     return Z
 
@@ -41,10 +41,10 @@ def s1_V_s2(X, Y, xyF, xyS, V, n1, m1, n2, m2):
     :param m2:      Index m2 of the state 2
     :return:
     """
-
-    state1 = eigenState(X, Y, n1, m1, xyF)
-    state2 = eigenState(X, Y, n2, m2, xyF)
-    return sum(state1 * V * state2) * xyS**2
+    indexes = sp.where(V != 0)
+    state1 = eigenState(X[indexes], Y[indexes], n1, m1, xyF)
+    state2 = eigenState(X[indexes], Y[indexes], n2, m2, xyF)
+    return sum(state1 * V[indexes] * state2) * xyS**2
 
 def H(X, Y, xyF, xyS, nm, nmIndexes, V):
     """
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
     # Defining problem conditions
     # Don't change b please!
-    V0 = 100.0
+    V0 = -100.0
     delta = 0.5
     # Don't change b please!
     b = 1.0

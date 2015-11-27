@@ -8,7 +8,7 @@ import platform
 
 def potV(X, Y, x0, y0, xyF, a, b, V0):
     Z = sp.zeros(X.shape)
-    Z = V0 * (1 - ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * 1.0 *(X < 0.5 *xyF + x0))
+    Z = V0 * (((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * 1.0 *(X > 0.5 *xyF + x0))
     return Z
 
 def eigenValues(n, m, xyF):
@@ -40,10 +40,10 @@ def s1_V_s2(X, Y, xyF, xyS, V, n1, m1, n2, m2):
     :param m2:      Index m2 of the state 2
     :return:
     """
-
-    state1 = eigenState(X, Y, n1, m1, xyF)
-    state2 = eigenState(X, Y, n2, m2, xyF)
-    return sum(state1 * V * state2) * xyS**2
+    indexes = sp.where(V != 0)
+    state1 = eigenState(X[indexes], Y[indexes], n1, m1, xyF)
+    state2 = eigenState(X[indexes], Y[indexes], n2, m2, xyF)
+    return sum(state1 * V[indexes] * state2) * xyS**2
 
 def H(X, Y, xyF, xyS, nm, nmIndexes, V):
     """
@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     # Defining problem conditions
     # Don't change these or matrices will have to be calculated again! (It works but you'll have to wait)
-    V0 = 100.0
+    V0 = -100.0
     # l = sp.arange(-1.0, 1.5, 0.5)
     # xyIndexes = []
     # for i in range(len(l)):
@@ -112,8 +112,8 @@ if __name__ == '__main__':
     #         xyIndexes.append((l[i], l[j]))
     xyIndexes = [(0.0, 0.0)]
 
-    # deltaArray = sp.arange(0.0, 1.1, 0.1)
-    deltaArray = sp.array([0.5])
+    deltaArray = sp.arange(0.0, 1.1, 0.1)
+    # deltaArray = sp.array([0.5])
     b = 1.0
 
     # Defining state functions max indexes
@@ -159,49 +159,49 @@ if __name__ == '__main__':
                 print 'Matrix ready'
                 print 'Took ' + str(time.time() - start) + ' seconds!'
 
-    #         values = linalg.eig(M)[0]
-    #         values = values[values.argsort()]
-    #         e0Array.append(values[0].real)
-    #         e1Array.append(values[1].real)
-    #         e2Array.append(values[2].real)
-    #         e3Array.append(values[3].real)
-    #         e4Array.append(values[4].real)
+            values = linalg.eig(M)[0]
+            values = values[values.argsort()]
+            e0Array.append(values[0].real)
+            e1Array.append(values[1].real)
+            e2Array.append(values[2].real)
+            e3Array.append(values[3].real)
+            e4Array.append(values[4].real)
+
+    e0Array = sp.array(e0Array)
+    e1Array = sp.array(e1Array)
+    e2Array = sp.array(e2Array)
+    e3Array = sp.array(e3Array)
+    e4Array = sp.array(e4Array)
+
+    pl.figure('Energies')
+    pl.plot(deltaArray, e0Array, label = '1st Energy', ls = '', marker = 'o')
+    pl.plot(deltaArray, e1Array, label = '2nd Energy', ls = '', marker = 'o')
+    pl.plot(deltaArray, e2Array, label = '3rd Energy', ls = '', marker = 'o')
+    pl.plot(deltaArray, e3Array, label = '4th Energy', ls = '', marker = 'o')
+    pl.plot(deltaArray, e4Array, label = '5th Energy', ls = '', marker = 'o')
+    pl.xlabel(r'$\delta$')
+    pl.ylabel(r'E($\delta$)')
+    pl.legend()
+
+    # values, weights = linalg.eig(M)
+    # indexes = values.argsort()
+    # values = values[indexes]
+    # weights = weights[:, indexes]
     #
-    # e0Array = sp.array(e0Array)
-    # e1Array = sp.array(e1Array)
-    # e2Array = sp.array(e2Array)
-    # e3Array = sp.array(e3Array)
-    # e4Array = sp.array(e4Array)
+    # # Calculating and plotting first state
+    # s1 = calculateState(0, nmIndexes, weights)
+    # levels1 = sp.linspace(s1.min(), s1.max(), 1000)
+    # pl.figure('First State')
+    # pl.contourf(X, Y, s1, levels = levels1)
+    # pl.colorbar()
+    # pl.contour(X, Y, V)
     #
-    # pl.figure('Energies')
-    # pl.plot(deltaArray, e0Array, label = '1st Energy', ls = '', marker = 'o')
-    # pl.plot(deltaArray, e1Array, label = '2nd Energy', ls = '', marker = 'o')
-    # pl.plot(deltaArray, e2Array, label = '3rd Energy', ls = '', marker = 'o')
-    # pl.plot(deltaArray, e3Array, label = '4th Energy', ls = '', marker = 'o')
-    # pl.plot(deltaArray, e4Array, label = '5th Energy', ls = '', marker = 'o')
-    # pl.xlabel(r'$\delta$')
-    # pl.ylabel(r'E($\delta$)')
-    # pl.legend()
-
-    values, weights = linalg.eig(M)
-    indexes = values.argsort()
-    values = values[indexes]
-    weights = weights[:, indexes]
-
-    # Calculating and plotting first state
-    s1 = calculateState(0, nmIndexes, weights)
-    levels1 = sp.linspace(s1.min(), s1.max(), 1000)
-    pl.figure('First State')
-    pl.contourf(X, Y, s1, levels = levels1)
-    pl.colorbar()
-    pl.contour(X, Y, V)
-
-    # Calculating and plotting second state
-    s2 = calculateState(1, nmIndexes, weights)
-    levels2 = sp.linspace(s2.min(), s2.max(), 1000)
-    pl.figure('Second State')
-    pl.contourf(X, Y, s2, levels = levels2)
-    pl.colorbar()
-    pl.contour(X, Y, V)
+    # # Calculating and plotting second state
+    # s2 = calculateState(1, nmIndexes, weights)
+    # levels2 = sp.linspace(s2.min(), s2.max(), 1000)
+    # pl.figure('Second State')
+    # pl.contourf(X, Y, s2, levels = levels2)
+    # pl.colorbar()
+    # pl.contour(X, Y, V)
 
     pl.show()
