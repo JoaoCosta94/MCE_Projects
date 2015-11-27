@@ -8,8 +8,8 @@ import platform
 
 def potV(X, Y, x0, y0, xyF, a, b, V0):
     Z = sp.zeros(X.shape)
-    indexes1 = sp.where( ( ( (X - 0.5 * xyF  - x0) /a )**2 + ((Y - 0.5 * xyF - y0)/ b)**2) > 1.0 )
-    indexes2 = sp.where(X < 0.5 * xyF)
+    indexes1 = sp.where( ( ( (X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0)
+    indexes2 = sp.where(X < 0.5 *xyF + x0)
     Z[indexes1] = V0
     Z[indexes2] = 0.0
     return Z
@@ -108,8 +108,8 @@ if __name__ == '__main__':
     # Defining problem conditions
     # Don't change these or matrices will have to be calculated again! (It works but you'll have to wait)
     V0 = 100.0
-    x0 = 1.0
-    y0 = 1.0
+    x0 = 0.0
+    y0 = 0.0
     deltaArray = sp.arange(0.0, 0.2, 0.1)
     b = 1.0
 
