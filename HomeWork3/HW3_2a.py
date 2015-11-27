@@ -8,10 +8,7 @@ import platform
 
 def potV(X, Y, x0, y0, xyF, a, b, V0):
     Z = sp.zeros(X.shape)
-    indexes1 = sp.where( ( ( (X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0)
-    indexes2 = sp.where(X < 0.5 *xyF + x0)
-    Z[indexes1] = V0
-    Z[indexes2] = 0.0
+    Z = V0 * (1 - ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * 1.0 *(X < 0.5 *xyF + x0))
     return Z
 
 def eigenValues(n, m, xyF):
@@ -108,16 +105,16 @@ if __name__ == '__main__':
     # Defining problem conditions
     # Don't change these or matrices will have to be calculated again! (It works but you'll have to wait)
     V0 = 100.0
-    x0 = 0.0
-    y0 = 0.0
-    deltaArray = sp.arange(0.0, 0.2, 0.1)
+    # l = sp.arange(-1.0, 1.5, 0.5)
+    # xyIndexes = []
+    # for i in range(len(l)):
+    #     for j in range(len(l)):
+    #         xyIndexes.append((l[i], l[j]))
+    xyIndexes = [(0.0, 0.0)]
+
+    # deltaArray = sp.arange(0.0, 1.1, 0.1)
+    deltaArray = sp.array([0.5])
     b = 1.0
-
-    V = potV(X, Y, x0, y0, xyMax, 1.0, b, V0)
-
-    pl.figure()
-    pl.contour(X,Y,V)
-    pl.show()
 
     # Defining state functions max indexes
     # Don't change this please!!!
@@ -130,55 +127,54 @@ if __name__ == '__main__':
         for m in range(1, M+1):
             nmIndexes.append((n,m))
 
-    # # Calculations begin here
-    # e0Array = []
-    # e1Array = []
-    # e2Array = []
-    # e3Array = []
-    # e4Array = []
-    # for delta in deltaArray:
-    #     a = (1.0 + delta)
+    # Calculations begin here
+    for pair in xyIndexes:
+        x0 = pair[0]
+        y0 = pair[1]
+        for delta in deltaArray:
+            a = (1.0 + delta)
+
+            # Defining the potential
+            V = potV(X, Y, x0, y0, xyMax, a, b, V0)
+            pl. figure()
+            pl.contourf(X,Y,V)
+
+            # # Creating or loading operator matrix
+            # if (platform.system() == 'Windows'):
+            #     mPath = 'Operator_Matrices_2\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+            # else:
+            #     mPath = 'Operator_Matrices_2/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+            #
+            # try:
+            #     M = sp.load(mPath)
+            #     print 'Matrix will be loaded'
+            # except:
+            #     start = time.time()
+            #     print 'Creating operator matrix. Sit back, this may take a while :)'
+            #     M = H(X, Y, xyMax, spacing, nm, nmIndexes, V)
+            #     sp.save(mPath, M)
+            #     print 'Matrix ready'
+            #     print 'Took ' + str(time.time() - start) + ' seconds!'
     #
-    #     # Defining the potential
-    #     V = potV(X, Y, x0, y0, xyMax, a, b, V0)
+    # values, weights = linalg.eig(M)
+    # indexes = values.argsort()
+    # values = values[indexes]
+    # weights = weights[:, indexes]
     #
-    #     # Creating or loading operator matrix
-    #     if (platform.system() == 'Windows'):
-    #         mPath = 'Operator_Matrices_2\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
-    #     else:
-    #         mPath = 'Operator_Matrices_2/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+    # # Calculating and plotting first state
+    # s1 = calculateState(0, nmIndexes, weights)
+    # levels1 = sp.linspace(s1.min(), s1.max(), 1000)
+    # pl.figure('First State')
+    # pl.contourf(X, Y, s1, levels = levels1)
+    # pl.colorbar()
+    # pl.contour(X, Y, V)
     #
-    #     try:
-    #         M = sp.load(mPath)
-    #         print 'Matrix will be loaded'
-    #     except:
-    #         start = time.time()
-    #         print 'Creating operator matrix. Sit back, this may take a while :)'
-    #         M = H(X, Y, xyMax, spacing, nm, nmIndexes, V)
-    #         sp.save(mPath, M)
-    #         print 'Matrix ready'
-    #         print 'Took ' + str(time.time() - start) + ' seconds!'
+    # # Calculating and plotting second state
+    # s2 = calculateState(1, nmIndexes, weights)
+    # levels2 = sp.linspace(s2.min(), s2.max(), 1000)
+    # pl.figure('Second State')
+    # pl.contourf(X, Y, s2, levels = levels2)
+    # pl.colorbar()
+    # pl.contour(X, Y, V)
     #
-    #     # Calculating eigen energies
-    #     values = linalg.eig(M)[0]
-    #     values = values[values.argsort()]
-    #     e0Array.append(values[0].real)
-    #     e1Array.append(values[1].real)
-    #     e2Array.append(values[2].real)
-    #     e3Array.append(values[3].real)
-    #     e4Array.append(values[4].real)
-    #
-    # e0Array = sp.array(e0Array)
-    # e1Array = sp.array(e1Array)
-    # e2Array = sp.array(e2Array)
-    # e3Array = sp.array(e3Array)
-    # e4Array = sp.array(e4Array)
-    #
-    # pl.figure()
-    # pl.plot(deltaArray, e0Array)
-    # pl.plot(deltaArray, e1Array)
-    # pl.plot(deltaArray, e2Array)
-    # pl.plot(deltaArray, e3Array)
-    # pl.plot(deltaArray, e4Array)
-    #
-    # pl.show()
+    pl.show()
