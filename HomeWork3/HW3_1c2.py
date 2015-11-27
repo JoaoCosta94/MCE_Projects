@@ -106,7 +106,7 @@ if __name__ == '__main__':
     # Defining problem conditions
     # Don't change b please!
     V0 = 100.0
-    delta = 0.1
+    delta = 0.5
     # Don't change b please!
     b = 1.0
     a = (1.0 + delta)

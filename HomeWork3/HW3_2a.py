@@ -128,6 +128,11 @@ if __name__ == '__main__':
             nmIndexes.append((n,m))
 
     # Calculations begin here
+    e0Array = []
+    e1Array = []
+    e2Array = []
+    e3Array = []
+    e4Array = []
     for pair in xyIndexes:
         x0 = pair[0]
         y0 = pair[1]
@@ -136,45 +141,67 @@ if __name__ == '__main__':
 
             # Defining the potential
             V = potV(X, Y, x0, y0, xyMax, a, b, V0)
-            pl. figure()
-            pl.contourf(X,Y,V)
 
-            # # Creating or loading operator matrix
-            # if (platform.system() == 'Windows'):
-            #     mPath = 'Operator_Matrices_2\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
-            # else:
-            #     mPath = 'Operator_Matrices_2/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
-            #
-            # try:
-            #     M = sp.load(mPath)
-            #     print 'Matrix will be loaded'
-            # except:
-            #     start = time.time()
-            #     print 'Creating operator matrix. Sit back, this may take a while :)'
-            #     M = H(X, Y, xyMax, spacing, nm, nmIndexes, V)
-            #     sp.save(mPath, M)
-            #     print 'Matrix ready'
-            #     print 'Took ' + str(time.time() - start) + ' seconds!'
+            # Creating or loading operator matrix
+            if (platform.system() == 'Windows'):
+                mPath = 'Operator_Matrices_2\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+            else:
+                mPath = 'Operator_Matrices_2/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+
+            try:
+                M = sp.load(mPath)
+                print 'Matrix will be loaded'
+            except:
+                start = time.time()
+                print 'Creating operator matrix. Sit back, this may take a while :)'
+                M = H(X, Y, xyMax, spacing, nm, nmIndexes, V)
+                sp.save(mPath, M)
+                print 'Matrix ready'
+                print 'Took ' + str(time.time() - start) + ' seconds!'
+
+    #         values = linalg.eig(M)[0]
+    #         values = values[values.argsort()]
+    #         e0Array.append(values[0].real)
+    #         e1Array.append(values[1].real)
+    #         e2Array.append(values[2].real)
+    #         e3Array.append(values[3].real)
+    #         e4Array.append(values[4].real)
     #
-    # values, weights = linalg.eig(M)
-    # indexes = values.argsort()
-    # values = values[indexes]
-    # weights = weights[:, indexes]
+    # e0Array = sp.array(e0Array)
+    # e1Array = sp.array(e1Array)
+    # e2Array = sp.array(e2Array)
+    # e3Array = sp.array(e3Array)
+    # e4Array = sp.array(e4Array)
     #
-    # # Calculating and plotting first state
-    # s1 = calculateState(0, nmIndexes, weights)
-    # levels1 = sp.linspace(s1.min(), s1.max(), 1000)
-    # pl.figure('First State')
-    # pl.contourf(X, Y, s1, levels = levels1)
-    # pl.colorbar()
-    # pl.contour(X, Y, V)
-    #
-    # # Calculating and plotting second state
-    # s2 = calculateState(1, nmIndexes, weights)
-    # levels2 = sp.linspace(s2.min(), s2.max(), 1000)
-    # pl.figure('Second State')
-    # pl.contourf(X, Y, s2, levels = levels2)
-    # pl.colorbar()
-    # pl.contour(X, Y, V)
-    #
+    # pl.figure('Energies')
+    # pl.plot(deltaArray, e0Array, label = '1st Energy', ls = '', marker = 'o')
+    # pl.plot(deltaArray, e1Array, label = '2nd Energy', ls = '', marker = 'o')
+    # pl.plot(deltaArray, e2Array, label = '3rd Energy', ls = '', marker = 'o')
+    # pl.plot(deltaArray, e3Array, label = '4th Energy', ls = '', marker = 'o')
+    # pl.plot(deltaArray, e4Array, label = '5th Energy', ls = '', marker = 'o')
+    # pl.xlabel(r'$\delta$')
+    # pl.ylabel(r'E($\delta$)')
+    # pl.legend()
+
+    values, weights = linalg.eig(M)
+    indexes = values.argsort()
+    values = values[indexes]
+    weights = weights[:, indexes]
+
+    # Calculating and plotting first state
+    s1 = calculateState(0, nmIndexes, weights)
+    levels1 = sp.linspace(s1.min(), s1.max(), 1000)
+    pl.figure('First State')
+    pl.contourf(X, Y, s1, levels = levels1)
+    pl.colorbar()
+    pl.contour(X, Y, V)
+
+    # Calculating and plotting second state
+    s2 = calculateState(1, nmIndexes, weights)
+    levels2 = sp.linspace(s2.min(), s2.max(), 1000)
+    pl.figure('Second State')
+    pl.contourf(X, Y, s2, levels = levels2)
+    pl.colorbar()
+    pl.contour(X, Y, V)
+
     pl.show()
