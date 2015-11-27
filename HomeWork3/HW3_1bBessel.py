@@ -49,8 +49,8 @@ if __name__ == '__main__':
 
     # Grid Parameters
     nPoints = 2**8
-    xyMin = -3.0
-    xyMax = 3.0
+    xyMin = -4.0
+    xyMax = 4.0
     xySpace = sp.linspace(xyMin, xyMax, nPoints)
     X, Y = sp.meshgrid(xySpace, xySpace)
     spacing = xySpace[1]-xySpace[0]
