@@ -6,13 +6,14 @@ import time
 import pylab as pl
 import platform
 
-def potV(X, Y, x0, y0, xyF, a, b, V0):
+def potV(X, Y, x0, y0, R, xyF, a, b, V0):
     """
     This function calculates the potential distribution
     :param X:       X points
     :param Y:       Y Points
     :param x0:      Center point X coordinate
     :param y0:      Center point Y coordinate
+    :param R:       Inner circle radius
     :param xyF:     Box limit
     :param a:       Ellipse parameter a
     :param b:       Ellipse parameter b
@@ -20,7 +21,7 @@ def potV(X, Y, x0, y0, xyF, a, b, V0):
     :return:        Returns the spatial potential distribution
     """
     Z = sp.zeros(X.shape)
-    Z = V0 * ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * (1.0 * (X > 0.5 * xyF + x0))
+    Z = V0 * ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * (((X - 0.5 * xyF - x0)**2 + (Y - 0.5 * xyF - y0)**2) > R**2) * (1.0 * (X > 0.5 * xyF + x0))
     return Z
 
 def eigenValues(n, m, xyF):
@@ -169,7 +170,7 @@ if __name__ == '__main__':
 
 
     # Obtaining the potential
-    V = potV(X, Y, x0, y0, xyMax, a, b, V0)
+    V = potV(X, Y, x0, y0, R, xyMax, a, b, V0)
 
     # Defining state functions max indexes
     N = 15
