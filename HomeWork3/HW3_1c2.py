@@ -87,7 +87,6 @@ def calculateState(o, nmIndexes, weights):
     print weights.shape
     for i in range(nm):
         s = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
-        print s.shape
         state += weights[i, o] * s
     state = abs(state)**2
     return state

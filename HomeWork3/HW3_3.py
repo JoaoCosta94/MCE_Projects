@@ -85,7 +85,7 @@ def calculateState(nm, nmIndexes, weights):
     state = 0. + 1j*sp.zeros(X.shape)
     for i in range(nm):
         s = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
-        state += weights[i, 0] * s
+        state += weights[i] * s
     state = abs(state)**2
     return state
 
@@ -103,7 +103,7 @@ def s0_Decomp_Coefs(phi0, nm, nmIndexes, xyF, xyS):
     return sp.array(s0_new)
 
 def temporal_evolution(phi0, H, t):
-    return phi0 * sp.exp(H * t)
+    return phi0 * sp.exp(-1j*(values * t))
 
 
 if __name__ == '__main__':
@@ -167,13 +167,22 @@ if __name__ == '__main__':
 
     # Decomposition of phi0 in the base
     coefs = s0_Decomp_Coefs(phi0, nm, nmIndexes, xyMax, spacing)
-    u = linalg.solve(weights, coefs)
-    t = 0.1
-    ut = temporal_evolution(u, weights, t)
-    ut *= weights
+    u0 = linalg.solve(weights, coefs)
+    # temporal evolution u(t) = u0*exp(-iEt)
+    tArray  = sp.array([0.0, 0.05, 0.10, 0.15, 0.20])
+    for t in tArray:
+        print t
+        # Obtaining u(t) in the base of perturbed H
+        ut = temporal_evolution(u0, values, t)
+        # Switching back to the intended base
+        phi = sp.dot(weights, ut)
+        phi = calculateState(nm, nmIndexes, phi)
+        phi /= sum(phi) * spacing ** 2
+        # Plotting
+        levels = sp.linspace(phi.min(), phi.max(), 1000)
+        pl.figure(str(t))
+        pl.contourf(X, Y, phi, levels = levels)
+        pl.colorbar()
+        pl.contour(X, Y, V)
 
-    pl.figure(1)
-    pl.contourf(X, Y , ut)
-    pl.colorbar()
-    pl.contour(X, Y , V)
     pl.show()
