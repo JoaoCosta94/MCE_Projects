@@ -1,124 +1,174 @@
-__author__ = 'Joao Paulo'
+__author__ = 'JoaoCosta'
 
 import scipy as sp
+from scipy import sum, linalg
+import time
 import pylab as pl
-from scipy.fftpack import fft2, ifft2, fftfreq
-from numpy import sum
+import platform
 
-def potV(X, Y, V0):
-    """
-    This function calculates the potential distribution on a given X, Y grid
-    :param X:   X points
-    :param Y:   y Points
-    :param V0:  Value of the potential outside the well
-    :return:    Grid with potential distribution
-    """
+def potV(X, Y, xyF, a, b, V0):
     Z = sp.zeros(X.shape)
-    indexes = sp.where(((X/a)**2 + (Y/b)**2) > R)
+    indexes = sp.where( ( ( (X - 0.5 * xyF) /a )**2 + ((Y - 0.5 * xyF)/ b)**2) < 1.0 )
     Z[indexes] = V0
     return Z
 
-def Lap(F):
-    """
-    THis function calculates the laplacian of F using F. Space representation of the operator
-    :param F:   phi
-    :return:    lap(phi)
-    """
-    wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(F.shape[0], spacing), 2.0 * sp.pi * fftfreq(F.shape[1], spacing))
-    fourLap = fft2(F) * (wx**2 + wy**2) * (-1.0)
-    return ifft2(fourLap)
+def eigenValues(n, m, xyF):
+    return (n*sp.pi/xyF)**2 + (m*sp.pi/xyF)**2
 
-def H(F):
+def eigenState(X, Y, n, m, xyF):
     """
-    This function calculates H*Phi = (-laplacian + V)*phi
-    :param F:   Given phi
-    :return:    H*phi
+    This function calculates the eigen state using a fouriers series
+    :param X:       X points
+    :param Y:       Y points
+    :param n:       n index
+    :param m:       m index
+    :param xyF:     box limit
+    :return:        Eigen state as a fourier series
     """
-    return V * F - Lap(F)
+    return sp.sin((n*sp.pi / xyF) * X) * sp.sin((m*sp.pi / xyF) * Y) * sp.sqrt(4.0 / (xyF**2))
 
-def invLap(F):
+def s1_V_s2(X, Y, xyF, xyS, V, n1, m1, n2, m2):
     """
-    This function  calculates the inverse laplacian
-    :param F:   Given function values
-    :return:    lap^-1(F)
+    This function calculates <Yn1m1|V|Yn2m2>
+    :param X:       X points
+    :param Y:       Y Points
+    :param xyF:     External square box limit
+    :param xyS:     Grid points spacing
+    :param V:       Potential
+    :param n1:      Index n1 of the state 1
+    :param m1:      Index m1 of the state 1
+    :param n2:      Index n2 of the state 2
+    :param m2:      Index m2 of the state 2
+    :return:
     """
-    wx, wy = sp.meshgrid(2.0 * sp.pi * fftfreq(F.shape[0], spacing), 2.0 * sp.pi * fftfreq(F.shape[1], spacing))
-    r = fft2(F)/((wx**2 + wy**2) - dV) * (-1.0)
-    return ifft2(r)
+    indexes = sp.where(V != 0)
+    state1 = eigenState(X[indexes], Y[indexes], n1, m1, xyF)
+    state2 = eigenState(X[indexes], Y[indexes], n2, m2, xyF)
+    return sum(state1 * V[indexes] * state2) * xyS**2
 
-def iH(F, iterations = 10):
-    S = sp.zeros(F.shape, complex)
-    O = sp.zeros(F.shape, complex)
-
-    O -= invLap(F)
-    S += O
-
-    for i in range(1, iterations):
-        O  = -invLap(V * O)
-        if i%2 == 0:
-            S += O
-        else:
-            S -= O
-    return S
-
-def firstState(X, Y):
+def H(X, Y, xyF, xyS, nm, nmIndexes, V):
     """
-    This function calculates the first state distribution according to the given  potential
-    :param X:   X axis points
-    :param Y:   y axis points
-    :return:    |phi|^2
+    This function creates a matrix of the equivalent application of a potential to a free particle,
+    like a perturbation theory calculating the 'overlap' of N & M states of X & Y directions
+    :param xyF:         External square box limit
+    :param xyS:         Grid points spacing
+    :param nm:          Total of states used
+    :param nmIndexes:   (n,m) indexes of the state basis
+    :param V:           Potential
+    :return:            Returns the representation of the H operator with given V
     """
 
-    # Definition of initial state and normalization
-    phi = sp.empty(X.shape, complex)
-    phi.real = 2.0 * (sp.random.random(X.shape) - 0.5)
-    phi.imag = 2.0 * (sp.random.random(X.shape) - 0.5)
-    # Normalization
-    phi /= sum(abs(phi)**2)*spacing**2
+    hMatrix = sp.zeros((nm, nm), dtype = float)
 
-    energyThreshold = 1e-14
-    e1 = 1.0
-    e2 = 0.0
-    while abs(e2-e1) > energyThreshold:
-        phi = iH(phi)
-        phi /= sum(abs(phi)**2)*spacing**2
-        e1 = e2
-        hPhi = H(phi)
-        e2 = sp.sqrt(sum(abs(hPhi)**2)) / sp.sqrt(sum(abs(phi)**2))
+    # Matrix elements
+    for i in range(nm-1):
+        for j in range(i+1, nm):
+            # Using closest neighbours states -> Perturbation of V
+            hMatrix[i][j] += s1_V_s2(X, Y, xyF, xyS, V, nmIndexes[i][0], nmIndexes[i][1], nmIndexes[j][0], nmIndexes[j][1])
+            hMatrix[j][i] += hMatrix[i][j]
 
-    phi = abs(phi)**2
-    return phi
+    # Matrix diagonal elements
+    for i in range(nm):
+        # Using self state -> Average of V
+        hMatrix[i][i] = eigenValues(nmIndexes[i][0], nmIndexes[i][1], xyF)
+        hMatrix[i][i] += s1_V_s2(X, Y, xyF, xyS, V, nmIndexes[i][0], nmIndexes[i][1], nmIndexes[i][0], nmIndexes[i][1])
+
+    return hMatrix
+
+def calculateState(o, nmIndexes, weights):
+    """
+    This functions calculates the o'th bound state
+    :param o:               order of the bound state
+    :param nmIndexes:       (n,m) indexes of the state basis
+    :param weights:         coefficients for each state function
+    :return:                returns the square of the module of the eigen state
+    """
+    state = 0. + 1j*sp.zeros(X.shape)
+    print weights.shape
+    for i in range(nm):
+        s = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
+        state += weights[i, o] * s
+    state = abs(state)**2
+    return state
+
 
 if __name__ == '__main__':
-    # Global Parameters
-    global R
-    global spacing
-    global V
-    global dV
-    global a
-    global b
-    R = 1.0
-    dV = 0.5
-    b = 1.0
+
+    # Some parameters maybe be changed but if so, please delete all the matrices in the matrices folder and recalculate them
+    # These parameters are flagged.
+
+    # Defining grid
+    # Don't change please!
+    nPoints = 2**8
+    xyMax = 8.0
+    xySpace = sp.linspace(0.0, xyMax, nPoints)
+    X, Y = sp.meshgrid(xySpace, xySpace)
+    spacing = xySpace[1] - xySpace[0]
+
+    # Defining problem conditions
+    # Don't change b please!
+    V0 = -100.0
     delta = 0.5
+    # Don't change b please!
+    b = 1.0
     a = (1.0 + delta)
 
-    # Grid initialization
-    nPoints = 2**8
-    xyMin = -3.0
-    xyMax = 3.0
-    xySpace = sp.linspace(xyMin, xyMax, nPoints)
-    X, Y = sp.meshgrid(xySpace, xySpace)
-    spacing  = xySpace[1]-xySpace[0]
+    # Defining state functions max indexes
+    # Don't change this please!!!
+    N = 15
+    M = 15
+    # Calculating the indexes of the state functions that will be used
+    nm = N * M
+    nmIndexes = []
+    for n in range(1, N+1):
+        for m in range(1, M+1):
+            nmIndexes.append((n,m))
 
-    # Initialization of the potential spacial distribution
-    V = potV(X, Y, 1.0)
+    # Calculations begin here
 
-    phi1 = firstState(X,Y)
+    # Defining the potential
+    V = potV(X, Y, xyMax, a, b, V0)
 
-    levels = sp.linspace(phi1.min(), phi1.max(), 1000)
-    pl.figure()
-    pl.contourf(X, Y, phi1, levels = levels)
+    # Creating or loading operator matrix
+    if (platform.system() == 'Windows'):
+        mPath = 'Operator_Matrices\\delta_' + str(delta) + 'V0_' + str(V0) + '.npy'
+    else:
+        mPath = 'Operator_Matrices/delta_' + str(delta) + 'V0_' + str(V0) + '.npy'
+
+    try:
+        M = sp.load(mPath)
+        print 'Matrix will be loaded'
+    except:
+        start = time.time()
+        print 'Creating operator matrix. Sit back, this may take a while :)'
+        M = H(X, Y, xyMax, spacing, nm, nmIndexes, V)
+        sp.save(mPath, M)
+        print 'Matrix ready'
+        print 'Took ' + str(time.time() - start) + ' seconds!'
+
+    # Calculating eigen energies and states
+    # values has the energy values
+    # weights has the weight for each state on that energy
+    # used to represent the state by summing each state with respective weight
+    values, weights = linalg.eig(M)
+    indexes = values.argsort()
+    values = values[indexes]
+    weights = weights[:, indexes]
+
+    # Calculating and plotting first state
+    s1 = calculateState(0, nmIndexes, weights)
+    levels1 = sp.linspace(s1.min(), s1.max(), 1000)
+    pl.figure('First State')
+    pl.contourf(X,Y, s1, levels = levels1)
     pl.colorbar()
-    pl.contour(X,Y,V)
+    pl.contour(X, Y, V)
+
+    # Calculating and plotting second state
+    s2 = calculateState(1, nmIndexes, weights)
+    levels2 = sp.linspace(s2.min(), s2.max(), 1000)
+    pl.figure('Second State')
+    pl.contourf(X,Y, s2, levels = levels2)
+    pl.colorbar()
+    pl.contour(X, Y, V)
+
     pl.show()
