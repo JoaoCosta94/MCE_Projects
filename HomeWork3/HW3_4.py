@@ -6,7 +6,19 @@ import time
 import pylab as pl
 import platform
 
-def potV(X, Y, x0, y0, R, xyF, a, b, V0):
+def potV(X, Y, x0, y0, xyF, a, b, V0):
+    """
+    This function calculates the potential distribution
+    :param X:       X points
+    :param Y:       Y Points
+    :param x0:      Center point X coordinate
+    :param y0:      Center point Y coordinate
+    :param xyF:     Box limit
+    :param a:       Ellipse parameter a
+    :param b:       Ellipse parameter b
+    :param V0:      Potential well depth
+    :return:        Returns the spatial potential distribution
+    """
     Z = sp.zeros(X.shape)
     Z = V0 * ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * (1.0 * (X > 0.5 * xyF + x0))
     return Z
@@ -56,7 +68,6 @@ def H(X, Y, xyF, xyS, nm, nmIndexes, V):
     :param V:           Potential
     :return:            Returns the representation of the H operator with given V
     """
-
     hMatrix = sp.zeros((nm, nm), dtype = float)
 
     # Matrix elements
@@ -74,7 +85,7 @@ def H(X, Y, xyF, xyS, nm, nmIndexes, V):
 
     return hMatrix
 
-def calculateState(nm, nmIndexes, weights):
+def calculateState(X, nm, nmIndexes, weights):
     """
     This functions calculates the o'th bound state
     :param o:               order of the bound state
@@ -90,11 +101,25 @@ def calculateState(nm, nmIndexes, weights):
     return state
 
 def state_Projection(s1,s2, xyS):
-
+    """
+    This function calculates the projection of a state over another
+    :param s1:      State to project over
+    :param s2:      State to calculate projection
+    :param xyS:     Grid spacing (for normalization)
+    :return:        Returns the normalized value of the projection of s2 over s1
+    """
     return sum(s1 * s2) * xyS**2
 
 def s0_Decomp_Coefs(phi0, nm, nmIndexes, xyF, xyS):
-
+    """
+    This function calculates the coefficients for the eigen states of the suqare potential box of a given state on eigen state
+    :param phi0:            Original state
+    :param nm:              Total of states used
+    :param nmIndexes:       (n,m) indexes of the state basis
+    :param xyF:             External square box limit
+    :param xyS:             Grid points spacing
+    :return:                Returns the decomposition coefficients of the given state on the eigen state basis
+    """
     s0_new = []
     for i in range(nm):
         eS = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyF)
@@ -102,8 +127,15 @@ def s0_Decomp_Coefs(phi0, nm, nmIndexes, xyF, xyS):
 
     return sp.array(s0_new)
 
-def temporal_evolution(phi0, H, t):
-    return phi0 * sp.exp(-1j*(values * t))
+def temporal_evolution(phi0, E, t):
+    """
+    This function calculates the state phi on a given time instant using the "Time Evolution Operator"
+    :param phi0:    Initial state
+    :param E:       Energy Values
+    :param t:       Time instant
+    :return:        State(t)
+    """
+    return phi0 * sp.exp(-1j*(E * t))
 
 
 if __name__ == '__main__':
@@ -137,7 +169,7 @@ if __name__ == '__main__':
 
 
     # Obtaining the potential
-    V = potV(X, Y, x0, y0, R, xyMax, a, b, V0)
+    V = potV(X, Y, x0, y0, xyMax, a, b, V0)
 
     # Defining state functions max indexes
     N = 15
@@ -175,13 +207,13 @@ if __name__ == '__main__':
         ut = temporal_evolution(u0, values, t)
         # Switching back to the intended base
         phi = sp.dot(weights, ut)
-        phi = calculateState(nm, nmIndexes, phi)
+        phi = calculateState(X, nm, nmIndexes, phi)
         phi /= sum(phi) * spacing ** 2
         # Plotting
         levels = sp.linspace(phi.min(), phi.max(), 1000)
         pl.figure(str(t))
-        pl.contourf(X, Y, phi, levels = levels)
+        pl.contourf(X - 0.5*xyMax, Y - 0.5*xyMax, phi, levels = levels)
         pl.colorbar()
-        pl.contour(X, Y, V)
+        pl.contour(X - 0.5*xyMax, Y - 0.5*xyMax, V)
 
     pl.show()

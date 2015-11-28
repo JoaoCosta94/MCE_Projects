@@ -6,12 +6,26 @@ from numpy import sum
 import pylab as pl
 
 def systemSol(o, R, V, E):
+    """
+    Calculates the determinant of the boundary conditions problem system
+    :param o:   Order of the solution
+    :param R:   Radius of the potential well
+    :param V:   Potential well depth
+    :param E:   Possible energy solution
+    :return:    Determinant of the boundary conditions problem system
+    """
     kd = sp.sqrt(E)
     kf = sp.sqrt(abs(V-E))
     return (-kf * jv(o, kd*R) * kvp(o, kf*R)) + (kd * jvp(0, kd*R) * kv(o, kf*R))
 
 def findEnergies(o, R, V0):
-
+    """
+    This function calculates the energies of the bound states
+    :param o:   O-th energy (order)
+    :param R:   Potential well Radius
+    :param V0:  Potential well depth
+    :return:
+    """
     eAttempt = sp.linspace(0.0, V0, 10000)[1:-1]
     sol = systemSol(o, R, V0, eAttempt)
 
@@ -23,6 +37,16 @@ def findEnergies(o, R, V0):
     return [e for e in energies if e != 0]
 
 def getF(X, Y, R, o, V, E):
+    """
+    This function calculates the radial dependency of phi given the energy solutions
+    :param X:   X points
+    :param Y:   Y Points
+    :param R:   Potential well radius
+    :param o:   Solution order
+    :param V:   Potential values
+    :param E:   Energy value for given order
+    :return:    F(r)
+    """
 
     r = sp.sqrt(X**2 + Y**2)
 
@@ -33,9 +57,21 @@ def getF(X, Y, R, o, V, E):
     return F
 
 def getG(X,Y):
+    """
+    This function calculates the angular components of a state
+    :param X:   X Points
+    :param Y:   Y Points
+    :return:    Arctan(Y/X)
+    """
     return sp.cos(sp.arctan2(Y, X))
 
 def normalize(S, spacing):
+    """
+    This function calculates the normalization of |phi|^2
+    :param S:           State phi
+    :param spacing:     (X,Y) grid spacing between points
+    :return:            Normalized |phi|^2 state
+    """
     A = sum(S**2) * spacing ** 2
     return abs(S) ** 2 / A
 

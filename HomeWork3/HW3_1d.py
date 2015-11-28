@@ -7,6 +7,16 @@ import pylab as pl
 import platform
 
 def potV(X, Y, xyF, a, b, V0):
+    """
+    This function calculates the potential distribution
+    :param X:       X points
+    :param Y:       Y Points
+    :param xyF:     Box limit
+    :param a:       Ellipse parameter a
+    :param b:       Ellipse parameter b
+    :param V0:      Potential well depth
+    :return:        Returns the spatial potential distribution
+    """
     Z = sp.zeros(X.shape)
     indexes = sp.where( ( ( (X - 0.5 * xyF) /a )**2 + ((Y - 0.5 * xyF)/ b)**2) < 1.0 )
     Z[indexes] = V0
@@ -75,7 +85,7 @@ def H(X, Y, xyF, xyS, nm, nmIndexes, V):
 
     return hMatrix
 
-def calculateState(o, nmIndexes, weights):
+def calculateState(X, o, nm, nmIndexes, weights):
     """
     This functions calculates the o'th bound state
     :param o:               order of the bound state

@@ -7,6 +7,18 @@ import pylab as pl
 import platform
 
 def potV(X, Y, x0, y0, xyF, a, b, V0):
+    """
+    This function calculates the potential distribution
+    :param X:       X points
+    :param Y:       Y Points
+    :param x0:      Center point X coordinate
+    :param y0:      Center point Y coordinate
+    :param xyF:     Box limit
+    :param a:       Ellipse parameter a
+    :param b:       Ellipse parameter b
+    :param V0:      Potential well depth
+    :return:        Returns the spatial potential distribution
+    """
     Z = sp.zeros(X.shape)
     Z = V0 * (((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * 1.0 *(X > 0.5 *xyF + x0))
     return Z
@@ -74,7 +86,7 @@ def H(X, Y, xyF, xyS, nm, nmIndexes, V):
 
     return hMatrix
 
-def calculateState(o, nm, nmIndexes, weights):
+def calculateState(X, o, nm, nmIndexes, weights):
     """
     This functions calculates the o'th bound state
     :param o:               order of the bound state
@@ -105,11 +117,6 @@ if __name__ == '__main__':
     # Defining problem conditions
     # Don't change these or matrices will have to be calculated again! (It works but you'll have to wait)
     V0 = -100.0
-    # l = sp.arange(-1.0, 1.5, 0.5)
-    # xyIndexes = []
-    # for i in range(len(l)):
-    #     for j in range(len(l)):
-    #         xyIndexes.append((l[i], l[j]))
     xyIndexes = [(0.0, 0.0)]
 
     deltaArray = sp.arange(0.0, 1.1, 0.1)
@@ -188,17 +195,22 @@ if __name__ == '__main__':
     # values = values[indexes]
     # weights = weights[:, indexes]
     #
-    # # Calculating and plotting first state
-    # s1 = calculateState(0, nm, nmIndexes, weights)
+    # # Calculating first state
+    # s1 = calculateState(X, 0, nm, nmIndexes, weights)
     # levels1 = sp.linspace(s1.min(), s1.max(), 1000)
+    #
+    # # Calculating second state
+    # s2 = calculateState(X, 1, nm, nmIndexes, weights)
+    # levels2 = sp.linspace(s2.min(), s2.max(), 1000)
+    #
+    # # Plotting
+    # X -= 0.5*xyMax
+    # Y -= 0.5*xyMax
     # pl.figure('First State')
     # pl.contourf(X, Y, s1, levels = levels1)
     # pl.colorbar()
     # pl.contour(X, Y, V)
     #
-    # # Calculating and plotting second state
-    # s2 = calculateState(1, nm, nmIndexes, weights)
-    # levels2 = sp.linspace(s2.min(), s2.max(), 1000)
     # pl.figure('Second State')
     # pl.contourf(X, Y, s2, levels = levels2)
     # pl.colorbar()

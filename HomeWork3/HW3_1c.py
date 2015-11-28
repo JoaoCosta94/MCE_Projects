@@ -7,6 +7,16 @@ import pylab as pl
 import platform
 
 def potV(X, Y, xyF, a, b, V0):
+    """
+    This function calculates the potential distribution
+    :param X:       X points
+    :param Y:       Y Points
+    :param xyF:     Box limit
+    :param a:       Ellipse parameter a
+    :param b:       Ellipse parameter b
+    :param V0:      Potential well depth
+    :return:        Returns the spatial potential distribution
+    """
     Z = sp.zeros(X.shape)
     indexes = sp.where( ( ( (X - 0.5 * xyF) /a )**2 + ((Y - 0.5 * xyF)/ b)**2) < 1.0 )
     Z[indexes] = V0
@@ -57,7 +67,6 @@ def H(X, Y, xyF, xyS, nm, nmIndexes, V):
     :param V:           Potential
     :return:            Returns the representation of the H operator with given V
     """
-
     hMatrix = sp.zeros((nm, nm), dtype = float)
 
     # Matrix elements
@@ -75,7 +84,7 @@ def H(X, Y, xyF, xyS, nm, nmIndexes, V):
 
     return hMatrix
 
-def calculateState(o, nmIndexes, weights):
+def calculateState(X, o, nm, nmIndexes, weights):
     """
     This functions calculates the o'th bound state
     :param o:               order of the bound state
@@ -84,13 +93,11 @@ def calculateState(o, nmIndexes, weights):
     :return:                returns the square of the module of the eigen state
     """
     state = 0. + 1j*sp.zeros(X.shape)
-    print weights.shape
     for i in range(nm):
         s = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
         state += weights[i, o] * s
     state = abs(state)**2
     return state
-
 
 if __name__ == '__main__':
 
@@ -155,17 +162,22 @@ if __name__ == '__main__':
     values = values[indexes]
     weights = weights[:, indexes]
 
-    # Calculating and plotting first state
-    s1 = calculateState(0, nmIndexes, weights)
+    # Calculating first state
+    s1 = calculateState(X, 0, nm, nmIndexes, weights)
     levels1 = sp.linspace(s1.min(), s1.max(), 1000)
+
+    # Calculating second state
+    s2 = calculateState(X, 1, nm, nmIndexes, weights)
+    levels2 = sp.linspace(s2.min(), s2.max(), 1000)
+
+    # Plotting
+    X -= 0.5*xyMax
+    Y -= 0.5*xyMax
     pl.figure('First State')
     pl.contourf(X,Y, s1, levels = levels1)
     pl.colorbar()
     pl.contour(X, Y, V)
 
-    # Calculating and plotting second state
-    s2 = calculateState(1, nmIndexes, weights)
-    levels2 = sp.linspace(s2.min(), s2.max(), 1000)
     pl.figure('Second State')
     pl.contourf(X,Y, s2, levels = levels2)
     pl.colorbar()
