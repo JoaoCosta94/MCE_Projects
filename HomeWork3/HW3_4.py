@@ -8,7 +8,7 @@ import platform
 
 def potV(X, Y, x0, y0, R, xyF, a, b, V0):
     Z = sp.zeros(X.shape)
-    Z = V0 * ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0)
+    Z = V0 * ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * (1.0 * (X > 0.5 * xyF + x0))
     return Z
 
 def eigenValues(n, m, xyF):
@@ -131,9 +131,9 @@ if __name__ == '__main__':
     phi0 = sp.exp(-((X - 0.5*xyMax - ellipseFocusX)**2 + (Y - 0.5*xyMax)**2)/(2.*R**2)) / (2.*sp.pi*R**2)
 
     if (platform.system() == 'Windows'):
-        mPath = 'Operator_Matrices_3\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+        mPath = 'Operator_Matrices_4\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
     else:
-        mPath = 'Operator_Matrices_3/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+        mPath = 'Operator_Matrices_4/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
 
 
     # Obtaining the potential
