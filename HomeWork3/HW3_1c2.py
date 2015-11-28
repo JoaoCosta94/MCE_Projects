@@ -84,8 +84,11 @@ def calculateState(o, nmIndexes, weights):
     :return:                returns the square of the module of the eigen state
     """
     state = 0. + 1j*sp.zeros(X.shape)
+    print weights.shape
     for i in range(nm):
-       state += weights[i, o] * eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
+        s = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
+        print s.shape
+        state += weights[i, o] * s
     state = abs(state)**2
     return state
 

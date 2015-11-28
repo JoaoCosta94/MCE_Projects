@@ -6,9 +6,9 @@ import time
 import pylab as pl
 import platform
 
-def potV(X, Y, x0, y0, xyF, a, b, V0):
+def potV(X, Y, x0, y0, R, xyF, a, b, V0):
     Z = sp.zeros(X.shape)
-    Z = V0 * (((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0) * 1.0 *(X > 0.5 *xyF + x0))
+    Z = V0 * ((((X - 0.5 * xyF - x0) / a)**2 + ((Y - 0.5 * xyF - y0) / b)**2) < 1.0)
     return Z
 
 def eigenValues(n, m, xyF):
@@ -74,7 +74,7 @@ def H(X, Y, xyF, xyS, nm, nmIndexes, V):
 
     return hMatrix
 
-def calculateState(o, nm, nmIndexes, weights):
+def calculateState(nm, nmIndexes, weights):
     """
     This functions calculates the o'th bound state
     :param o:               order of the bound state
@@ -84,9 +84,26 @@ def calculateState(o, nm, nmIndexes, weights):
     """
     state = 0. + 1j*sp.zeros(X.shape)
     for i in range(nm):
-       state += weights[i, o] * eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
+        s = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyMax)
+        state += weights[i, 0] * s
     state = abs(state)**2
     return state
+
+def state_Projection(s1,s2, xyS):
+
+    return sum(s1 * s2) * xyS**2
+
+def s0_Decomp_Coefs(phi0, nm, nmIndexes, xyF, xyS):
+
+    s0_new = []
+    for i in range(nm):
+        eS = eigenState(X, Y, nmIndexes[i][0], nmIndexes[i][1], xyF)
+        s0_new.append(state_Projection(eS, phi0, xyS))
+
+    return sp.array(s0_new)
+
+def temporal_evolution(phi0, H, t):
+    return phi0 * sp.exp(H * t)
 
 
 if __name__ == '__main__':
@@ -103,21 +120,26 @@ if __name__ == '__main__':
     spacing = xySpace[1] - xySpace[0]
 
     # Defining problem conditions
-    # Don't change these or matrices will have to be calculated again! (It works but you'll have to wait)
     V0 = -100.0
-    # l = sp.arange(-1.0, 1.5, 0.5)
-    # xyIndexes = []
-    # for i in range(len(l)):
-    #     for j in range(len(l)):
-    #         xyIndexes.append((l[i], l[j]))
-    xyIndexes = [(0.0, 0.0)]
-
-    deltaArray = sp.arange(0.0, 1.1, 0.1)
-    # deltaArray = sp.array([0.5])
+    R = 0.1
+    delta = 1.0
+    a = (1.0 + delta)
     b = 1.0
+    x0 = 0.0
+    y0 = 0.0
+    ellipseFocusX = sp. sqrt((a**2)/4 + (b**2)/4)
+    phi0 = sp.exp(-((X - 0.5*xyMax - ellipseFocusX)**2 + (Y - 0.5*xyMax)**2)/(2.*R**2)) / (2.*sp.pi*R**2)
+
+    if (platform.system() == 'Windows'):
+        mPath = 'Operator_Matrices_3\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+    else:
+        mPath = 'Operator_Matrices_3/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+
+
+    # Obtaining the potential
+    V = potV(X, Y, x0, y0, R, xyMax, a, b, V0)
 
     # Defining state functions max indexes
-    # Don't change this please!!!
     N = 15
     M = 15
     # Calculating the indexes of the state functions that will be used
@@ -127,81 +149,31 @@ if __name__ == '__main__':
         for m in range(1, M+1):
             nmIndexes.append((n,m))
 
-    # Calculations begin here
-    e0Array = []
-    e1Array = []
-    e2Array = []
-    e3Array = []
-    e4Array = []
-    for pair in xyIndexes:
-        x0 = pair[0]
-        y0 = pair[1]
-        for delta in deltaArray:
-            a = (1.0 + delta)
+    try:
+        M = sp.load(mPath)
+        print 'Matrix will be loaded'
+    except:
+        start = time.time()
+        print 'Creating operator matrix. Sit back, this may take a while :)'
+        M = H(X, Y, xyMax, spacing, nm, nmIndexes, V)
+        sp.save(mPath, M)
+        print 'Matrix ready'
+        print 'Took ' + str(time.time() - start) + ' seconds!'
 
-            # Defining the potential
-            V = potV(X, Y, x0, y0, xyMax, a, b, V0)
+    values, weights = linalg.eig(M)
+    indexes = values.argsort()
+    values = values[indexes]
+    weights = weights[:, indexes]
 
-            # Creating or loading operator matrix
-            if (platform.system() == 'Windows'):
-                mPath = 'Operator_Matrices_2\\delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
-            else:
-                mPath = 'Operator_Matrices_2/delta_' + str(delta) + 'V0_' + str(V0) + 'x0_' + str(x0) + 'y0_' + str(y0) +'.npy'
+    # Decomposition of phi0 in the base
+    coefs = s0_Decomp_Coefs(phi0, nm, nmIndexes, xyMax, spacing)
+    u = linalg.solve(weights, coefs)
+    t = 0.1
+    ut = temporal_evolution(u, weights, t)
+    ut *= weights
 
-            try:
-                M = sp.load(mPath)
-                print 'Matrix will be loaded'
-            except:
-                start = time.time()
-                print 'Creating operator matrix. Sit back, this may take a while :)'
-                M = H(X, Y, xyMax, spacing, nm, nmIndexes, V)
-                sp.save(mPath, M)
-                print 'Matrix ready'
-                print 'Took ' + str(time.time() - start) + ' seconds!'
-
-            values = linalg.eig(M)[0]
-            values = values[values.argsort()]
-            e0Array.append(values[0].real)
-            e1Array.append(values[1].real)
-            e2Array.append(values[2].real)
-            e3Array.append(values[3].real)
-            e4Array.append(values[4].real)
-
-    e0Array = sp.array(e0Array)
-    e1Array = sp.array(e1Array)
-    e2Array = sp.array(e2Array)
-    e3Array = sp.array(e3Array)
-    e4Array = sp.array(e4Array)
-
-    pl.figure('Energies')
-    pl.plot(deltaArray, e0Array, label = '1st Energy', ls = '', marker = 'o')
-    pl.plot(deltaArray, e1Array, label = '2nd Energy', ls = '', marker = 'o')
-    pl.plot(deltaArray, e2Array, label = '3rd Energy', ls = '', marker = 'o')
-    pl.plot(deltaArray, e3Array, label = '4th Energy', ls = '', marker = 'o')
-    pl.plot(deltaArray, e4Array, label = '5th Energy', ls = '', marker = 'o')
-    pl.xlabel(r'$\delta$')
-    pl.ylabel(r'E($\delta$)')
-    pl.legend()
-
-    # values, weights = linalg.eig(M)
-    # indexes = values.argsort()
-    # values = values[indexes]
-    # weights = weights[:, indexes]
-    #
-    # # Calculating and plotting first state
-    # s1 = calculateState(0, nm, nmIndexes, weights)
-    # levels1 = sp.linspace(s1.min(), s1.max(), 1000)
-    # pl.figure('First State')
-    # pl.contourf(X, Y, s1, levels = levels1)
-    # pl.colorbar()
-    # pl.contour(X, Y, V)
-    #
-    # # Calculating and plotting second state
-    # s2 = calculateState(1, nm, nmIndexes, weights)
-    # levels2 = sp.linspace(s2.min(), s2.max(), 1000)
-    # pl.figure('Second State')
-    # pl.contourf(X, Y, s2, levels = levels2)
-    # pl.colorbar()
-    # pl.contour(X, Y, V)
-
+    pl.figure(1)
+    pl.contourf(X, Y , ut)
+    pl.colorbar()
+    pl.contour(X, Y , V)
     pl.show()
