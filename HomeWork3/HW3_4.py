@@ -202,7 +202,7 @@ if __name__ == '__main__':
     coefs = s0_Decomp_Coefs(phi0, nm, nmIndexes, xyMax, spacing)
     u0 = linalg.solve(weights, coefs)
     # temporal evolution u(t) = u0*exp(-iEt)
-    tArray  = sp.array([0.0, 0.05, 0.10, 0.15, 0.20])
+    tArray  = sp.array([0.0, 0.05, 0.10, 0.15, 0.20, 2.0])
     for t in tArray:
         # Obtaining u(t) in the base of perturbed H
         ut = temporal_evolution(u0, values, t)
