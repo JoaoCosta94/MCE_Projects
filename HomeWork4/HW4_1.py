@@ -1,10 +1,10 @@
 __author__ = 'JoaoCosta'
 
 import scipy as sp
-from scipy import linalg
+from scipy.sparse import linalg
 from scipy import sparse
-from scipy.sparse import lil_matrix as lil_wayne
 import pylab as pl
+from time import time
 
 def potential_well(X, Y, x0, y0, a, b, v0):
     V = sp.zeros(X.shape)
@@ -111,6 +111,10 @@ def laplacianMatrix(shape):
 
     return L
 
+def lap(shape, spacing):
+    n = shape[0]*shape[1]
+    return ( -4.*sp.eye(n, n, 0) + sp.eye(n, n, 1) + sp.eye(n, n, -1) + sp.eye(n, n, shape[1]) + sp.eye(n, n, -shape[1]) )/spacing**2
+
 if __name__ == '__main__':
 
     # Problem definition
@@ -123,20 +127,26 @@ if __name__ == '__main__':
 
     xyMin = -3.0
     xyMax = 3.0
-    dxy = 0.1
+    dxy = 0.01
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
-    L = laplacianMatrix(X.shape)
-    V = sp.diag((potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, 1.0, 200)).ravel())
-    H = -L + V
+    V = potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, 1.0, 200)
+    L = lap(X.shape, dxy)
 
-    energies, states = linalg.eig(H)
-    indexes = energies.argsort()
-    energies = energies(indexes)
-    states = states[:, indexes]
+    H = -L + sparse.diags(V.ravel(),0, format = 'dia')
 
-    psi1 = states[0]
+    start = time()
+    energies, states = linalg.eigsh(H, which = 'SM', k=3)
+    print time()-start
+
+    # Getting first state
+    psi1 = states[:, 0]
+    psi1.shape = X.shape
+
+    levels = sp.linspace(psi1.min(), psi1.max(), 1000)
 
     pl.figure()
-    pl.contourf(X,Y, psi1)
+    pl.contourf(X, Y, psi1.real, levels = levels)
+    pl.colorbar()
+    pl.contour(X, Y, V)
     pl.show()
