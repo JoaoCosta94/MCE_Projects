@@ -7,12 +7,31 @@ import pylab as pl
 from time import time
 
 def potential_well(X, Y, x0, y0, a, b, v0):
+    """
+    This function generates the potential well
+    :param X:
+    :param Y:
+    :param x0:
+    :param y0:
+    :param a:
+    :param b:
+    :param v0:
+    :return:
+    """
     V = sp.zeros(X.shape)
     indexes = sp.where(((X-x0)/a)**2 + ((Y-y0)/b)**2 > 1.0)
     V[indexes] = v0
     return V
 
 def absorving_borders_box(X, Y, xyL, vM):
+    """
+    This function gerenrates the absorving potential on the borders
+    :param X:
+    :param Y:
+    :param xyL:
+    :param vM:
+    :return:
+    """
     x = abs(X)
     y = abs(Y)
     B = sp.zeros(X.shape, dtype = complex)
@@ -22,131 +41,66 @@ def absorving_borders_box(X, Y, xyL, vM):
     B[id] += (y[id] - (y[id]-xyL))**2
     return 1j*vM*B
 
-
-def ravelIdx(idx, shape):
-    idx = [shape[i] + idx[i] if idx[i] < 0 else idx[i] for i in range(len(idx))]
-    I = 0
-    dim = 1
-    for i in range(-1, -len(idx) - 1, -1):
-        I += idx[i]*dim
-        dim *= shape[i]
-    return I
-
-def laplacianMatrix(shape):
-    L = sp.zeros((shape[0]*shape[1], shape[0]*shape[1]))
-
-    for i in range(1, shape[0] - 1):
-        for j in range(1, shape[1] - 1):
-            L[ravelIdx((i, j), shape), ravelIdx((i, j), shape)] -= 4
-            L[ravelIdx((i, j), shape), ravelIdx((i, j - 1), shape)] += 1
-            L[ravelIdx((i, j), shape), ravelIdx((i, j + 1), shape)] += 1
-            L[ravelIdx((i, j), shape), ravelIdx((i - 1, j), shape)] += 1
-            L[ravelIdx((i, j), shape), ravelIdx((i + 1, j), shape)] += 1
-
-    for i in range(1, shape[0] - 1):
-        L[ravelIdx((i, 0), shape), ravelIdx((i - 1, 0), shape)] += 1
-        L[ravelIdx((i, 0), shape), ravelIdx((i + 1, 0), shape)] += 1
-
-        L[ravelIdx((i, 0), shape), ravelIdx((i, 1), shape)] -= 5
-        L[ravelIdx((i, 0), shape), ravelIdx((i, 2), shape)] += 4
-        L[ravelIdx((i, 0), shape), ravelIdx((i, 3), shape)] -= 1
-
-
-        L[ravelIdx((i, -1), shape), ravelIdx((i - 1, -1), shape)] += 1
-        L[ravelIdx((i, -1), shape), ravelIdx((i + 1, -1), shape)] += 1
-
-        L[ravelIdx((i, -1), shape), ravelIdx((i, -2), shape)] -= 5
-        L[ravelIdx((i, -1), shape), ravelIdx((i, -3), shape)] += 4
-        L[ravelIdx((i, -1), shape), ravelIdx((i, -4), shape)] -= 1
-
-
-    for j in range(1, shape[1] - 1):
-        L[ravelIdx((0, j), shape), ravelIdx((0, j - 1), shape)] += 1
-        L[ravelIdx((0, j), shape), ravelIdx((0, j + 1), shape)] += 1
-
-        L[ravelIdx((0, j), shape), ravelIdx((1, j), shape)] -= 5
-        L[ravelIdx((0, j), shape), ravelIdx((2, j), shape)] += 4
-        L[ravelIdx((0, j), shape), ravelIdx((3, j), shape)] -= 1
-
-
-        L[ravelIdx((-1, j), shape), ravelIdx((-1, j - 1), shape)] += 1
-        L[ravelIdx((-1, j), shape), ravelIdx((-1, j + 1), shape)] += 1
-
-        L[ravelIdx((-1, j), shape), ravelIdx((-2, j), shape)] -= 5
-        L[ravelIdx((-1, j), shape), ravelIdx((-3, j), shape)] += 4
-        L[ravelIdx((-1, j), shape), ravelIdx((-4, j), shape)] -= 1
-
-
-    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  0), shape)] += 4
-    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  1), shape)] -= 5
-    L[ravelIdx(( 0,  0), shape), ravelIdx(( 1,  0), shape)] -= 5
-    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  2), shape)] += 4
-    L[ravelIdx(( 0,  0), shape), ravelIdx(( 2,  0), shape)] += 4
-    L[ravelIdx(( 0,  0), shape), ravelIdx(( 0,  3), shape)] -= 1
-    L[ravelIdx(( 0,  0), shape), ravelIdx(( 3,  0), shape)] -= 1
-
-    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -1), shape)] += 4
-    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -2), shape)] -= 5
-    L[ravelIdx(( 0, -1), shape), ravelIdx(( 1, -1), shape)] -= 5
-    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -3), shape)] += 4
-    L[ravelIdx(( 0, -1), shape), ravelIdx(( 2, -1), shape)] += 4
-    L[ravelIdx(( 0, -1), shape), ravelIdx(( 0, -4), shape)] -= 1
-    L[ravelIdx(( 0, -1), shape), ravelIdx(( 3, -1), shape)] -= 1
-
-    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  0), shape)] += 4
-    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  1), shape)] -= 5
-    L[ravelIdx((-1,  0), shape), ravelIdx((-2,  0), shape)] -= 5
-    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  2), shape)] += 4
-    L[ravelIdx((-1,  0), shape), ravelIdx((-3,  0), shape)] += 4
-    L[ravelIdx((-1,  0), shape), ravelIdx((-1,  3), shape)] -= 1
-    L[ravelIdx((-1,  0), shape), ravelIdx((-4,  0), shape)] -= 1
-
-    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -1), shape)] += 4
-    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -2), shape)] -= 5
-    L[ravelIdx((-1, -1), shape), ravelIdx((-2, -1), shape)] -= 5
-    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -3), shape)] += 4
-    L[ravelIdx((-1, -1), shape), ravelIdx((-3, -1), shape)] += 4
-    L[ravelIdx((-1, -1), shape), ravelIdx((-1, -4), shape)] -= 1
-    L[ravelIdx((-1, -1), shape), ravelIdx((-4, -1), shape)] -= 1
-
-    return L
-
 def lap(shape, spacing):
+    """
+    This function generates the laplacian operator
+    :param shape:
+    :param spacing:
+    :return:
+    """
     n = shape[0]*shape[1]
-    return ( -4.*sp.eye(n, n, 0) + sp.eye(n, n, 1) + sp.eye(n, n, -1) + sp.eye(n, n, shape[1]) + sp.eye(n, n, -shape[1]) )/spacing**2
+    return ( -4.*sparse.eye(n, n, 0) + sparse.eye(n, n, 1) + sparse.eye(n, n, -1) + sparse.eye(n, n, shape[1]) + sparse.eye(n, n, -shape[1]) )/spacing**2
 
 if __name__ == '__main__':
 
     # Problem definition
     v0 = 100.0
-    delta = 0.5
-    a = 1.0 + delta
+    delta = sp.linspace(0.0, 1.0, 10)
     b = 1.0
     x0 = 0.0
     y0 = 0.0
 
-    xyMin = -3.0
-    xyMax = 3.0
-    dxy = 0.01
+    # Box
+    xyMin = -2.5
+    xyMax = 2.5
+    xyL = 1.0
+    dxy = 0.02
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
-    V = potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, 1.0, 200)
-    L = lap(X.shape, dxy)
+    e1List = []
+    e2List = []
+    e3List = []
 
-    H = -L + sparse.diags(V.ravel(),0, format = 'dia')
+    s1List = []
+    s2List = []
+    s3List = []
 
-    start = time()
-    energies, states = linalg.eigsh(H, which = 'SM', k=3)
-    print time()-start
+    for d in delta:
+        print d
 
-    # Getting first state
-    psi1 = states[:, 0]
-    psi1.shape = X.shape
+        a = 1.0 + d
+        V = potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, xyL, 200)
+        L = lap(X.shape, dxy)
 
-    levels = sp.linspace(psi1.min(), psi1.max(), 1000)
+        H = -L + sparse.diags(V.ravel(),0, format = 'dia')
 
-    pl.figure()
-    pl.contourf(X, Y, psi1.real, levels = levels)
-    pl.colorbar()
-    pl.contour(X, Y, V)
+        energies, states = linalg.eigsh(H, which = 'SM', k=3)
+
+        e1List.append(energies[0])
+        e2List.append(energies[1])
+        e3List.append(energies[2])
+        sp.save('E1_e_d_'+str(d)+'.npy', energies)
+
+        s1List.append(states[0])
+        s2List.append(states[1])
+        s3List.append(states[2])
+        sp.save('E1_s1_d_'+str(d)+'.npy', states[0])
+        sp.save('E1_s2_d_'+str(d)+'.npy', states[1])
+        sp.save('E1_s3_d_'+str(d)+'.npy', states[2])
+
+    pl.figure('energies')
+    pl.scatter(delta, e1List, label = 'first state energy')
+    pl.scatter(delta, e2List, label = 'second state energy')
+    pl.scatter(delta, e3List, label = 'third state energy')
+    pl.legend()
     pl.show()
