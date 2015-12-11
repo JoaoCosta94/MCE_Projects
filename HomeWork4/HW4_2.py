@@ -68,9 +68,9 @@ def split_step_fourier(state, V, spacing, dt):
 
     stateNew = sp.exp(-1j * dt * V) * state
     stateNew = pl.fft2(stateNew)
-    stateNew = pl.ifft2(pl.exp(-1j * (Wx**2 + Wy**2)*dt) * stateNew)
+    stateNew = pl.exp(-1j * dt * (Wx**2 + Wy**2)) * stateNew
 
-    return stateNew
+    return pl.ifft2(stateNew)
 
 
 if __name__ == '__main__':
@@ -99,18 +99,21 @@ if __name__ == '__main__':
     psi = normalize(psi, dxy)
 
     # Time parameters definition
-    tMax = 100.0
-    dt = 0.05
+    tMax = .01
+    dt = .001
     time = sp.arange(dt, tMax+dt, dt)
 
     # Potential
     V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyL, 200)
 
     prob = psi.real**2 + psi.imag**2
-    pl.figure('Initial State')
+
+    pl.ion()
+    # pl.figure('Initial State')
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     pl.colorbar()
     pl.contour(X, Y, V.real)
+    pl.draw()
 
     for t in time:
         print t
@@ -118,9 +121,9 @@ if __name__ == '__main__':
         psi = split_step_fourier(psi, V, dxy, dt)
         prob = psi.real**2 + psi.imag**2
 
-        pl.figure('t = ' + str(t))
+        pl.clf()
+        # pl.figure('t = ' + str(t))
         pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
         pl.colorbar()
         pl.contour(X, Y, V.real)
-
-    pl.show()
+        pl.draw()
