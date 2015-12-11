@@ -50,11 +50,12 @@ def lap(shape, spacing):
     return ( -4.*sparse.eye(n, n, 0) + sparse.eye(n, n, 1) + sparse.eye(n, n, -1) + sparse.eye(n, n, shape[1]) + sparse.eye(n, n, -shape[1]) )/spacing**2
 
 def initial_state(k, theta, x0, X, Y):
+    print k
     kx = k*sp.cos(theta)
     ky = k*sp.sin(theta)
-    xi = (R + x0) / 2.0
-    delta = (R-x0) / 20.0
-    psi = sp.exp(1j*(kx + ky))*sp.exp(-((X-xi)**2 + (Y-y0)**2) / delta**2)
+    xi = 0.0 #(R + x0) / 2.0
+    delta = 0.1 #(R-x0) / 20.0
+    psi = sp.exp(1j*(kx*X + ky*Y))*sp.exp(-((X-xi)**2 + (Y-y0)**2) / delta**2)
     return psi
 
 def normalize(state, spacing):
@@ -76,11 +77,11 @@ def split_step_fourier(state, V, spacing, dt):
 if __name__ == '__main__':
 
     # Potential well parameters definition
-    v0 = 100.0
+    v0 = 1000.0
     b = 1.0
     a = 1.0
     R = 1.0
-    x0 = - R / 2.0
+    x0 = 0.0 #- R / 2.0
     y0 = 0.0
 
     # Box definition
@@ -99,12 +100,12 @@ if __name__ == '__main__':
     psi = normalize(psi, dxy)
 
     # Time parameters definition
-    tMax = .01
+    tMax = 10.0
     dt = .001
     time = sp.arange(dt, tMax+dt, dt)
 
     # Potential
-    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyL, 200)
+    V = potential_well(X, Y, x0, y0, R, v0) # + absorving_borders_box(X, Y, xyL, 200)
 
     prob = psi.real**2 + psi.imag**2
 
@@ -116,7 +117,6 @@ if __name__ == '__main__':
     pl.draw()
 
     for t in time:
-        print t
 
         psi = split_step_fourier(psi, V, dxy, dt)
         prob = psi.real**2 + psi.imag**2
