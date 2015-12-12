@@ -104,30 +104,14 @@ def prob_ratio(prob, id):
     """
     return sum(prob[id]/sum(prob))
 
-def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
-
-    # Grid definition
-    X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
-    # Potential definition
-    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
-
-    # Initial state definition
-    psi = initial_state(k, theta, x0, y0, X, Y)
-    psi = normalize(psi, dxy)
-
-    # Probability density initial state
+def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
+    """
+    This function performs the simulation using split step Fourier  method
+    """
+    # Initial probability density
     prob = psi.real**2 + psi.imag**2
-    # id = well_points(X ,Y, x0, y0, R)
-    # probRatio = [prob_ratio(prob, id)]
+    probRatio = [prob_ratio(prob, id)]
 
-    # Time parameters definition
-    tMax = 10.0
-    dt = .001
-    time = sp.arange(dt, tMax+dt, dt)
-
-    Wx, Wy = w_frequencies(psi, dxy)
-
-    # Simulation
     pl.ion()
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     pl.colorbar()
@@ -135,64 +119,72 @@ def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SS
     pl.draw()
 
     for t in time:
-        print 'iterou'
         psi = split_step_fourier(psi, V, Wx, Wy, dt)
 
         prob = psi.real**2 + psi.imag**2
-        # probRatio.append(prob_ratio(prob, id))
+        probRatio.append(prob_ratio(prob, id))
 
         pl.clf()
         pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
         pl.colorbar()
         pl.contour(X, Y, V.real)
+        pl.draw()
 
-    # if method == 'SSFM':
-    #     print 'SSFM'
-    #     # Simulation ran using split step Fourier method
-    #     # Definition of Fourier space (FFT space) frequencies
-    #     Wx, Wy = w_frequencies(psi, dxy)
-    #
-    #     # Simulation
-    #     pl.ion()
-    #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    #     pl.colorbar()
-    #     pl.contour(X, Y, V.real)
-    #     pl.draw()
-    #
-    #     for t in time:
-    #         psi = split_step_fourier(psi, V, Wx, Wy, dt)
-    #
-    #         prob = psi.real**2 + psi.imag**2
-    #         # probRatio.append(prob_ratio(prob, id))
-    #
-    #         pl.clf()
-    #         pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    #         pl.colorbar()
-    #         pl.contour(X, Y, V.real)
-    # else:
-    #     print 'Crank-Nicolson'
-    #     # Simulation ran using Crank-Nicolson method
-    #     # Definition of the Hamiltonian operator matrix
-    #     H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
-    #
-    #     # Simulation
-    #     pl.ion()
-    #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    #     pl.colorbar()
-    #     pl.contour(X, Y, V.real)
-    #     pl.draw()
-    #
-    #     for t in time:
-    #         psi = theta_family_step(H, psi, 0.5, dt, dxy)
-    #
-    #         prob = psi.real**2 + psi.imag**2
-    #         # probRatio.append(prob_ratio(prob, id))
-    #
-    #         pl.clf()
-    #         # pl.figure('t = ' + str(t))
-    #         pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    #         pl.colorbar()
-    #         pl.contour(X, Y, V.real)
+def simulate_cn(X, Y, psi, V, H, time, dt, id):
+    """
+    This function performs the simulation using Crank-Nicolson method
+    """
+    # Initial probability density
+    prob = psi.real**2 + psi.imag**2
+    probRatio = [prob_ratio(prob, id)]
+
+    pl.ion()
+    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    pl.colorbar()
+    pl.contour(X, Y, V.real)
+    pl.draw()
+
+    for t in time:
+        psi = theta_family_step(H, psi, 0.5, dt, dxy)
+
+        prob = psi.real**2 + psi.imag**2
+        probRatio.append(prob_ratio(prob, id))
+
+        pl.clf()
+        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+        pl.colorbar()
+        pl.contour(X, Y, V.real)
+        pl.draw()
+
+def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
+
+    # Grid definition
+    X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
+
+    # Potential definition
+    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    id = well_points(X ,Y, x0, y0, R)
+
+    # Initial state definition
+    psi = initial_state(k, theta, x0, y0, X, Y)
+    psi = normalize(psi, dxy)
+    # Time parameters definition
+    tMax = 10.0
+    dt = .001
+    time = sp.arange(dt, tMax+dt, dt)
+
+    if method == 'SSFM':
+        # Simulation ran using split step Fourier method
+        # Definition of Fourier space (FFT space) frequencies
+        Wx, Wy = w_frequencies(psi, dxy)
+        simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
+    else:
+        # Simulation ran using Crank-Nicolson method
+        # Definition of the Hamiltonian operator matrix
+        H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
+
+        # Simulation
+        simulate_cn(X, Y, psi, V, H, time, dt, id)
 
 if __name__ == '__main__':
 
@@ -213,4 +205,4 @@ if __name__ == '__main__':
     k = 30.0
     theta = 0.0
 
-    simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, 'saasdf')
+    simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta)
