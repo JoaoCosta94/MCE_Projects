@@ -104,9 +104,6 @@ def prob_ratio(prob, id):
     """
     return sum(prob[id]/sum(prob))
 
-def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
-    return 0
-
 if __name__ == '__main__':
 
     # Potential well parameters definition
@@ -151,10 +148,10 @@ if __name__ == '__main__':
     pl.draw()
 
     for t in time:
-        # Split step Fourier method
-        psi = split_step_fourier(psi, V, Wx, Wy, dt)
-        # # Crank-Nicolson method
-        # psi = theta_family_step(H, psi, 0.5, dt, dxy)
+        # # Split step Fourier method
+        # psi = split_step_fourier(psi, V, Wx, Wy, dt)
+        # Crank-Nicolson method
+        psi = theta_family_step(H, psi, 0.5, dt, dxy)
 
         prob = psi.real**2 + psi.imag**2
 
