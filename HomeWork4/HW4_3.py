@@ -48,14 +48,18 @@ def normalize(state, spacing):
     N = sp.sqrt(sum(abs(state)**2) * spacing**2)
     return state / N
 
-def split_step_fourier(state, V, spacing, dt):
+def w_frequencies(state, spacing):
     """
-    This function evolves the state by a time step using the split step Fourier method
+    This function calculates the FFT frequencies
     """
     nX = state.shape[0]
     nY = state.shape[1]
-    Wx , Wy = sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
+    return sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
 
+def split_step_fourier(state, V, Wx, Wy, dt):
+    """
+    This function evolves the state by a time step using the split step Fourier method
+    """
     stateNew = sp.exp(-1j * dt * V) * state
     stateNew = pl.fft2(stateNew)
     stateNew = pl.exp(-1j * dt * (Wx**2 + Wy**2)) * stateNew
@@ -85,30 +89,102 @@ def theta_family_step(F, u, theta, dt, spacing):
     uN = sp.reshape(uN, u.shape)
     return normalize(uN, spacing)
 
+def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
+    """
+    This function performs the simulation using split step Fourier  method
+    """
+    # Initial probability density
+    prob = psi.real**2 + psi.imag**2
+
+    pl.ion()
+    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    pl.colorbar()
+    pl.contour(X, Y, V.real)
+    pl.draw()
+
+    for t in time:
+        psi = split_step_fourier(psi, V, Wx, Wy, dt)
+
+        prob = psi.real**2 + psi.imag**2
+
+        pl.clf()
+        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+        pl.colorbar()
+        pl.contour(X, Y, V.real)
+        pl.draw()
+
+def simulate_cn(X, Y, psi, V, H, time, dt, id):
+    """
+    This function performs the simulation using Crank-Nicolson method
+    """
+    # Initial probability density
+    prob = psi.real**2 + psi.imag**2
+
+    pl.ion()
+    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    pl.colorbar()
+    pl.contour(X, Y, V.real)
+    pl.draw()
+
+    for t in time:
+        psi = theta_family_step(H, psi, 0.5, dt, dxy)
+
+        prob = psi.real**2 + psi.imag**2
+
+        pl.clf()
+        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+        pl.colorbar()
+        pl.contour(X, Y, V.real)
+        pl.draw()
+
+def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
+
+    x1 = x0 + 2.0*R + d
+
+    # Grid definition
+    X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
+
+    # Potential definition
+    V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+
+    # Initial state definition
+    psi = initial_state(x0, y0, X, Y)
+    psi = normalize(psi, dxy)
+
+    # Time parameters definition
+    tMax = 10.0
+    dt = .001
+    time = sp.arange(dt, tMax+dt, dt)
+
+    if method == 'SSFM':
+        # Simulation ran using split step Fourier method
+        # Definition of Fourier space (FFT space) frequencies
+        Wx, Wy = w_frequencies(psi, dxy)
+        simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
+    else:
+        # Simulation ran using Crank-Nicolson method
+        # Definition of the Hamiltonian operator matrix
+        H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
+
+        # Simulation
+        simulate_cn(X, Y, psi, V, H, time, dt, id)
+
 if __name__ == '__main__':
 
     # Potential well parameters definition
     v0 = 1000.0
     vM = 200.0
-    b = 1.0
-    a = 1.0
     R = 0.5
     x0 = -0.5
     y0 = 0.0
     d = 0.25
-    x1 = x0 + 2.0*R + d
 
     # Box definition
     xyMin = -3.0
     xyMax = 3.0
     xyT = 1.0
     dxy = 0.03
-    X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
-    # Initial state definition
-    psi = initial_state(x0, y0, X, Y)
-    psi = normalize(psi, dxy)
+    simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM)
 
-    # Potential (for SSFM and plotting)
-    V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
 
