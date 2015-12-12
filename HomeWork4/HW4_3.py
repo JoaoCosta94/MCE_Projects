@@ -71,6 +71,10 @@ def hamiltonian_operator(X, Y, spacing, xyT, xyMax, x0, y0, R, v0, vM):
     return -L + sparse.diags(V.ravel(),0, format = 'dia')
 
 def theta_family_step(F, u, theta, dt, spacing):
+    """
+    This function evolves the state by a time step using the theta family method
+    Crank-Nicolson is being used
+    """
     n = u.shape[0] * u.shape[1]
     uV = u.ravel()
     I = sparse.eye(n)
@@ -101,8 +105,10 @@ if __name__ == '__main__':
     dxy = 0.03
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
+    # Initial state definition
+    psi = initial_state(x0, y0, X, Y)
+    psi = normalize(psi, dxy)
+
+    # Potential (for SSFM and plotting)
     V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
-    pl.figure()
-    pl.contourf(X, Y, abs(V), levels = sp.linspace(abs(V).min(), abs(V).max(), 1000))
-    pl.colorbar()
-    pl.show()
+

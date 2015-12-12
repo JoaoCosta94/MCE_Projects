@@ -51,6 +51,14 @@ def normalize(state, spacing):
     N = sp.sqrt(sum(abs(state)**2) * spacing**2)
     return state / N
 
+def w_frequencies(state, spacing):
+    """
+    This function calculates the FFT frequencies
+    """
+    nX = state.shape[0]
+    nY = state.shape[1]
+    return sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
+
 def split_step_fourier(state, V, spacing, dt):
     """
     This function evolves the state by a time step using the split step Fourier method
@@ -70,10 +78,14 @@ def hamiltonian_operator(X, Y, spacing, xyT, xyMax, x0, y0, R, v0, vM):
     This function generates the Hamiltonian Operator matrix with given potential and absorbing borders box
     """
     L = lap(X.shape, spacing)
-    V = potential_well(X, Y, x0, y0, R, v0) #+ absorving_borders_box(X, Y, xyT, xyMax, vM)
+    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
     return -L + sparse.diags(V.ravel(), 0, format = 'dia')
 
 def theta_family_step(F, u, theta, dt, spacing):
+    """
+    This function evolves the state by a time step using the theta family method
+    Crank-Nicolson is being used
+    """
     n = u.shape[0] * u.shape[1]
     uV = u.ravel()
     I = sparse.eye(n)
@@ -92,7 +104,7 @@ if __name__ == '__main__':
     b = 1.0
     a = 1.0
     R = 1.0
-    x0 = 0.0 #- R / 2.0
+    x0 = 0.0
     y0 = 0.0
 
     # Box definition
@@ -109,18 +121,19 @@ if __name__ == '__main__':
     # Normalization
     psi = normalize(psi, dxy)
 
-    # Time parameters definition
-    tMax = 10.0
-    dt = .001
-    time = sp.arange(dt, tMax+dt, dt)
-
-
     # Potential (for SSFM and plotting)
-    V = potential_well(X, Y, x0, y0, R, v0) #+ absorving_borders_box(X, Y, xyT, xyMax, vM)
+    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    Wx, Wy = w_frequencies(psi, dxy)
+    # Hamiltonian (for Crank-Nicolson)
     H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
 
     # Probability density first state
     prob = psi.real**2 + psi.imag**2
+
+    # Time parameters definition
+    tMax = 10.0
+    dt = .001
+    time = sp.arange(dt, tMax+dt, dt)
 
     pl.ion()
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
@@ -129,10 +142,10 @@ if __name__ == '__main__':
     pl.draw()
 
     for t in time:
-        # # Split step Fourier method
-        # psi = split_step_fourier(psi, V, dxy, dt)
-        # Crank-Nicolson method
-        psi = theta_family_step(H, psi, 0.5, dt, dxy)
+        # Split step Fourier method
+        psi = split_step_fourier(psi, V, dxy, dt)
+        # # Crank-Nicolson method
+        # psi = theta_family_step(H, psi, 0.5, dt, dxy)
 
         prob = psi.real**2 + psi.imag**2
 
