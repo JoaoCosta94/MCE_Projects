@@ -104,6 +104,58 @@ def prob_ratio(prob, id):
     """
     return sum(prob[id]/sum(prob))
 
+def simulate_ssfm(psi, V, Wx, Wy, time, dt, id):
+    """
+    This function performs the simulation using split step Fourier  method
+    """
+    # Initial probability density
+    prob = psi.real**2 + psi.imag**2
+    probRatio = [prob_ratio(prob, id)]
+
+    pl.ion()
+    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    pl.colorbar()
+    pl.contour(X, Y, V.real)
+    pl.draw()
+
+    for t in time:
+        psi = split_step_fourier(psi, V, Wx, Wy, dt)
+
+        prob = psi.real**2 + psi.imag**2
+        probRatio.append(prob_ratio(prob, id))
+
+        pl.clf()
+        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+        pl.colorbar()
+        pl.contour(X, Y, V.real)
+        pl.draw()
+
+def simulate_cn(psi, V, H, time, dt, id):
+    """
+    This function performs the simulation using Crank-Nicolson method
+    """
+    # Initial probability density
+    prob = psi.real**2 + psi.imag**2
+    probRatio = [prob_ratio(prob, id)]
+
+    pl.ion()
+    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    pl.colorbar()
+    pl.contour(X, Y, V.real)
+    pl.draw()
+
+    for t in time:
+        psi = theta_family_step(H, psi, 0.5, dt, dxy)
+
+        prob = psi.real**2 + psi.imag**2
+        probRatio.append(prob_ratio(prob, id))
+
+        pl.clf()
+        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+        pl.colorbar()
+        pl.contour(X, Y, V.real)
+        pl.draw()
+
 if __name__ == '__main__':
 
     # Potential well parameters definition
@@ -124,40 +176,23 @@ if __name__ == '__main__':
     k = 30.0
     theta = 0.0
     psi = initial_state(k, theta, x0, y0, X, Y)
-    # Normalization
     psi = normalize(psi, dxy)
 
-    # Potential (for SSFM and plotting)
+    # Potential
     V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
-    Wx, Wy = w_frequencies(psi, dxy)
-    # Hamiltonian (for Crank-Nicolson)
-    H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
-
-    # Probability density first state
-    prob = psi.real**2 + psi.imag**2
+    id = well_points(X, Y, x0, y0, R)
 
     # Time parameters definition
     tMax = 10.0
     dt = .001
     time = sp.arange(dt, tMax+dt, dt)
 
-    pl.ion()
-    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    pl.colorbar()
-    pl.contour(X, Y, V.real)
-    pl.draw()
+    # Simulate using Split Step Fourier Method
+    # FFT frequencies
+    Wx, Wy = w_frequencies(psi, dxy)
+    simulate_ssfm(psi, V, Wx, Wy, time, dt, id)
 
-    for t in time:
-        # # Split step Fourier method
-        # psi = split_step_fourier(psi, V, Wx, Wy, dt)
-        # Crank-Nicolson method
-        psi = theta_family_step(H, psi, 0.5, dt, dxy)
-
-        prob = psi.real**2 + psi.imag**2
-
-        pl.clf()
-        # pl.figure('t = ' + str(t))
-        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-        pl.colorbar()
-        pl.contour(X, Y, V.real)
-        pl.draw()
+    # # Simulate using Crank-Nicolson Method
+    # # Hamiltonian
+    # H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
+    # simulate_cn(psi, V, H, time, dt, id)
