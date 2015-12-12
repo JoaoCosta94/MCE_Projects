@@ -92,6 +92,18 @@ def theta_family_step(F, u, theta, dt, spacing):
     uN = sp.reshape(uN, u.shape)
     return normalize(uN, spacing)
 
+def well_points(X, Y, x0, y0, R):
+    """
+    This function determines which grid points are inside the well
+    """
+    return sp.where((X-x0)**2 + (Y-y0)**2 < R**2)
+
+def prob_ratio(prob, id):
+    """
+    This function calculates the ratio of probability inside the well
+    """
+    return sum(prob[id]/sum(prob))
+
 def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
     return 0
 
