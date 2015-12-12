@@ -10,47 +10,34 @@ from time import time
 def potential_well(X, Y, x0, y0, R, v0):
     """
     This function generates the potential well
-    :param X:
-    :param Y:
-    :param x0:
-    :param y0:
-    :param R:
-    :param v0:
-    :return:
     """
     V = v0 * ((X-x0)**2 + (Y-y0)**2 > R**2)
     return V
 
-def absorving_borders_box(X, Y, xyL, vM):
+def absorving_borders_box(X, Y, xyL, xyMax, vM):
     """
-    This function gerenrates the absorving potential on the borders
-    :param X:
-    :param Y:
-    :param xyL:
-    :param vM:
-    :return:
+    This function generates the absorbing potential on the borders
     """
     x = abs(X)
     y = abs(Y)
-    B = sp.zeros(X.shape, dtype = complex)
-    id = sp.where(x > x - xyL)
-    B[id] += (x[id] - (x[id]-xyL))**2
-    id = sp.where(y > y - xyL)
-    B[id] += (y[id] - (y[id]-xyL))**2
-    return 1j*vM*B
+    B = sp.zeros(X.shape)
+    id = sp.where(abs(X) - xyL < xyMax)
+    B[id] += vM
+    id = sp.where(abs(Y) -xyL < xyMax)
+    B[id] += vM
+    return B
 
 def lap(shape, spacing):
     """
     This function generates the laplacian operator
-    :param shape:
-    :param spacing:
-    :return:
     """
     n = shape[0]*shape[1]
     return ( -4.*sparse.eye(n, n, 0) + sparse.eye(n, n, 1) + sparse.eye(n, n, -1) + sparse.eye(n, n, shape[1]) + sparse.eye(n, n, -shape[1]) )/spacing**2
 
 def initial_state(k, theta, x0, X, Y):
-    print k
+    """
+    This function generates the initial state with given parameters
+    """
     kx = k*sp.cos(theta)
     ky = k*sp.sin(theta)
     xi = 0.0 #(R + x0) / 2.0
@@ -59,10 +46,16 @@ def initial_state(k, theta, x0, X, Y):
     return psi
 
 def normalize(state, spacing):
+    """
+    This function normalizes a given state
+    """
     N = sp.sqrt(sum(abs(state)**2) * spacing**2)
     return state / N
 
 def split_step_fourier(state, V, spacing, dt):
+    """
+    This function evolves the state by a time step using the split step Fourier method
+    """
     nX = state.shape[0]
     nY = state.shape[1]
     Wx , Wy = sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
@@ -85,14 +78,14 @@ if __name__ == '__main__':
     y0 = 0.0
 
     # Box definition
-    xyMin = -2.5
-    xyMax = 2.5
+    xyMin = -3.0
+    xyMax = 3.0
     xyL = 1.0
-    dxy = 0.02
+    dxy = 0.03
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
     # Gaussian state definition
-    k = 30.0
+    k = 1000.0
     theta = 0.0
     psi = initial_state(k, theta, x0, X, Y)
 
@@ -105,12 +98,16 @@ if __name__ == '__main__':
     time = sp.arange(dt, tMax+dt, dt)
 
     # Potential
-    V = potential_well(X, Y, x0, y0, R, v0) # + absorving_borders_box(X, Y, xyL, 200)
+    V = potential_well(X, Y, x0, y0, R, v0) # + absorving_borders_box(X, Y, xyL, 1000)
+    # V = absorving_borders_box(X, Y, xyL, xyMax, 1000)
+
+    pl.figure()
+    pl.contour(X, Y, V.real)
+    pl.show()
 
     prob = psi.real**2 + psi.imag**2
 
     pl.ion()
-    # pl.figure('Initial State')
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     pl.colorbar()
     pl.contour(X, Y, V.real)
