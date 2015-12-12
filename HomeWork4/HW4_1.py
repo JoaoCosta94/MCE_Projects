@@ -23,23 +23,16 @@ def potential_well(X, Y, x0, y0, a, b, v0):
     V[indexes] = v0
     return V
 
-def absorving_borders_box(X, Y, xyL, vM):
+def absorving_borders_box(X, Y, xyT, xyMax, vM):
     """
-    This function gerenrates the absorving potential on the borders
-    :param X:
-    :param Y:
-    :param xyL:
-    :param vM:
-    :return:
+    This function generates the absorbing potential on the borders
     """
-    x = abs(X)
-    y = abs(Y)
-    B = sp.zeros(X.shape, dtype = complex)
-    id = sp.where(x > x - xyL)
-    B[id] += (x[id] - (x[id]-xyL))**2
-    id = sp.where(y > y - xyL)
-    B[id] += (y[id] - (y[id]-xyL))**2
-    return 1j*vM*B
+    border = sp.zeros(X.shape, dtype = complex)
+    idx = sp.where(abs(X) > (xyMax - xyT))
+    idy = sp.where(abs(Y) > (xyMax - xyT))
+    border[idx] += (abs(X[idx]) - xyMax + xyT)**2 * 1j - (abs(X[idx]) - xyMax + xyT)**2
+    border[idy] += (abs(Y[idy]) - xyMax + xyT)**2 * 1j - (abs(Y[idy]) - xyMax + xyT)**2
+    return vM * border
 
 def lap(shape, spacing):
     """
@@ -63,7 +56,7 @@ if __name__ == '__main__':
     # Box
     xyMin = -2.5
     xyMax = 2.5
-    xyL = 1.0
+    xyT = 1.0
     dxy = 0.02
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
@@ -79,7 +72,7 @@ if __name__ == '__main__':
         print d
 
         a = 1.0 + d
-        V = potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, xyL, 200)
+        V = potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, xyT, xyMax, 200)
         L = lap(X.shape, dxy)
 
         H = -L + sparse.diags(V.ravel(),0, format = 'dia')

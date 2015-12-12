@@ -7,11 +7,11 @@ from scipy import sum
 import pylab as pl
 from time import time
 
-def potential_well(X, Y, x0, y0, R, v0):
+def potential_well(X, Y, x0, y0, x1, R, v0):
     """
     This function generates the potential well
     """
-    V = v0 * ((X-x0)**2 + (Y-y0)**2 > R**2)
+    V = v0 * ((X-x0)**2 + (Y-y0)**2 > R**2) * ((X-x1)**2 + (Y-y0)**2 > R**2)
     return V
 
 def absorving_borders_box(X, Y, xyT, xyMax, vM):
@@ -21,8 +21,8 @@ def absorving_borders_box(X, Y, xyT, xyMax, vM):
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j) #- (abs(X[idx]) - xyMax + xyT)**2)
-    border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j) #- (abs(Y[idy]) - xyMax + xyT)**2)
+    border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j - (abs(X[idx]) - xyMax + xyT)**2)
+    border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j - (abs(Y[idy]) - xyMax + xyT)**2)
     return border
 
 def lap(shape, spacing):
@@ -33,15 +33,12 @@ def lap(shape, spacing):
     L = -4.*sparse.eye(n, n, 0) + sparse.eye(n, n, 1) + sparse.eye(n, n, -1) + sparse.eye(n, n, shape[1]) + sparse.eye(n, n, -shape[1])
     return L / spacing**2
 
-def initial_state(k, theta, x0, y0, X, Y):
+def initial_state(x0, y0, X, Y):
     """
     This function generates the initial state with given parameters
     """
-    kx = k*sp.cos(theta)
-    ky = k*sp.sin(theta)
-    xi = 0.0 #(R + x0) / 2.0
     delta = 0.1 #(R-x0) / 20.0
-    psi = sp.exp(1j*(kx*X + ky*Y))*sp.exp(-((X-xi)**2 + (Y-y0)**2) / delta**2)
+    psi = sp.exp(-((X-x0)**2 + (Y-y0)**2) / delta**2)
     return psi
 
 def normalize(state, spacing):
@@ -70,8 +67,8 @@ def hamiltonian_operator(X, Y, spacing, xyT, xyMax, x0, y0, R, v0, vM):
     This function generates the Hamiltonian Operator matrix with given potential and absorbing borders box
     """
     L = lap(X.shape, spacing)
-    V = potential_well(X, Y, x0, y0, R, v0) #+ absorving_borders_box(X, Y, xyT, xyMax, vM)
-    return -L + sparse.diags(V.ravel(), 0, format = 'dia')
+    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    return -L + sparse.diags(V.ravel(),0, format = 'dia')
 
 def theta_family_step(F, u, theta, dt, spacing):
     n = u.shape[0] * u.shape[1]
@@ -91,9 +88,11 @@ if __name__ == '__main__':
     vM = 200.0
     b = 1.0
     a = 1.0
-    R = 1.0
-    x0 = 0.0 #- R / 2.0
+    R = 0.5
+    x0 = -0.5
     y0 = 0.0
+    d = 0.25
+    x1 = x0 + 2.0*R + d
 
     # Box definition
     xyMin = -3.0
@@ -102,43 +101,8 @@ if __name__ == '__main__':
     dxy = 0.03
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
-    # Gaussian state definition
-    k = 30.0
-    theta = 0.0
-    psi = initial_state(k, theta, x0, y0, X, Y)
-    # Normalization
-    psi = normalize(psi, dxy)
-
-    # Time parameters definition
-    tMax = 10.0
-    dt = .001
-    time = sp.arange(dt, tMax+dt, dt)
-
-
-    # Potential (for SSFM and plotting)
-    V = potential_well(X, Y, x0, y0, R, v0) #+ absorving_borders_box(X, Y, xyT, xyMax, vM)
-    H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
-
-    # Probability density first state
-    prob = psi.real**2 + psi.imag**2
-
-    pl.ion()
-    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    pl.figure()
+    pl.contourf(X, Y, abs(V), levels = sp.linspace(abs(V).min(), abs(V).max(), 1000))
     pl.colorbar()
-    pl.contour(X, Y, V.real)
-    pl.draw()
-
-    for t in time:
-        # # Split step Fourier method
-        # psi = split_step_fourier(psi, V, dxy, dt)
-        # Crank-Nicolson method
-        psi = theta_family_step(H, psi, 0.5, dt, dxy)
-
-        prob = psi.real**2 + psi.imag**2
-
-        pl.clf()
-        # pl.figure('t = ' + str(t))
-        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-        pl.colorbar()
-        pl.contour(X, Y, V.real)
-        pl.draw()
+    pl.show()
