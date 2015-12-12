@@ -59,14 +59,10 @@ def w_frequencies(state, spacing):
     nY = state.shape[1]
     return sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
 
-def split_step_fourier(state, V, spacing, dt):
+def split_step_fourier(state, V, Wx, Wy, dt):
     """
     This function evolves the state by a time step using the split step Fourier method
     """
-    nX = state.shape[0]
-    nY = state.shape[1]
-    Wx , Wy = sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
-
     stateNew = sp.exp(-1j * dt * V) * state
     stateNew = pl.fft2(stateNew)
     stateNew = pl.exp(-1j * dt * (Wx**2 + Wy**2)) * stateNew
@@ -96,13 +92,14 @@ def theta_family_step(F, u, theta, dt, spacing):
     uN = sp.reshape(uN, u.shape)
     return normalize(uN, spacing)
 
+def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
+    return 0
+
 if __name__ == '__main__':
 
     # Potential well parameters definition
     v0 = 1000.0
     vM = 200.0
-    b = 1.0
-    a = 1.0
     R = 1.0
     x0 = 0.0
     y0 = 0.0
@@ -143,7 +140,7 @@ if __name__ == '__main__':
 
     for t in time:
         # Split step Fourier method
-        psi = split_step_fourier(psi, V, dxy, dt)
+        psi = split_step_fourier(psi, V, Wx, Wy, dt)
         # # Crank-Nicolson method
         # psi = theta_family_step(H, psi, 0.5, dt, dxy)
 
