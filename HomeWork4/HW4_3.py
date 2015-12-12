@@ -48,14 +48,18 @@ def normalize(state, spacing):
     N = sp.sqrt(sum(abs(state)**2) * spacing**2)
     return state / N
 
-def split_step_fourier(state, V, spacing, dt):
+def w_frequencies(state, spacing):
     """
-    This function evolves the state by a time step using the split step Fourier method
+    This function calculates the FFT frequencies
     """
     nX = state.shape[0]
     nY = state.shape[1]
-    Wx , Wy = sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
+    return sp.meshgrid(2.0 * sp.pi * pl.fftfreq(nX, spacing), 2.0 * sp.pi * pl.fftfreq(nY, spacing))
 
+def split_step_fourier(state, V, Wx, Wy, dt):
+    """
+    This function evolves the state by a time step using the split step Fourier method
+    """
     stateNew = sp.exp(-1j * dt * V) * state
     stateNew = pl.fft2(stateNew)
     stateNew = pl.exp(-1j * dt * (Wx**2 + Wy**2)) * stateNew
@@ -85,6 +89,53 @@ def theta_family_step(F, u, theta, dt, spacing):
     uN = sp.reshape(uN, u.shape)
     return normalize(uN, spacing)
 
+def simulate_ssfm(psi, V, Wx, Wy, time, dt):
+    """
+    This function performs the simulation using split step Fourier  method
+    """
+    # Initial probability density
+    prob = psi.real**2 + psi.imag**2
+
+    pl.ion()
+    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    pl.colorbar()
+    pl.contour(X, Y, V.real)
+    pl.draw()
+
+    for t in time:
+        psi = split_step_fourier(psi, V, Wx, Wy, dt)
+
+        prob = psi.real**2 + psi.imag**2
+
+        pl.clf()
+        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+        pl.colorbar()
+        pl.contour(X, Y, V.real)
+        pl.draw()
+
+def simulate_cn(psi, V, H, time, dt):
+    """
+    This function performs the simulation using Crank-Nicolson method
+    """
+    # Initial probability density
+    prob = psi.real**2 + psi.imag**2
+
+    pl.ion()
+    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    pl.colorbar()
+    pl.contour(X, Y, V.real)
+    pl.draw()
+
+    for t in time:
+        psi = theta_family_step(H, psi, 0.5, dt, dxy)
+
+        prob = psi.real**2 + psi.imag**2
+        pl.clf()
+        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+        pl.colorbar()
+        pl.contour(X, Y, V.real)
+        pl.draw()
+
 if __name__ == '__main__':
 
     # Potential well parameters definition
@@ -112,3 +163,17 @@ if __name__ == '__main__':
     # Potential (for SSFM and plotting)
     V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
 
+    # Time parameters definition
+    tMax = 10.0
+    dt = .001
+    time = sp.arange(dt, tMax+dt, dt)
+
+    # Simulate using Split Step Fourier Method
+    # FFT frequencies
+    Wx, Wy = w_frequencies(psi, dxy)
+    simulate_ssfm(psi, V, Wx, Wy, time, dt)
+
+    # # Simulate using Crank-Nicolson Method
+    # # Hamiltonian
+    # H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
+    # simulate_cn(psi, V, H, time, dt)
