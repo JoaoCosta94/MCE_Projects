@@ -116,7 +116,7 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     pl.colorbar()
     pl.contour(X, Y, V.real)
-    pl.draw()
+    pl.show(block = False)
 
     for t in time:
         psi = split_step_fourier(psi, V, Wx, Wy, dt)
@@ -130,6 +130,8 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
         pl.contour(X, Y, V.real)
         pl.draw()
 
+    pl.show()
+
 def simulate_cn(X, Y, psi, V, H, time, dt, id):
     """
     This function performs the simulation using Crank-Nicolson method
@@ -142,7 +144,7 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     pl.colorbar()
     pl.contour(X, Y, V.real)
-    pl.draw()
+    pl.show(block = False)
 
     for t in time:
         psi = theta_family_step(H, psi, 0.5, dt, dxy)
@@ -156,6 +158,8 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
         pl.contour(X, Y, V.real)
         pl.draw()
 
+    pl.show()
+
 def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
 
     # Grid definition
@@ -163,23 +167,24 @@ def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SS
 
     # Potential definition
     V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
-    # V = absorving_borders_box(X, Y, xyT, xyMax, vM)
     id = well_points(X ,Y, x0, y0, R)
 
     # Initial state definition
     psi = initial_state(k, theta, x0, y0, X, Y)
     psi = normalize(psi, dxy)
     # Time parameters definition
-    tMax = 10.0
+    tMax = 0.1
     dt = .001
     time = sp.arange(dt, tMax+dt, dt)
 
     if method == 'SSFM':
+        print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
         Wx, Wy = w_frequencies(psi, dxy)
         simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
     else:
+        print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
         # Definition of the Hamiltonian operator matrix
         H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
@@ -199,11 +204,11 @@ if __name__ == '__main__':
     # Box definition
     xyMin = -2.0
     xyMax = 2.0
-    xyT = 2*xyMax/3.0
+    xyT = 2.0*xyMax/3.0
     dxy = 0.01
 
     # Gaussian state definition
     k = 30.0
     theta = 0.0
 
-    simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, 'ssss')
+    simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta)

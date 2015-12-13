@@ -21,8 +21,8 @@ def absorving_borders_box(X, Y, xyT, xyMax, vM):
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j - (abs(X[idx]) - xyMax + xyT)**2)
-    border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j - (abs(Y[idy]) - xyMax + xyT)**2)
+    border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
+    border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
     return border
 
 def lap(shape, spacing):
@@ -66,12 +66,12 @@ def split_step_fourier(state, V, Wx, Wy, dt):
 
     return pl.ifft2(stateNew)
 
-def hamiltonian_operator(X, Y, spacing, xyT, xyMax, x0, y0, R, v0, vM):
+def hamiltonian_operator(X, Y, spacing, xyT, xyMax, x0, y0, x1, R, v0, vM):
     """
     This function generates the Hamiltonian Operator matrix with given potential and absorbing borders box
     """
     L = lap(X.shape, spacing)
-    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
     return -L + sparse.diags(V.ravel(),0, format = 'dia')
 
 def theta_family_step(F, u, theta, dt, spacing):
@@ -89,7 +89,7 @@ def theta_family_step(F, u, theta, dt, spacing):
     uN = sp.reshape(uN, u.shape)
     return normalize(uN, spacing)
 
-def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
+def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt):
     """
     This function performs the simulation using split step Fourier  method
     """
@@ -100,7 +100,7 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     pl.colorbar()
     pl.contour(X, Y, V.real)
-    pl.draw()
+    pl.show(block = False)
 
     for t in time:
         psi = split_step_fourier(psi, V, Wx, Wy, dt)
@@ -113,7 +113,7 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
         pl.contour(X, Y, V.real)
         pl.draw()
 
-def simulate_cn(X, Y, psi, V, H, time, dt, id):
+def simulate_cn(X, Y, psi, V, H, time, dt):
     """
     This function performs the simulation using Crank-Nicolson method
     """
@@ -124,7 +124,7 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     pl.colorbar()
     pl.contour(X, Y, V.real)
-    pl.draw()
+    pl.show(block = False)
 
     for t in time:
         psi = theta_family_step(H, psi, 0.5, dt, dxy)
@@ -152,38 +152,40 @@ def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
     psi = normalize(psi, dxy)
 
     # Time parameters definition
-    tMax = 10.0
+    tMax = 0.1
     dt = .001
     time = sp.arange(dt, tMax+dt, dt)
 
     if method == 'SSFM':
+        print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
         Wx, Wy = w_frequencies(psi, dxy)
-        simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
+        simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt)
     else:
+        print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
         # Definition of the Hamiltonian operator matrix
-        H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
+        H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, y0, x1, R, v0, vM)
 
         # Simulation
-        simulate_cn(X, Y, psi, V, H, time, dt, id)
+        simulate_cn(X, Y, psi, V, H, time, dt)
 
 if __name__ == '__main__':
 
     # Potential well parameters definition
-    v0 = 1000.0
+    v0 = 100.0
     vM = 200.0
     R = 0.5
     x0 = -0.5
     y0 = 0.0
-    d = 0.25
+    d = 0.001
 
     # Box definition
-    xyMin = -3.0
-    xyMax = 3.0
-    xyT = 1.0
-    dxy = 0.03
+    xyMin = -2.0
+    xyMax = 2.0
+    xyT = 2.0*xyMax/3.0
+    dxy = 0.01
 
     simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM)
 
