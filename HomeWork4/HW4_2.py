@@ -33,13 +33,12 @@ def lap(shape, spacing):
     L = -4.*sparse.eye(n, n, 0) + sparse.eye(n, n, 1) + sparse.eye(n, n, -1) + sparse.eye(n, n, shape[1]) + sparse.eye(n, n, -shape[1])
     return L / spacing**2
 
-def initial_state(k, theta, x0, y0, X, Y):
+def initial_state(k, theta, x0, y0, xi, X, Y):
     """
     This function generates the initial state with given parameters
     """
     kx = k*sp.cos(theta)
     ky = k*sp.sin(theta)
-    xi = 0.0 #(R + x0) / 2.0
     delta = 0.1 #(R-x0) / 20.0
     psi = sp.exp(1j*(kx*X + ky*Y))*sp.exp(-((X-xi)**2 + (Y-y0)**2) / delta**2)
     return psi
@@ -48,7 +47,7 @@ def normalize(state, spacing):
     """
     This function normalizes a given state
     """
-    N = sp.sqrt(sum(abs(state)**2) * spacing**2)
+    N = sp.sqrt(sum(abs(state)**2))
     return state / N
 
 def w_frequencies(state, spacing):
@@ -108,59 +107,55 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     """
     This function performs the simulation using split step Fourier  method
     """
-    # Initial probability density
-    prob = psi.real**2 + psi.imag**2
-    probRatio = [prob_ratio(prob, id)]
-
-    pl.ion()
-    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    pl.colorbar()
-    pl.contour(X, Y, V.real)
-    pl.show(block = False)
-
+    # pl.ion()
+    # pl.show(block = False)
+    probRatio = []
     for t in time:
-        psi = split_step_fourier(psi, V, Wx, Wy, dt)
-
+        # Probability density
         prob = psi.real**2 + psi.imag**2
         probRatio.append(prob_ratio(prob, id))
 
-        pl.clf()
-        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-        pl.colorbar()
-        pl.contour(X, Y, V.real)
-        pl.draw()
+    #     pl.figure()
+    #     pl.title('t = '+str(t))
+    #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    #     pl.colorbar()
+    #     pl.contour(X, Y, V.real)
+    #     # pl.draw()
+    #     # pl.clf()
 
-    pl.show()
+        psi = split_step_fourier(psi, V, Wx, Wy, dt)
+
+    # pl.show()
+
+    return sp.array(probRatio)
 
 def simulate_cn(X, Y, psi, V, H, time, dt, id):
     """
     This function performs the simulation using Crank-Nicolson method
     """
-    # Initial probability density
-    prob = psi.real**2 + psi.imag**2
-    probRatio = [prob_ratio(prob, id)]
-
-    pl.ion()
-    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    pl.colorbar()
-    pl.contour(X, Y, V.real)
-    pl.show(block = False)
-
+    # pl.ion()
+    # pl.show(block = False)
+    probRatio = []
     for t in time:
-        psi = theta_family_step(H, psi, 0.5, dt, dxy)
-
+        # Probability density
         prob = psi.real**2 + psi.imag**2
         probRatio.append(prob_ratio(prob, id))
 
-        pl.clf()
-        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-        pl.colorbar()
-        pl.contour(X, Y, V.real)
-        pl.draw()
+    #     pl.figure()
+    #     pl.title('t = '+str(t))
+    #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    #     pl.colorbar()
+    #     pl.contour(X, Y, V.real)
+    #     # pl.draw()
+    #     # pl.clf()
 
-    pl.show()
+        psi = theta_family_step(H, psi, 0.5, dt, dxy)
 
-def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
+    # pl.show()
+
+    return sp.array(probRatio)
+
+def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
 
     # Grid definition
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
@@ -170,19 +165,19 @@ def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SS
     id = well_points(X ,Y, x0, y0, R)
 
     # Initial state definition
-    psi = initial_state(k, theta, x0, y0, X, Y)
+    psi = initial_state(k, theta, x0, y0, xi, X, Y)
     psi = normalize(psi, dxy)
     # Time parameters definition
     tMax = 0.1
     dt = .001
-    time = sp.arange(dt, tMax+dt, dt)
+    time = sp.arange(0.0, tMax+dt, dt)
 
     if method == 'SSFM':
         print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
         Wx, Wy = w_frequencies(psi, dxy)
-        simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
+        return time, simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
     else:
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
@@ -190,7 +185,7 @@ def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SS
         H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
 
         # Simulation
-        simulate_cn(X, Y, psi, V, H, time, dt, id)
+        return time, simulate_cn(X, Y, psi, V, H, time, dt, id)
 
 if __name__ == '__main__':
 
@@ -209,6 +204,24 @@ if __name__ == '__main__':
 
     # Gaussian state definition
     k = 30.0
-    theta = 0.0
+    thetas = sp.linspace(0.0, sp.pi, 4)
+    # thetas = pl.array([0.0, sp.pi/4.0])
+    xi_array = sp.linspace(-R/2.0, R/2.0, 4)
 
-    simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta)
+    # Generating markers
+    m = ['o', '*', 'v', '^']
+    markers = {}
+    for i in range(len(thetas)):
+        markers[thetas[i]] = m[i]
+
+    for xi in xi_array:
+        pl.figure()
+        pl.title('Probability flow xi = '+str(xi))
+        pl.xlabel('Time')
+        pl.ylabel('Probability inside the potential well')
+        for theta in thetas:
+            time, ratio = simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta)
+            pl.scatter(time, ratio, label = r'$\theta$ = ' + str(theta), marker = markers[theta])
+        pl.legend()
+
+    pl.show()

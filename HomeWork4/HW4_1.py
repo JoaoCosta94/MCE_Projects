@@ -56,16 +56,16 @@ if __name__ == '__main__':
     # Problem definition
     v0 = 100.0
     vM = 300.0
-    delta = sp.linspace(0.0, 1.0, 11)
+    delta = sp.linspace(0.0, 1.0, 1000)
     b = 1.0
     x0 = 0.0
     y0 = 0.0
 
     # Box
-    xyMin = -2.0
-    xyMax = 2.0
+    xyMin = -3.0
+    xyMax = 3.0
     xyT = 2.0*xyMax/3.0
-    dxy = 0.02
+    dxy = 0.03
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
     e1List = []
@@ -119,6 +119,7 @@ if __name__ == '__main__':
     pl.title('Energy study with V0 = '+str(v0))
     pl.xlabel(r'$\delta$')
     pl.ylabel(r'E($\delta$)')
+    pl.ylim()
     pl.scatter(delta, e1List, marker = 'o', label = 'first state energy')
     pl.scatter(delta, e2List, marker = 'v', label = 'second state energy')
     pl.scatter(delta, e3List, marker = '*', label = 'third state energy')
