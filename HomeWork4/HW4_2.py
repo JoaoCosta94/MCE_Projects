@@ -21,8 +21,8 @@ def absorving_borders_box(X, Y, xyT, xyMax, vM):
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j) #- (abs(X[idx]) - xyMax + xyT)**2)
-    border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j) #- (abs(Y[idy]) - xyMax + xyT)**2)
+    border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
+    border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
     return border
 
 def lap(shape, spacing):
@@ -102,7 +102,7 @@ def prob_ratio(prob, id):
     """
     This function calculates the ratio of probability inside the well
     """
-    return sum(prob[id]/sum(prob))
+    return sum(prob[id])
 
 def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     """
@@ -163,6 +163,7 @@ def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SS
 
     # Potential definition
     V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    # V = absorving_borders_box(X, Y, xyT, xyMax, vM)
     id = well_points(X ,Y, x0, y0, R)
 
     # Initial state definition
@@ -189,20 +190,20 @@ def simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SS
 if __name__ == '__main__':
 
     # Potential well parameters definition
-    v0 = 1000.0
-    vM = 200.0
-    R = 1.0
+    v0 = 500.0
+    vM = 500.0
+    R = 0.5
     x0 = 0.0
     y0 = 0.0
 
     # Box definition
-    xyMin = -3.0
-    xyMax = 3.0
-    xyT = 1.0
-    dxy = 0.03
+    xyMin = -2.0
+    xyMax = 2.0
+    xyT = 2*xyMax/3.0
+    dxy = 0.01
 
     # Gaussian state definition
     k = 30.0
     theta = 0.0
 
-    simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta)
+    simulation(v0, x0, y0, R, xyMin, xyMax, dxy, xyT, vM, k, theta, 'ssss')
