@@ -45,7 +45,7 @@ def normalize(state, spacing):
     """
     This function normalizes a given state
     """
-    N = sp.sqrt(sum(abs(state)**2) * spacing**2)
+    N = sp.sqrt(sum(abs(state)**2))
     return state / N
 
 def w_frequencies(state, spacing):
@@ -89,53 +89,69 @@ def theta_family_step(F, u, theta, dt, spacing):
     uN = sp.reshape(uN, u.shape)
     return normalize(uN, spacing)
 
-def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt):
+def well_points(X, Y, x0, y0, R):
+    """
+    This function determines which grid points are inside the well
+    """
+    return sp.where((X-x0)**2 + (Y-y0)**2 < R**2)
+
+def prob_ratio(prob, id):
+    """
+    This function calculates the ratio of probability inside the well
+    """
+    return sum(prob[id])
+
+def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     """
     This function performs the simulation using split step Fourier  method
     """
-    # Initial probability density
-    prob = psi.real**2 + psi.imag**2
-
-    pl.ion()
-    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    pl.colorbar()
-    pl.contour(X, Y, V.real)
-    pl.show(block = False)
-
+    # pl.ion()
+    # pl.show(block = False)
+    tunnel = []
     for t in time:
+        # Probability density
+        prob = psi.real**2 + psi.imag**2
+        tunnel.append(prob_ratio(prob, id))
+
+    #     pl.figure()
+    #     pl.title('t = '+str(t))
+    #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    #     pl.colorbar()
+    #     pl.contour(X, Y, V.real)
+    #     # pl.draw()
+    #     # pl.clf()
+
         psi = split_step_fourier(psi, V, Wx, Wy, dt)
 
-        prob = psi.real**2 + psi.imag**2
+    # pl.show()
 
-        pl.clf()
-        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-        pl.colorbar()
-        pl.contour(X, Y, V.real)
-        pl.draw()
+    return sp.array(tunnel)
 
-def simulate_cn(X, Y, psi, V, H, time, dt):
+def simulate_cn(X, Y, psi, V, H, time, dt, id):
     """
     This function performs the simulation using Crank-Nicolson method
     """
-    # Initial probability density
-    prob = psi.real**2 + psi.imag**2
-
-    pl.ion()
-    pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    pl.colorbar()
-    pl.contour(X, Y, V.real)
-    pl.show(block = False)
-
+    # pl.ion()
+    # pl.show(block = False)
+    tunnel = []
     for t in time:
+        # Probability density
+        prob = psi.real**2 + psi.imag**2
+        tunnel.append(prob_ratio(prob, id))
+
+    #     pl.figure()
+    #     pl.title('t = '+str(t))
+    #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
+    #     pl.colorbar()
+    #     pl.contour(X, Y, V.real)
+    #     # pl.draw()
+    #     # pl.clf()
+
         psi = theta_family_step(H, psi, 0.5, dt, dxy)
 
-        prob = psi.real**2 + psi.imag**2
+    # pl.show()
 
-        pl.clf()
-        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-        pl.colorbar()
-        pl.contour(X, Y, V.real)
-        pl.draw()
+    return sp.array(tunnel)
 
 def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
 
@@ -146,6 +162,7 @@ def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
 
     # Potential definition
     V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    id = well_points(X, Y, x1, y0, R)
 
     # Initial state definition
     psi = initial_state(x0, y0, X, Y)
@@ -154,14 +171,14 @@ def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
     # Time parameters definition
     tMax = 0.1
     dt = .001
-    time = sp.arange(dt, tMax+dt, dt)
+    time = sp.arange(0.0, tMax+dt, dt)
 
     if method == 'SSFM':
         print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
         Wx, Wy = w_frequencies(psi, dxy)
-        simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt)
+        return time, simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
     else:
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
@@ -169,7 +186,7 @@ def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
         H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, y0, x1, R, v0, vM)
 
         # Simulation
-        simulate_cn(X, Y, psi, V, H, time, dt)
+        return time, simulate_cn(X, Y, psi, V, H, time, dt, id)
 
 if __name__ == '__main__':
 
@@ -179,7 +196,7 @@ if __name__ == '__main__':
     R = 0.5
     x0 = -0.5
     y0 = 0.0
-    d = 0.001
+    d_array = sp.linspace(0.0001, 0.1, 20)
 
     # Box definition
     xyMin = -2.0
@@ -187,6 +204,15 @@ if __name__ == '__main__':
     xyT = 2.0*xyMax/3.0
     dxy = 0.01
 
-    simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM)
+    time_mesh = []
+    tunnel_mesh = []
+    for d in d_array:
+        time, tunnel = simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM)
+        pl.figure()
+        pl.title('Tunnel effect for d = '+str(d))
+        pl.xlabel('Time')
+        pl.ylabel('Probability inside the second potential well')
+        pl.scatter(time, tunnel)
 
+    pl.show()
 
