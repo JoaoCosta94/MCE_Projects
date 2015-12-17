@@ -110,9 +110,11 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     # pl.ion()
     # pl.show(block = False)
     probRatio = []
+    totalProb = []
     for t in time:
         # Probability density
         prob = psi.real**2 + psi.imag**2
+        totalProb.append(prob)
         probRatio.append(prob_ratio(prob, id))
 
     #     pl.figure()
@@ -127,7 +129,7 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
 
     # pl.show()
 
-    return sp.array(probRatio)
+    return sp.array(probRatio), sp.array(totalProb)
 
 def simulate_cn(X, Y, psi, V, H, time, dt, id):
     """
@@ -136,9 +138,11 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
     # pl.ion()
     # pl.show(block = False)
     probRatio = []
+    totalProb = []
     for t in time:
         # Probability density
         prob = psi.real**2 + psi.imag**2
+        totalProb.append(prob)
         probRatio.append(prob_ratio(prob, id))
 
     #     pl.figure()
@@ -153,7 +157,7 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
 
     # pl.show()
 
-    return sp.array(probRatio)
+    return sp.array(probRatio), sp.array(totalProb)
 
 def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
 
@@ -177,7 +181,8 @@ def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, method =
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
         Wx, Wy = w_frequencies(psi, dxy)
-        return time, simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
+        results = simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
+        return time, results[0], results[1]
     else:
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
@@ -185,7 +190,8 @@ def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, method =
         H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
 
         # Simulation
-        return time, simulate_cn(X, Y, psi, V, H, time, dt, id)
+        results = simulate_cn(X, Y, psi, V, H, time, dt, id)
+        return time, results[0], results[1]
 
 if __name__ == '__main__':
 
@@ -208,20 +214,37 @@ if __name__ == '__main__':
     # thetas = pl.array([0.0, sp.pi/4.0])
     xi_array = sp.linspace(-R/2.0, R/2.0, 4)
 
-    # Generating markers
-    m = ['o', '*', 'v', '^']
-    markers = {}
-    for i in range(len(thetas)):
-        markers[thetas[i]] = m[i]
+    # Method Analysis
+    startSS = time()
+    time, ratioSS, totalProbSS = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0)
+    timeSS = time() - startSS
+    startCN = time()
+    time, ratioCN, totalProbCN = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, 'CN')
+    timeCN = time() - startCN
+    pl.figure('CN vs SSFM')
+    pl.xlabel('Time')
+    pl.ylabel('Total Probability')
+    pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
+    pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
+    pl.legend()
+    print 'SS took ' + str(timeSS)
+    print 'CN took ' + str(timeCN)
 
-    for xi in xi_array:
-        pl.figure()
-        pl.title('Probability flow xi = '+str(xi))
-        pl.xlabel('Time')
-        pl.ylabel('Probability inside the potential well')
-        for theta in thetas:
-            time, ratio = simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta)
-            pl.scatter(time, ratio, label = r'$\theta$ = ' + str(theta), marker = markers[theta])
-        pl.legend()
+    # # xi & theta analysis
+    # # Generating markers
+    # m = ['o', '*', 'v', '^']
+    # markers = {}
+    # for i in range(len(thetas)):
+    #     markers[thetas[i]] = m[i]
+    #
+    # for xi in xi_array:
+    #     pl.figure(xi)
+    #     pl.title('Probability flow xi = '+str(xi))
+    #     pl.xlabel('Time')
+    #     pl.ylabel('Probability inside the potential well')
+    #     for theta in thetas:
+    #         time, ratio, totalProb = simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta)
+    #         pl.scatter(time, ratio, label = r'$\theta$ = ' + str(theta), marker = markers[theta])
+    #     pl.legend()
 
     pl.show()
