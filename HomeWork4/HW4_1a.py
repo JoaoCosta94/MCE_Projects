@@ -41,14 +41,14 @@ if __name__ == '__main__':
 
     # Creating or loading operator matrix
     if (platform.system() == 'Windows'):
-        folder = 'E1_Results\\'
+        folder = 'E1a_Results\\'
     else:
-        folder = 'E1_Results/'
+        folder = 'E1a_Results/'
 
     # Problem definition
-    v0 = 100.0
+    v0 = 1e14
     vM = 300.0
-    delta = sp.linspace(0.0, 1.0, 100)
+    delta = sp.array([0.0])
     b = 1.0
     x0 = 0.0
     y0 = 0.0
@@ -60,17 +60,11 @@ if __name__ == '__main__':
     dxy = 0.03
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
-    e1List = []
-    e2List = []
-    e3List = []
-
-    s1List = []
-    s2List = []
-    s3List = []
+    eList = []
+    sList = []
 
     t = []
     for d in delta:
-        print d
 
         a = 1.0 + d
         V = potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
@@ -78,32 +72,25 @@ if __name__ == '__main__':
 
         H = -L + sparse.diags(V.ravel(),0, format = 'dia')
 
+        print 'calculating'
         start = time()
-        energies, states = linalg.eigsh(H, which = 'SM', k=3)
+        energies, states = linalg.eigsh(H, which = 'SM', k=1)
         t.append(time() - start)
+        print 'done'
 
-        e1List.append(energies[0])
-        e2List.append(energies[1])
-        e3List.append(energies[2])
-        # sp.save(folder + 'E_d_'+str(d)+'.npy', energies)
+        eList.append(energies[0])
 
-        s1List.append(states[0])
-        s2List.append(states[1])
-        s3List.append(states[2])
-        sp.save(folder + 'S1_d_'+str(d)+'.npy', states[0])
-        sp.save(folder + 'S2_d_'+str(d)+'.npy', states[1])
-        sp.save(folder + 'S3_d_'+str(d)+'.npy', states[2])
+        sList.append(states[0])
+        sp.save(folder + 'S_d_'+str(d)+'.npy', states[0])
 
-    e1List = sp.array(e1List)
-    e2List = sp.array(e2List)
-    e3List = sp.array(e3List)
+    eList = sp.array(eList)
     t = sp.array(t)
+
+    print eList
 
     # Saving delta, energies and times to file
     sp.save(folder+'Delta'+'.npy', delta)
-    sp.save(folder+'E1'+'.npy', e1List)
-    sp.save(folder+'E2'+'.npy', e2List)
-    sp.save(folder+'E3'+'.npy', e3List)
+    sp.save(folder+'E'+'.npy', eList)
     sp.save(folder+'T'+'.npy', t)
 
     # Plotting energy and time
@@ -112,14 +99,7 @@ if __name__ == '__main__':
     pl.xlabel(r'$\delta$')
     pl.ylabel(r'E($\delta$)')
     pl.ylim()
-    pl.scatter(delta, e1List, marker = 'o', label = 'first state energy')
-    pl.scatter(delta, e2List, marker = 'v', label = 'second state energy')
-    pl.scatter(delta, e3List, marker = '*', label = 'third state energy')
+    pl.scatter(delta, eList, marker = 'o', label = 'first state energy')
     pl.legend()
 
-    pl.figure('Time')
-    pl.title('Time study with V0 = '+str(v0))
-    pl.xlabel(r'$\delta$')
-    pl.ylabel(r'T($\delta$)')
-    pl.scatter(delta, t)
     pl.show()

@@ -209,7 +209,7 @@ if __name__ == '__main__':
     dxy = 0.01
 
     # Distance between wells
-    d_array = sp.linspace(dxy, 0.5, 100)
+    d_array = sp.linspace(dxy, 0.5, 50)
     dMin = d_array.min()
     dMax = d_array.max()
     d_h = d_array[1] - d_array[0]
@@ -236,7 +236,6 @@ if __name__ == '__main__':
     D, T = sp.mgrid[dMin:dMax+d_h:d_h, 0.0:Tmax+dt:dt]
     pl.figure()
     pl.title('Probability inside second well')
-    # pl.xlabel('Distance d')
     pl.xlabel('Distance d')
     pl.ylabel('Time')
     pl.contourf(D, T, tunnel_mesh, levels = sp.linspace(0.0, tunnel_mesh.max(), 1000))
