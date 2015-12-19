@@ -126,7 +126,7 @@ if __name__ == '__main__':
     # Box definition
     xyMin = -3.0
     xyMax = 3.0
-    xyT = 2.0*xyMax/3.0
+    xyT = 1.0
     dxy = 0.01
 
     # Gaussian state definition

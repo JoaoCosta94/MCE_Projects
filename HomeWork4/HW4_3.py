@@ -14,15 +14,19 @@ def potential_well(X, Y, x0, y0, x1, R, v0):
     V = v0 * ((X-x0)**2 + (Y-y0)**2 > R**2) * ((X-x1)**2 + (Y-y0)**2 > R**2)
     return V
 
-def absorving_borders_box(X, Y, xyT, xyMax, vM):
+def absorving_borders_box(X, Y, xyT, xyMax, vM, method):
     """
     This function generates the absorbing potential on the borders
     """
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
-    border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
+    if method == 'SS':
+        border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
+        border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
+    elif method == 'CN':
+        border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j - (abs(X[idx]) - xyMax + xyT)**2)
+        border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j - (abs(Y[idy]) - xyMax + xyT)**2)
     return border
 
 def lap(shape, spacing):
@@ -66,12 +70,11 @@ def split_step_fourier(state, V, Wx, Wy, dt):
 
     return pl.ifft2(stateNew)
 
-def hamiltonian_operator(X, Y, spacing, xyT, xyMax, x0, y0, x1, R, v0, vM):
+def hamiltonian_operator(X, Y, spacing,V):
     """
     This function generates the Hamiltonian Operator matrix with given potential and absorbing borders box
     """
     L = lap(X.shape, spacing)
-    V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
     return -L + sparse.diags(V.ravel(),0, format = 'dia')
 
 def theta_family_step(F, u, theta, dt, spacing):
@@ -153,7 +156,7 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
 
     return sp.array(tunnel)
 
-def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
+def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, Tmax, dt, method = 'SSFM'):
 
     x1 = x0 + 2.0*R + d
 
@@ -161,7 +164,7 @@ def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
     # Potential definition
-    V = potential_well(X, Y, x0, y0, x1, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    V = potential_well(X, Y, x0, y0, x1, R, v0).astype(complex)
     id = well_points(X, Y, x1, y0, R)
 
     # Initial state definition
@@ -171,19 +174,21 @@ def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, method = 'SSFM'):
     # Time parameters definition
     tMax = 0.1
     dt = .001
-    time = sp.arange(0.0, tMax+dt, dt)
+    time = sp.arange(0.0, Tmax+dt, dt)
 
     if method == 'SSFM':
         print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'SS')
         Wx, Wy = w_frequencies(psi, dxy)
         return time, simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
     else:
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
         # Definition of the Hamiltonian operator matrix
-        H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, y0, x1, R, v0, vM)
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'CN')
+        H = hamiltonian_operator(X, Y, dxy, V)
 
         # Simulation
         return time, simulate_cn(X, Y, psi, V, H, time, dt, id)
@@ -196,7 +201,6 @@ if __name__ == '__main__':
     R = 0.5
     x0 = -0.5
     y0 = 0.0
-    d_array = sp.linspace(0.0001, 0.1, 20)
 
     # Box definition
     xyMin = -2.0
@@ -204,15 +208,39 @@ if __name__ == '__main__':
     xyT = 2.0*xyMax/3.0
     dxy = 0.01
 
-    time_mesh = []
+    # Distance between wells
+    d_array = sp.linspace(dxy, 0.5, 100)
+    dMin = d_array.min()
+    dMax = d_array.max()
+    d_h = d_array[1] - d_array[0]
+
+    # Time parameters
+    Tmax = 0.1
+    dt = 0.001
+
     tunnel_mesh = []
     for d in d_array:
-        time, tunnel = simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM)
-        pl.figure()
-        pl.title('Tunnel effect for d = '+str(d))
-        pl.xlabel('Time')
-        pl.ylabel('Probability inside the second potential well')
-        pl.scatter(time, tunnel)
+        time, tunnel = simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, Tmax, dt)
+        tunnel_mesh.append(sp.array(tunnel))
+        # # Independent d plot
+        # pl.figure()
+        # pl.title('Tunnel effect for d = '+str(d))
+        # pl.xlabel('Time')
+        # pl.ylabel('Probability inside the second potential well')
+        # pl.ylim(0.0, 0.11)
+        # pl.xlim(0.0, Tmax+dt)
+        # pl.scatter(time, tunnel)
+
+    # Mesh plot
+    tunnel_mesh = sp.array(tunnel_mesh)
+    D, T = sp.mgrid[dMin:dMax+d_h:d_h, 0.0:Tmax+dt:dt]
+    pl.figure()
+    pl.title('Probability inside second well')
+    # pl.xlabel('Distance d')
+    pl.xlabel('Distance d')
+    pl.ylabel('Time')
+    pl.contourf(D, T, tunnel_mesh, levels = sp.linspace(0.0, tunnel_mesh.max(), 1000))
+    pl.colorbar()
 
     pl.show()
 

@@ -5,7 +5,7 @@ from scipy.sparse import linalg
 from scipy import sparse
 from scipy import sum
 import pylab as pl
-from time import time
+import time
 
 def potential_well(X, Y, x0, y0, R, v0):
     """
@@ -14,15 +14,19 @@ def potential_well(X, Y, x0, y0, R, v0):
     V = v0 * ((X-x0)**2 + (Y-y0)**2 > R**2)
     return V
 
-def absorving_borders_box(X, Y, xyT, xyMax, vM):
+def absorving_borders_box(X, Y, xyT, xyMax, vM, method):
     """
     This function generates the absorbing potential on the borders
     """
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
-    border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
+    if method == 'SS':
+        border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
+        border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
+    elif method == 'CN':
+        border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j - (abs(X[idx]) - xyMax + xyT)**2)
+        border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j - (abs(Y[idy]) - xyMax + xyT)**2)
     return border
 
 def lap(shape, spacing):
@@ -68,13 +72,12 @@ def split_step_fourier(state, V, Wx, Wy, dt):
 
     return pl.ifft2(stateNew)
 
-def hamiltonian_operator(X, Y, spacing, xyT, xyMax, x0, y0, R, v0, vM):
+def hamiltonian_operator(X, Y, spacing, V):
     """
     This function generates the Hamiltonian Operator matrix with given potential and absorbing borders box
     """
     L = lap(X.shape, spacing)
-    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
-    return -L + sparse.diags(V.ravel(), 0, format = 'dia')
+    return L + sparse.diags(V.ravel(), 0, format = 'dia')
 
 def theta_family_step(F, u, theta, dt, spacing):
     """
@@ -86,6 +89,8 @@ def theta_family_step(F, u, theta, dt, spacing):
     I = sparse.eye(n)
     A = (theta * dt * 1j) * F + I
     b = (((theta - 1) * dt * 1j) * F + I).dot(uV)
+    # A = 2.0j / dt * I - F
+    # b = (2.0j / dt * I + F).dot(uV)
 
     uN = linalg.spsolve(A, b)
     uN = sp.reshape(uN, u.shape)
@@ -114,16 +119,18 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     for t in time:
         # Probability density
         prob = psi.real**2 + psi.imag**2
-        totalProb.append(prob)
+        total = sum(prob)
+        totalProb.append(total)
         probRatio.append(prob_ratio(prob, id))
 
+    #     print str(t) + ': ' + str(total)
     #     pl.figure()
     #     pl.title('t = '+str(t))
     #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     #     pl.colorbar()
     #     pl.contour(X, Y, V.real)
-    #     # pl.draw()
-    #     # pl.clf()
+    #     pl.draw()
+    #     pl.clf()
 
         psi = split_step_fourier(psi, V, Wx, Wy, dt)
 
@@ -142,7 +149,7 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
     for t in time:
         # Probability density
         prob = psi.real**2 + psi.imag**2
-        totalProb.append(prob)
+        totalProb.append(sum(prob))
         probRatio.append(prob_ratio(prob, id))
 
     #     pl.figure()
@@ -150,8 +157,8 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
     #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     #     pl.colorbar()
     #     pl.contour(X, Y, V.real)
-    #     # pl.draw()
-    #     # pl.clf()
+    #     pl.draw()
+    #     pl.clf()
 
         psi = theta_family_step(H, psi, 0.5, dt, dxy)
 
@@ -159,27 +166,26 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
 
     return sp.array(probRatio), sp.array(totalProb)
 
-def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
+def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt, method = 'SSFM'):
 
     # Grid definition
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
     # Potential definition
-    V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    V = potential_well(X, Y, x0, y0, R, v0).astype(complex)
     id = well_points(X ,Y, x0, y0, R)
 
     # Initial state definition
     psi = initial_state(k, theta, x0, y0, xi, X, Y)
     psi = normalize(psi, dxy)
     # Time parameters definition
-    tMax = 0.1
-    dt = .001
-    time = sp.arange(0.0, tMax+dt, dt)
+    time = sp.arange(0.0, Tmax+dt, dt)
 
     if method == 'SSFM':
         print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'SS')
         Wx, Wy = w_frequencies(psi, dxy)
         results = simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
         return time, results[0], results[1]
@@ -187,7 +193,8 @@ def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, method =
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
         # Definition of the Hamiltonian operator matrix
-        H = hamiltonian_operator(X, Y, dxy, xyT, xyMax, x0, v0, R, v0, vM)
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'CN')
+        H = hamiltonian_operator(X, Y, dxy, V)
 
         # Simulation
         results = simulate_cn(X, Y, psi, V, H, time, dt, id)
@@ -197,38 +204,41 @@ if __name__ == '__main__':
 
     # Potential well parameters definition
     v0 = 500.0
-    vM = 500.0
+    vM = 100.0
     R = 0.5
     x0 = 0.0
     y0 = 0.0
 
     # Box definition
-    xyMin = -2.0
-    xyMax = 2.0
+    xyMin = -3.0
+    xyMax = 3.0
+    # xyT = 1.0
     xyT = 2.0*xyMax/3.0
-    dxy = 0.01
+    dxy = 0.03
 
     # Gaussian state definition
     k = 30.0
     thetas = sp.linspace(0.0, sp.pi, 4)
     # thetas = pl.array([0.0, sp.pi/4.0])
-    xi_array = sp.linspace(-R/2.0, R/2.0, 4)
+    # xi_array = sp.linspace(-R/2.0, R/2.0, 4)
+
+    # Simulation time parameters
+    Tmax = 0.04
+    dt = 0.001
 
     # Method Analysis
-    startSS = time()
-    time, ratioSS, totalProbSS = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0)
-    timeSS = time() - startSS
-    startCN = time()
-    time, ratioCN, totalProbCN = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, 'CN')
-    timeCN = time() - startCN
+    time, ratioSS, totalProbSS = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt)
+    time, ratioCN, totalProbCN = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt, 'CN')
+    dif = abs(totalProbSS-totalProbCN)
     pl.figure('CN vs SSFM')
     pl.xlabel('Time')
-    pl.ylabel('Total Probability')
-    pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
-    pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
-    pl.legend()
-    print 'SS took ' + str(timeSS)
-    print 'CN took ' + str(timeCN)
+    pl.ylabel('Total Probability difference')
+    pl.xlim(0.0, 0.11)
+    pl.ylim(0.0, 1.1)
+    pl.scatter(time, dif)
+    # pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
+    # pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
+    # pl.legend()
 
     # # xi & theta analysis
     # # Generating markers

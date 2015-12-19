@@ -31,8 +31,8 @@ def absorving_borders_box(X, Y, xyT, xyMax, vM):
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
-    border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
+    border[idx] += vM * 1j * (abs(X[idx]) - xyMax + xyT)**2
+    border[idy] += vM * 1j * (abs(Y[idy]) - xyMax + xyT)**2
     return border
 
 def lap(shape, spacing):
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     # Problem definition
     v0 = 100.0
     vM = 300.0
-    delta = sp.linspace(0.0, 1.0, 1000)
+    delta = sp.linspace(0.0, 1.0, 100)
     b = 1.0
     x0 = 0.0
     y0 = 0.0
