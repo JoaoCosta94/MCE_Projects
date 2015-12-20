@@ -39,16 +39,16 @@ def lap(shape, spacing):
 
 if __name__ == '__main__':
 
-    # Creating or loading operator matrix
     if (platform.system() == 'Windows'):
         folder = 'E1a_Results\\'
     else:
         folder = 'E1a_Results/'
 
     # Problem definition
-    v0 = 1e14
+    v0_array = sp.array([1e1, 1e2, 1e3, 1e3, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14, 1e16, 1e16])
+
     vM = 300.0
-    delta = sp.array([0.0])
+    a = 1.0
     b = 1.0
     x0 = 0.0
     y0 = 0.0
@@ -63,43 +63,28 @@ if __name__ == '__main__':
     eList = []
     sList = []
 
-    t = []
-    for d in delta:
-
-        a = 1.0 + d
+    for v0 in v0_array:
+        print v0
         V = potential_well(X, Y, x0, y0, a, b, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
         L = lap(X.shape, dxy)
 
         H = -L + sparse.diags(V.ravel(),0, format = 'dia')
 
-        print 'calculating'
         start = time()
         energies, states = linalg.eigsh(H, which = 'SM', k=1)
-        t.append(time() - start)
-        print 'done'
 
         eList.append(energies[0])
 
         sList.append(states[0])
-        sp.save(folder + 'S_d_'+str(d)+'.npy', states[0])
+        sp.save(folder + 'S_V0_'+str(v0)+'.npy', states[0])
 
     eList = sp.array(eList)
-    t = sp.array(t)
 
-    print eList
-
-    # Saving delta, energies and times to file
-    sp.save(folder+'Delta'+'.npy', delta)
-    sp.save(folder+'E'+'.npy', eList)
-    sp.save(folder+'T'+'.npy', t)
-
-    # Plotting energy and time
-    pl.figure('Energies')
-    pl.title('Energy study with V0 = '+str(v0))
-    pl.xlabel(r'$\delta$')
-    pl.ylabel(r'E($\delta$)')
-    pl.ylim()
-    pl.scatter(delta, eList, marker = 'o', label = 'first state energy')
-    pl.legend()
-
+    pl.figure('Smallest Energy')
+    pl.title('Smallest Energy')
+    pl.scatter(v0_array, eList)
+    pl.xlim(0.0, 1.5e16)
+    pl.ylim(0.0, eList.max())
+    pl.xlabel('V0')
+    pl.ylabel('First energy')
     pl.show()

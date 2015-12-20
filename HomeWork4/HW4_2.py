@@ -208,18 +208,16 @@ if __name__ == '__main__':
     # Box definition
     xyMin = -3.0
     xyMax = 3.0
-    # xyT = 1.0
     xyT = 2.0*xyMax/3.0
     dxy = 0.03
 
     # Gaussian state definition
     k = 30.0
-    thetas = sp.linspace(0.0, sp.pi, 100)
-    # thetas = pl.array([0.0, sp.pi/4.0])
-    xi_array = sp.linspace(0.0, R/2.0, 5)
+    thetas = sp.linspace(0.0, sp.pi, 50)
+    xi_array = sp.linspace(0.0, R/2.0, 4)
 
     # Simulation time parameters
-    Tmax = 0.05
+    Tmax = 0.023
     dt = 0.001
 
     # # Method Analysis
@@ -227,18 +225,15 @@ if __name__ == '__main__':
     # time, ratioCN, totalProbCN = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt, 'CN')
     # dif = abs(totalProbSS-totalProbCN)
     # pl.figure('CN vs SSFM')
+    # pl.title('Method comparison')
     # pl.xlabel('Time')
     # pl.ylabel('Total Probability difference')
     # pl.xlim(0.0, Tmax+dt)
-    # pl.ylim(0.0, 1.1)
+    # pl.ylim(0.0, dif.max()+0.02)
     # pl.scatter(time, dif)
-    # pl.figure()
-    # pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
-    # pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
-    # pl.legend()
 
     for xi in xi_array:
-        pl.figure(xi)
+        pl.figure()
         pl.title('Probability flow xi = '+str(xi))
         pl.xlabel(r'$\theta$')
         pl.ylabel('Time')
@@ -248,6 +243,6 @@ if __name__ == '__main__':
             mesh.append(ratio)
         mesh = sp.array(mesh).T
         Theta, T = sp.meshgrid(thetas, time)
-        pl.contourf(Theta, T, mesh, levels = sp.linspace(0.0, 1.0, 100))
+        pl.contourf(Theta, T, mesh, levels = sp.linspace(mesh.min(), mesh.max(), 100))
 
     pl.show()

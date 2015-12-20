@@ -48,7 +48,7 @@ if __name__ == '__main__':
     # Problem definition
     v0 = 100.0
     vM = 300.0
-    delta = sp.linspace(0.0, 1.0, 100)
+    delta = sp.linspace(0.0, 1.0, 20)
     b = 1.0
     x0 = 0.0
     y0 = 0.0

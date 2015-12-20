@@ -130,12 +130,12 @@ if __name__ == '__main__':
     xyMin = -3.0
     xyMax = 3.0
     xyT = 1.0
-    dxy = 0.01
+    dxy = 0.03
 
     # Gaussian state definition
     k = 30.0
     theta = sp.pi / 2.0
-    xi_array = sp.linspace(0.0, R/2.0, 100)
+    xi_array = sp.linspace(0.0, R/2.0, 50)
     yi = 0.0
 
     Tmax = 0.05
