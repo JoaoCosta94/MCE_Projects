@@ -215,9 +215,8 @@ if __name__ == '__main__':
     k = 30.0
     thetas = sp.linspace(0.0, sp.pi, 50)
     xi_array = sp.linspace(0.0, R/2.0, 4)
-
     # Simulation time parameters
-    Tmax = 0.023
+    Tmax = 0.05
     dt = 0.001
 
     # # Method Analysis
@@ -233,8 +232,9 @@ if __name__ == '__main__':
     # pl.scatter(time, dif)
 
     for xi in xi_array:
+        print xi
         pl.figure()
-        pl.title('Probability flow xi = '+str(xi))
+        pl.title('Probability inside the well for xi = '+str(xi))
         pl.xlabel(r'$\theta$')
         pl.ylabel('Time')
         mesh = []
@@ -244,5 +244,6 @@ if __name__ == '__main__':
         mesh = sp.array(mesh).T
         Theta, T = sp.meshgrid(thetas, time)
         pl.contourf(Theta, T, mesh, levels = sp.linspace(mesh.min(), mesh.max(), 100))
+        pl.colorbar()
 
     pl.show()

@@ -143,13 +143,17 @@ if __name__ == '__main__':
 
     mesh = []
     for xi in xi_array:
+        print xi
         time, ratio = simulation(v0, x0, y0, R, xi, yi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt)
         mesh.append(ratio)
 
     mesh = sp.array(mesh).T
     X, T = sp.meshgrid(xi_array, time)
     pl.figure()
-    pl.contourf(X, T, mesh, levels = sp.linspace(mesh.min(), mesh.max(), 100))
+    pl.title('Probability inside the well')
+    pl.contourf(X, T, mesh, levels = sp.linspace(mesh.min(), mesh.max(), 50))
+    pl.xlabel('xi')
+    pl.ylabel('time')
     pl.colorbar()
 
     pl.show()
