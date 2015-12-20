@@ -39,7 +39,6 @@ def lap(shape, spacing):
 
 if __name__ == '__main__':
 
-    # Creating or loading operator matrix
     if (platform.system() == 'Windows'):
         folder = 'E1_Results\\'
     else:

@@ -45,7 +45,7 @@ if __name__ == '__main__':
         folder = 'E1a_Results/'
 
     # Problem definition
-    v0_array = sp.array([1e1, 1e2, 1e3, 1e3, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14, 1e16, 1e16])
+    v0_array = sp.array([1e1, 1e2, 1e3, 1e3, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14, 1e15, 1e16])
 
     vM = 300.0
     a = 1.0
@@ -83,8 +83,6 @@ if __name__ == '__main__':
     pl.figure('Smallest Energy')
     pl.title('Smallest Energy')
     pl.scatter(v0_array, eList)
-    pl.xlim(0.0, 1.5e16)
-    pl.ylim(0.0, eList.max())
     pl.xlabel('V0')
     pl.ylabel('First energy')
     pl.show()
