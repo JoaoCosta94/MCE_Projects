@@ -60,53 +60,56 @@ def split_step_fourier(state, V, Wx, Wy, dt):
 
     return pl.ifft2(stateNew)
 
+def well_points(X, Y, x0, y0, R):
+    """
+    This function determines which grid points are inside the well
+    """
+    return sp.where((X-x0)**2 + (Y-y0)**2 < R**2)
+
+def prob_ratio(prob, id):
+    """
+    This function calculates the ratio of probability inside the well
+    """
+    return sum(prob[id])
+
 def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
     """
     This function performs the simulation using split step Fourier  method
     """
-    pl.ion()
-    pl.show(block = False)
+    # pl.ion()
+    # pl.show(block = False)
+    probRatio = []
     for t in time:
         # Probability density
         prob = psi.real**2 + psi.imag**2
+        probRatio.append(prob_ratio(prob, id))
 
-    #     pl.figure()
-    #     pl.title('t = '+str(t))
-        pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-        pl.colorbar()
-        pl.contour(X, Y, V.real)
-        pl.draw()
-        pl.clf()
+        # pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 50))
+        # pl.colorbar()
+        # pl.contour(X, Y, V.real)
+        # pl.draw()
+        # pl.clf()
 
         psi = split_step_fourier(psi, V, Wx, Wy, dt)
 
-    # pl.show()
 
-    return 0
+    return sp.array(probRatio)
 
-def simulation(v0, x0, y0, R, xi, yi, xyMin, xyMax, dxy, xyT, vM, k, theta, method = 'SSFM'):
+def simulation(v0, x0, y0, R, xi, yi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt):
 
     # Grid definition
     X, Y = sp.mgrid[xyMin:xyMax:dxy, xyMin:xyMax:dxy]
 
     # Potential definition
     V = potential_well(X, Y, x0, y0, R, v0) + absorving_borders_box(X, Y, xyT, xyMax, vM)
+    id = well_points(X ,Y, x0, y0, R)
 
     # Initial state definition
     psi = initial_state(k, theta, xi, yi, X, Y)
     psi = normalize(psi, dxy)
-    # prob = psi.real**2 + psi.imag**2
-
-    # pl.figure()
-    # pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
-    # pl.colorbar()
-    # pl.contour(X, Y, V.real)
-    # pl.show()
 
     #Time parameters definition
-    tMax = 0.1
-    dt = .001
-    time = sp.arange(0.0, tMax+dt, dt)
+    time = sp.arange(0.0, Tmax+dt, dt)
 
     print 'Simulating with split step Fourier method'
     # Simulation ran using split step Fourier method
@@ -118,8 +121,8 @@ if __name__ == '__main__':
 
     # Potential well parameters definition
     v0 = 500.0
-    vM = 1000.0
-    R = 0.5
+    vM = 100.0
+    R = 1.0
     x0 = 0.0
     y0 = 0.0
 
@@ -130,9 +133,23 @@ if __name__ == '__main__':
     dxy = 0.01
 
     # Gaussian state definition
-    k = 50.0
-    theta = 2.4 * sp.pi / 4.0
-    xi = 1.0
-    yi = -1.0
+    k = 30.0
+    theta = sp.pi / 2.0
+    xi_array = sp.linspace(0.0, R/2.0, 100)
+    yi = 0.0
 
-    simulation(v0, x0, y0, R, xi, yi, xyMin, xyMax, dxy, xyT, vM, k, theta)
+    Tmax = 0.05
+    dt = 0.001
+
+    mesh = []
+    for xi in xi_array:
+        time, ratio = simulation(v0, x0, y0, R, xi, yi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt)
+        mesh.append(ratio)
+
+    mesh = sp.array(mesh).T
+    X, T = sp.meshgrid(xi_array, time)
+    pl.figure()
+    pl.contourf(X, T, mesh, levels = sp.linspace(mesh.min(), mesh.max(), 100))
+    pl.colorbar()
+
+    pl.show()

@@ -14,19 +14,15 @@ def potential_well(X, Y, x0, y0, R, v0):
     V = v0 * ((X-x0)**2 + (Y-y0)**2 > R**2)
     return V
 
-def absorving_borders_box(X, Y, xyT, xyMax, vM, method):
+def absorving_borders_box(X, Y, xyT, xyMax, vM):
     """
     This function generates the absorbing potential on the borders
     """
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    if method == 'SS':
-        border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
-        border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
-    elif method == 'CN':
-        border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j - (abs(X[idx]) - xyMax + xyT)**2)
-        border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j - (abs(Y[idy]) - xyMax + xyT)**2)
+    border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
+    border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
     return border
 
 def lap(shape, spacing):
@@ -185,7 +181,7 @@ def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt
         print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
-        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'SS')
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM)
         Wx, Wy = w_frequencies(psi, dxy)
         results = simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
         return time, results[0], results[1]
@@ -193,7 +189,7 @@ def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
         # Definition of the Hamiltonian operator matrix
-        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'SS')
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM)
         H = hamiltonian_operator(X, Y, dxy, V)
 
         # Simulation
@@ -218,43 +214,40 @@ if __name__ == '__main__':
 
     # Gaussian state definition
     k = 30.0
-    thetas = sp.linspace(0.0, sp.pi, 4)
+    thetas = sp.linspace(0.0, sp.pi, 100)
     # thetas = pl.array([0.0, sp.pi/4.0])
-    # xi_array = sp.linspace(-R/2.0, R/2.0, 4)
+    xi_array = sp.linspace(0.0, R/2.0, 5)
 
     # Simulation time parameters
-    Tmax = 0.04
-    dt = 0.00001
-    # Method Analysis
-    time, ratioSS, totalProbSS = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt)
-    time, ratioCN, totalProbCN = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt, 'CN')
-    dif = abs(totalProbSS-totalProbCN)
-    pl.figure('CN vs SSFM')
-    pl.xlabel('Time')
-    pl.ylabel('Total Probability difference')
-    pl.xlim(0.0, Tmax+dt)
-    pl.ylim(0.0, 1.1)
-    pl.scatter(time, dif)
-    pl.figure()
-    pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
-    pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
-    pl.legend()
+    Tmax = 0.05
+    dt = 0.001
 
-    # # xi & theta analysis
-    # # Generating markers
-    # m = ['o', '*', 'v', '^']
-    # markers = {}
-    # for i in range(len(thetas)):
-    #     markers[thetas[i]] = m[i]
-    #
-    # for xi in xi_array:
-    #     pl.figure(xi)
-    #     pl.title('Probability flow xi = '+str(xi))
-    #     pl.xlabel('Time')
-    #     pl.ylabel('Probability inside the potential well')
-    #     for theta in thetas:
-    #         time, ratio, totalProb = simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta)
-    #         pl.scatter(time, ratio, label = r'$\theta$ = ' + str(theta), marker = markers[theta])
-    #     pl.legend()
+    # # Method Analysis
+    # time, ratioSS, totalProbSS = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt)
+    # time, ratioCN, totalProbCN = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt, 'CN')
+    # dif = abs(totalProbSS-totalProbCN)
+    # pl.figure('CN vs SSFM')
+    # pl.xlabel('Time')
+    # pl.ylabel('Total Probability difference')
+    # pl.xlim(0.0, Tmax+dt)
+    # pl.ylim(0.0, 1.1)
+    # pl.scatter(time, dif)
+    # pl.figure()
+    # pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
+    # pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
+    # pl.legend()
+
+    for xi in xi_array:
+        pl.figure(xi)
+        pl.title('Probability flow xi = '+str(xi))
+        pl.xlabel(r'$\theta$')
+        pl.ylabel('Time')
+        mesh = []
+        for theta in thetas:
+            time, ratio, totalProb = simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt)
+            mesh.append(ratio)
+        mesh = sp.array(mesh).T
+        Theta, T = sp.meshgrid(thetas, time)
+        pl.contourf(Theta, T, mesh, levels = sp.linspace(0.0, 1.0, 100))
 
     pl.show()

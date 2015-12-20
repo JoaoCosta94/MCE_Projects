@@ -14,19 +14,15 @@ def potential_well(X, Y, x0, y0, x1, R, v0):
     V = v0 * ((X-x0)**2 + (Y-y0)**2 > R**2) * ((X-x1)**2 + (Y-y0)**2 > R**2)
     return V
 
-def absorving_borders_box(X, Y, xyT, xyMax, vM, method):
+def absorving_borders_box(X, Y, xyT, xyMax, vM):
     """
     This function generates the absorbing potential on the borders
     """
     border = sp.zeros(X.shape, dtype = complex)
     idx = sp.where(abs(X) > (xyMax - xyT))
     idy = sp.where(abs(Y) > (xyMax - xyT))
-    if method == 'SS':
-        border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
-        border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
-    elif method == 'CN':
-        border[idx] += vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j - (abs(X[idx]) - xyMax + xyT)**2)
-        border[idy] += vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j - (abs(Y[idy]) - xyMax + xyT)**2)
+    border[idx] -= vM * ((abs(X[idx]) - xyMax + xyT)**2 * 1j + (abs(X[idx]) - xyMax + xyT)**2)
+    border[idy] -= vM * ((abs(Y[idy]) - xyMax + xyT)**2 * 1j + (abs(Y[idy]) - xyMax + xyT)**2)
     return border
 
 def lap(shape, spacing):
@@ -90,7 +86,7 @@ def theta_family_step(F, u, theta, dt, spacing):
 
     uN = linalg.spsolve(A, b)
     uN = sp.reshape(uN, u.shape)
-    return normalize(uN, spacing)
+    return uN
 
 def well_points(X, Y, x0, y0, R):
     """
@@ -180,14 +176,14 @@ def simulation(v0, x0, y0, d, R, xyMin, xyMax, dxy, xyT, vM, Tmax, dt, method = 
         print 'Simulating with split step Fourier method'
         # Simulation ran using split step Fourier method
         # Definition of Fourier space (FFT space) frequencies
-        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'SS')
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM)
         Wx, Wy = w_frequencies(psi, dxy)
         return time, simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id)
     else:
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
         # Definition of the Hamiltonian operator matrix
-        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'CN')
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM)
         H = hamiltonian_operator(X, Y, dxy, V)
 
         # Simulation
