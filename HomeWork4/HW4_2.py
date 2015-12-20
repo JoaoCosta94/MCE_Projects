@@ -35,7 +35,7 @@ def lap(shape, spacing):
     """
     n = shape[0]*shape[1]
     L = -4.*sparse.eye(n, n, 0) + sparse.eye(n, n, 1) + sparse.eye(n, n, -1) + sparse.eye(n, n, shape[1]) + sparse.eye(n, n, -shape[1])
-    return L / spacing**2
+    return L / spacing ** 2
 
 def initial_state(k, theta, x0, y0, xi, X, Y):
     """
@@ -94,7 +94,7 @@ def theta_family_step(F, u, theta, dt, spacing):
 
     uN = linalg.spsolve(A, b)
     uN = sp.reshape(uN, u.shape)
-    return normalize(uN, spacing)
+    return uN
 
 def well_points(X, Y, x0, y0, R):
     """
@@ -193,7 +193,7 @@ def simulation(v0, x0, y0, R, xi, xyMin, xyMax, dxy, xyT, vM, k, theta, Tmax, dt
         print 'Simulating with Crank-Nicolson method'
         # Simulation ran using Crank-Nicolson method
         # Definition of the Hamiltonian operator matrix
-        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'CN')
+        V += absorving_borders_box(X, Y, xyT, xyMax, vM, 'SS')
         H = hamiltonian_operator(X, Y, dxy, V)
 
         # Simulation
@@ -224,8 +224,7 @@ if __name__ == '__main__':
 
     # Simulation time parameters
     Tmax = 0.04
-    dt = 0.001
-
+    dt = 0.00001
     # Method Analysis
     time, ratioSS, totalProbSS = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt)
     time, ratioCN, totalProbCN = simulation(v0, x0, y0, R, 0.0, xyMin, xyMax, dxy, xyT, vM, k, 0.0, Tmax, dt, 'CN')
@@ -233,12 +232,13 @@ if __name__ == '__main__':
     pl.figure('CN vs SSFM')
     pl.xlabel('Time')
     pl.ylabel('Total Probability difference')
-    pl.xlim(0.0, 0.11)
+    pl.xlim(0.0, Tmax+dt)
     pl.ylim(0.0, 1.1)
     pl.scatter(time, dif)
-    # pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
-    # pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
-    # pl.legend()
+    pl.figure()
+    pl.scatter(time, totalProbSS, label = 'SSFM', marker = 'o')
+    pl.scatter(time, totalProbCN, label = 'CN', marker = '*')
+    pl.legend()
 
     # # xi & theta analysis
     # # Generating markers
