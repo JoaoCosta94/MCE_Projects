@@ -85,8 +85,6 @@ def theta_family_step(F, u, theta, dt, spacing):
     I = sparse.eye(n)
     A = (theta * dt * 1j) * F + I
     b = (((theta - 1) * dt * 1j) * F + I).dot(uV)
-    # A = 2.0j / dt * I - F
-    # b = (2.0j / dt * I + F).dot(uV)
 
     uN = linalg.spsolve(A, b)
     uN = sp.reshape(uN, u.shape)
@@ -119,9 +117,6 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
         totalProb.append(total)
         probRatio.append(prob_ratio(prob, id))
 
-    #     print str(t) + ': ' + str(total)
-    #     pl.figure()
-    #     pl.title('t = '+str(t))
     #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     #     pl.colorbar()
     #     pl.contour(X, Y, V.real)
@@ -148,8 +143,6 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
         totalProb.append(sum(prob))
         probRatio.append(prob_ratio(prob, id))
 
-    #     pl.figure()
-    #     pl.title('t = '+str(t))
     #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     #     pl.colorbar()
     #     pl.contour(X, Y, V.real)

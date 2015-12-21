@@ -45,7 +45,7 @@ if __name__ == '__main__':
         folder = 'E1a_Results/'
 
     # Problem definition
-    v0_array = sp.array([1e1, 1e2, 1e3, 1e3, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14, 1e15, 1e16])
+    v0_array = sp.array([1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14, 1e15, 1e16])
 
     vM = 300.0
     a = 1.0
@@ -76,13 +76,16 @@ if __name__ == '__main__':
         eList.append(energies[0])
 
         sList.append(states[0])
-        sp.save(folder + 'S_V0_'+str(v0)+'.npy', states[0])
+        # sp.save(folder + 'S_V0_'+str(v0)+'.npy', states[0])
 
     eList = sp.array(eList)
+    analitical = 5.78 * sp.ones(v0_array.shape)
+    print eList
 
     pl.figure('Smallest Energy')
     pl.title('Smallest Energy')
-    pl.scatter(v0_array, eList)
-    pl.xlabel('V0')
+    pl.scatter(sp.log10(v0_array), eList)
+    pl.plot(sp.log10(v0_array), analitical)
+    pl.xlabel('Log(V0)')
     pl.ylabel('First energy')
     pl.show()

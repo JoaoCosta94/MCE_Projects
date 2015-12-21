@@ -112,8 +112,6 @@ def simulate_ssfm(X, Y, psi, V, Wx, Wy, time, dt, id):
         prob = psi.real**2 + psi.imag**2
         tunnel.append(prob_ratio(prob, id))
 
-    #     pl.figure()
-    #     pl.title('t = '+str(t))
     #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     #     pl.colorbar()
     #     pl.contour(X, Y, V.real)
@@ -138,8 +136,6 @@ def simulate_cn(X, Y, psi, V, H, time, dt, id):
         prob = psi.real**2 + psi.imag**2
         tunnel.append(prob_ratio(prob, id))
 
-    #     pl.figure()
-    #     pl.title('t = '+str(t))
     #     pl.contourf(X, Y, prob, levels = sp.linspace(0.0, prob.max(), 100))
     #     pl.colorbar()
     #     pl.contour(X, Y, V.real)
