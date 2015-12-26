@@ -56,11 +56,11 @@ if __name__ == "__main__":
     # Definition of problem parameters
 
     # Grid parameters
-    gWidth = 100 # atom grid width
+    gWidth = 10000 # atom grid width
     dx = sp.float32(0.01) # atom grid spacing
 
     # Time parameters
-    tInterval = sp.float32(2.5)
+    tInterval = sp.float32(10.0)
     dt = sp.float32(0.01)
 
     # State density parameters
@@ -74,8 +74,8 @@ if __name__ == "__main__":
     b = sp.float32(1.0)
 
     # Generating grids
-    X_h = sp.arange(0.0, gWidth, dx)
-    T_h = sp.arange(dt, tInterval, dt)
+    X_h = sp.arange(0.0, gWidth, dx).astype(sp.float32)
+    T_h = sp.arange(dt, tInterval, dt).astype(sp.float32)
     N = len(X_h)
 
     # Generating initial states density
@@ -103,7 +103,14 @@ if __name__ == "__main__":
     f.close()
     prg = cl.Program(ctx, source).build()
 
+    print 'All calculations will be performed using OpenCL sweet sweet magic'
+
+    start = time.time()
     for t in T_h:
-        print t / tInterval * 100
+        # print t / tInterval * 100
+        # Evolve State
         evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, k_d, ps_d, pm_d, W, t)
         evolveSate.wait()
+
+    tCalc = time.time() - start
+    print 'Calculations took ' + str(tCalc) + ' seconds'

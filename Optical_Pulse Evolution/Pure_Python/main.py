@@ -27,9 +27,9 @@ def evolve_state(A, p):
     # p31 = p[4]
     # p32 = p[5]
     p11 = GAMA*(p[1]+sp.conj(p[1]))/2.0 + 1.0j*P0*A*(p[3]+sp.conj(p[3]))
-    p22 = -GAMA*(p[1]+sp.conj(p[1])) - 1.0j*(P0*A*(p[3]+sp.conj(p[3])) + OC*(p[5]+sp.conj(p[5])))
+    p22 = -GAMA*(p[1]+sp.conj(p[1])) - 1.0j*(P0*A*(p[3]+sp.conj(p[3])) - OC*(p[5]+sp.conj(p[5])))
     p33 = GAMA*(p[1]+sp.conj(p[1]))/2.0 - 1.0j*OC*(p[5]+sp.conj(p[5]))
-    p21 = 1.0j*(P0*A*(p[3]-p[1]) + OC*p[4] - DELTA*p[3]) - GAMA*p[3]
+    p21 = 1.0j*(P0*A*(p[0]-p[1]) + OC*p[4] - DELTA*p[3]) - GAMA*p[3]
     p31 = 1.0j*(-P0*A*p[5] + OC*p[3] + DELTA*p[4])
     p32 = 1.0j*(-P0*A*p[4] + OC*(p[1]-p[2])) - GAMA*p[5]
     return sp.array([p11, p22, p33, p21, p31, p32])
@@ -48,7 +48,6 @@ def evolve_envelope(A, p21, X, t):
     """
     This function evolves the envelope
     """
-    i = sp.arange(0, len(A), 1)
     aux = eps*(sp.roll(A, 1) + sp.roll(A,-1)) + gama*(p21*sp.exp(1j*(Kp*X - Wp*t)) + CC)
     return A + 1j*aux
 
@@ -77,12 +76,12 @@ if __name__ == '__main__':
     Wp = 1.0
 
     # Grid parameters and definition
-    width = 100 # atom chain width
+    width = 10000 # atom chain width
     dx = 0.01 # atom chain spacing
     X = sp.arange(0.0, width, dx) # atom grid
 
     # Time parameters and definition
-    interval = 2.5 # simulation duration
+    interval = 10.0 # simulation duration
     dt = 0.01 # time step
     T = sp.arange(dt, interval, dt) # time array
 
@@ -97,27 +96,27 @@ if __name__ == '__main__':
     # TODO: Create a real envelope later like a cosine
     A = 100.0*(sp.random.random_sample(N) + 1j*sp.random.random_sample(N)) # Initial envelope generated as random dist
 
+    print 'All calculations will be performed using only python'
+
     p21_evolution = []
     A_evolution = []
-    times = []
+    start = time.time()
     for t in T:
-        start = time.time()
-        A = evolve_envelope(A, p[3], X, t)
+        # A = evolve_envelope(A, p[3], X, t)
         # For each time instant evolve the state with the new values of A
         p = RK4_STEP(dt, A, p)
-        times.append(time.time()-start)
         # Append to mesh
-        A_evolution.append(A)
-        p21_evolution.append(abs(p[3]))
+        # A_evolution.append(A)
+        # p21_evolution.append(abs(p[3]))
 
-    # Calculating average iteration time
-    print "Average iteration / step time: " + str(sp.average(sp.array(times)))
+    tCalc = time.time() - start
+    print 'Calculations took ' + str(tCalc) + ' seconds'
 
-    # Plotting preparation and presentation
-    X_MESH, T_MESH = sp.meshgrid(X, T)
-    p21_evolution = sp.array(p21_evolution)
-    A_evolution = sp.array(A_evolution)
-
+    # # Plotting preparation and presentation
+    # X_MESH, T_MESH = sp.meshgrid(X, T)
+    # p21_evolution = sp.array(p21_evolution)
+    # A_evolution = sp.array(A_evolution)
+    #
     # # p21 evolution
     # pl.figure()
     # pl.xlabel('X')
