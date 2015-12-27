@@ -9,9 +9,9 @@
 #define complex_real(a) a.x
 #define complex_imag(a) a.y
 #define complex_unit (float2)(0, 1)
-constant int N=1000001; 
-constant float dx=0.01; 
-constant float dt=0.01; 
+constant int N=10000000; 
+constant float dx=0.001; 
+constant float dt=0.001; 
 constant float P0=1.0; 
 constant float DELTA=1.0; 
 constant float GAMA=1.0; 
@@ -22,25 +22,24 @@ void evolve_state(__global float2 *P,
                   __global float2 *K,
                   int id,
                   uint W){
-	float2 p11, p22, p33, p21, p31, p32;
-	p11 = P[id*W];
-	p22 = P[id*W+1];
-	p33 = P[id*W+2];
-	p21 = P[id*W+3];
-	p31 = P[id*W+4];
-	p32 = P[id*W+5];
+	//p11 = P[id*W];
+	//p22 = P[id*W+1];
+	//p33 = P[id*W+2];
+	//p21 = P[id*W+3];
+	//p31 = P[id*W+4];
+	//p32 = P[id*W+5];
 
-	K[id*W] = GAMA*(p22 + conj(p22))/2 + complex_mul(P0*A[id]*(p21 + conj(p21)), complex_unit);
+	K[id*W] = GAMA*(P[id*W+1] + conj(P[id*W+1]))/2 + complex_mul(P0*A[id]*(P[id*W+3] + conj(P[id*W+3])), complex_unit);
 
-	K[id*W+1] = -GAMA*(p22 + conj(p22)) - complex_mul(P0*A[id]*(p21 + conj(p21)) - OC*(p32 + conj(p32)), complex_unit);
+	K[id*W+1] = -GAMA*(P[id*W+1] + conj(P[id*W+1])) - complex_mul(P0*A[id]*(P[id*W+3] + conj(P[id*W+3])) - OC*(P[id*W+5] + conj(P[id*W+5])), complex_unit);
 
-	K[id*W+2] = GAMA*(p22 + conj(p22))/2 - complex_mul(OC*(p32 + conj(p32)), complex_unit);
+	K[id*W+2] = GAMA*(P[id*W+1] + conj(P[id*W+1]))/2 - complex_mul(OC*(P[id*W+5] + conj(P[id*W+5])), complex_unit);
 
-	K[id*W+3] = complex_mul(P0*A[id]*(p11 - p22) + OC*p31 - DELTA*p21, complex_unit) - GAMA*p21;
+	K[id*W+3] = complex_mul(P0*A[id]*(P[id*W] - P[id*W+1]) + OC*P[id*W+4] - DELTA*P[id*W+3], complex_unit) - GAMA*P[id*W+3];
 
-	K[id*W+4] = complex_mul(-P0*A[id]*p32 + OC*p21 + DELTA*p31, complex_unit);
+	K[id*W+4] = complex_mul(-P0*A[id]*P[id*W+5] + OC*P[id*W+3] + DELTA*P[id*W+4], complex_unit);
 
-	K[id*W+5] = complex_mul(-P0*A[id]*p31 + OC*(p22 - p33), complex_unit) - GAMA*p32;
+	K[id*W+5] = complex_mul(-P0*A[id]*P[id*W+4] + OC*(P[id*W+1] - P[id*W+2]), complex_unit) - GAMA*P[id*W+5];
 }
 
 __kernel void RK4Step(__global float2 *P,
