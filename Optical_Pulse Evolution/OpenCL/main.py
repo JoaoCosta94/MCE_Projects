@@ -19,7 +19,7 @@ def initial_state(N):
     p32 = sp.random.random_sample(N) #
     return p11, p22, p33, p21, p31, p32
 
-def device_code(N, dx, dt, P0, DELTA, GAMA):
+def device_code(N, dx, dt, P0, DELTA, GAMA, EPS, G, Kp, Wp, CC):
     """
     This function generates the source code for the device solver
     """
@@ -31,6 +31,11 @@ def device_code(N, dx, dt, P0, DELTA, GAMA):
     constants += "constant float P0=" + str(P0) + "; \n"
     constants += "constant float DELTA=" + str(DELTA) + "; \n"
     constants += "constant float GAMA=" + str(GAMA) + "; \n"
+    constants += "constant float EPS=" + str(EPS) + "; \n"
+    constants += "constant float G=" + str(G) + "; \n"
+    constants += "constant float Kp=" + str(Kp) + "; \n"
+    constants += "constant float Wp=" + str(Wp) + "; \n"
+    constants += "constant float CC=" + str(CC) + "; \n"
     f1 = open("precode.cl", "r")
     f2 = open("kernel.cl", "r")
     f3 = open("source.cl",'w+')
@@ -72,15 +77,21 @@ if __name__ == "__main__":
     N = len(X_h)
 
     # State density parameters
+    # TODO: Change OC to values that make sense
     P0 = sp.float32(1.0)
     GAMA = sp.float32(1.0)
     DELTA = sp.float32(1.0)
-    # TODO: Change OC to values that make sense
     OC_h = sp.ones(X_h.shape).astype(sp.float32)
 
     # Envelope parameters
+    # TODO: Change to values that make sense
     a = sp.float32(1.0)
     b = sp.float32(1.0)
+    Kp = sp.float32(1.0)
+    Wp = sp.float32(1.0)
+    EPS = a * dt/dx**2
+    G = b*dt*P0
+    CC = sp.float32(0.0)
 
     # Generating initial states density
     p11_h, p22_h, p33_h, p21_h, p31_h, p32_h = initial_state(N)
@@ -91,7 +102,7 @@ if __name__ == "__main__":
     A_h = 100.0*(sp.random.random_sample(N) + 1j*sp.random.random_sample(N)).astype(complex)
 
     # Preparing GPU code
-    device_code(N, dx, dt, P0, DELTA, GAMA)
+    device_code(N, dx, dt, P0, DELTA, GAMA, EPS, G, Kp, Wp, CC)
 
     # Initialization of the device and workspace
     ctx = cl.create_some_context()
@@ -128,10 +139,14 @@ if __name__ == "__main__":
 
     start = time.time()
     for i in range(len(T_h)):
+        # Evolve Pulse
+        evolvePulse = prg.PulseEvolution(queue, (N,), None, A_d, p_d, X_d, W, T_h[i])
+        evolvePulse.wait()
         # Evolve State
         evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
         evolveSate.wait()
         if (i % snapMultiple == 0):
+            # Grabbing snapshot instant
             tInstants.append(T_h[i])
             # Copying state to RAM
             cl.enqueue_copy(queue, p_h, p_d)

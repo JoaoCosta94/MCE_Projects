@@ -83,3 +83,18 @@ __kernel void RK4Step(__global float2 *P,
 		P[idx] = Ps[idx];
 	}
 }
+
+__kernel void evolvePulse(__global float2 *A
+						  __global float2 *P
+						  __global float *X
+						  uint W
+						  float t){
+	//p21 = P[gID_x*W+3]
+	const int gID_x = get_global_id(0);
+	float2 aux;
+	
+	aux = (A[gID_x] + complex_mul(EPS*(A[gID_x+1] + A[gID_x-1]), complex_unit)
+	       + complex_mul(G*(complex_mul(P[gID_x*W+3], complex_exp(Kp*X[gID_x] - Wp*t)) + CC), complex_unit));
+
+	A[gID_x] = aux;
+}
