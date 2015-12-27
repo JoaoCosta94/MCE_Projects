@@ -95,7 +95,10 @@ if __name__ == "__main__":
 
     # Generating initial states density
     p11_h, p22_h, p33_h, p21_h, p31_h, p32_h = initial_state(N)
-    p_h = sp.array([p11_h, p22_h, p33_h, p21_h, p31_h, p32_h]).T.astype(complex)
+    p_h = []
+    for i in range (N):
+        p_h.append(sp.array([p11_h[i], p22_h[i], p33_h[i], p21_h[i], p31_h[i], p32_h[i]]))
+    p_h = sp.array(p_h).astype(complex)
 
     # Generating initial envelope status
     # TODO: Change A to values that make sense
