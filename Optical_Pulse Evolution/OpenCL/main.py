@@ -110,11 +110,11 @@ if __name__ == "__main__":
     print 'All calculations will be performed using OpenCL sweet sweet magic'
 
     start = time.time()
-    for t in T_h:
-        # print t / tInterval * 100
+    for i in range(len(T_h)):
         # Evolve State
-        evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, t)
+        evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
         evolveSate.wait()
+        print "{:.2f}".format(T_h[i] / tInterval * 100) + '%'
 
     tCalc = time.time() - start
     print 'Calculations took ' + str(tCalc) + ' seconds'
