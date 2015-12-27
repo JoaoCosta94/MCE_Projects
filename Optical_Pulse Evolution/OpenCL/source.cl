@@ -9,7 +9,7 @@
 #define complex_real(a) a.x
 #define complex_imag(a) a.y
 #define complex_unit (float2)(0, 1)
-constant int N=10001; 
+constant int N=10002; 
 constant float dx=0.01; 
 constant float dt=0.01; 
 constant float P0=1.0; 

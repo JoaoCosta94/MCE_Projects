@@ -4,6 +4,7 @@ import scipy as sp
 import pylab as pl
 import pyopencl as cl
 import time
+import platform
 
 def initial_state(N):
     """
@@ -66,8 +67,8 @@ if __name__ == "__main__":
     dt = sp.float32(0.01)
 
     # Generating grids
-    X_h = sp.arange(0.0, gWidth, dx).astype(sp.float32)
-    T_h = sp.arange(dt, tInterval, dt).astype(sp.float32)
+    X_h = sp.arange(0.0, gWidth+dx, dx).astype(sp.float32)
+    T_h = sp.arange(dt, tInterval+dt, dt).astype(sp.float32)
     N = len(X_h)
 
     # State density parameters
@@ -107,6 +108,22 @@ if __name__ == "__main__":
     f.close()
     prg = cl.Program(ctx, source).build()
 
+    # Save values interval & variables
+    snapMultiple = 10
+    pulseEvolution = [A_h]
+    p21Evolution = [p_h[:, 3]]
+    tInstants = [0.0]
+
+    # Save files path
+    if (platform.system() == 'Windows'):
+        fPath = 'Data_Files\\'
+    else:
+        fPath = 'Data_Files/'
+    pulsePath = fPath+'Pulse_Evol_'+str(N)+'_dx_'+str(dx)+'_dt_'+str(dt)+'.npy'
+    p21Path = fPath+'P21_Evol_'+str(N)+'_dx_'+str(dx)+'_dt_'+str(dt)+'.npy'
+    tPath = fPath+'T_'+str(N)+'_dx_'+str(dx)+'_dt_'+str(dt)+'.npy'
+    xPath = fPath+'X_'+str(N)+'_dx_'+str(dx)+'_dt_'+str(dt)+'.npy'
+
     print 'All calculations will be performed using OpenCL sweet sweet magic'
 
     start = time.time()
@@ -114,7 +131,27 @@ if __name__ == "__main__":
         # Evolve State
         evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
         evolveSate.wait()
+        if (i % snapMultiple == 0):
+            tInstants.append(T_h[i])
+            # Copying state to RAM
+            cl.enqueue_copy(queue, p_h, p_d)
+            p21Evolution.append(p_h[:, 3])
+            # Copying pulse to RAM
+            cl.enqueue_copy(queue, A_h, A_d)
+            pulseEvolution.append(A_h)
+            print 'Snapshot Saved'
         print "{:.2f}".format(T_h[i] / tInterval * 100) + '%'
 
+    # Converting to arrays
+    pulseEvolution = sp.array(pulseEvolution)
+    p21Evolution = sp.array(p21Evolution)
+    tInstants = sp.array(tInstants)
+
+    # Saving data to files
+    sp.save(pulsePath, pulseEvolution)
+    sp.save(p21Path, p21Evolution)
+    sp.save(tPath, tInstants)
+    sp.save(xPath, X_h)
+
     tCalc = time.time() - start
-    print 'Calculations took ' + str(tCalc) + ' seconds'
+    print 'Calculations & saving to files took ' + str(tCalc) + ' seconds'
