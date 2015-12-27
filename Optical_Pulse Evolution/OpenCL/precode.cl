@@ -9,3 +9,5 @@
 #define complex_real(a) a.x
 #define complex_imag(a) a.y
 #define complex_unit (float2)(0, 1)
+#define complex_exp(a) complex_ctr(cos(a), sin(a))
+
