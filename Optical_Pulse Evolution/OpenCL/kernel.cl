@@ -84,10 +84,10 @@ __kernel void RK4Step(__global float2 *P,
 	}
 }
 
-__kernel void evolvePulse(__global float2 *A
-						  __global float2 *P
-						  __global float *X
-						  uint W
+__kernel void PulseEvolution(__global float2 *A,
+						  __global float2 *P,
+						  __global float *X,
+						  uint W,
 						  float t){
 	//p21 = P[gID_x*W+3]
 	const int gID_x = get_global_id(0);

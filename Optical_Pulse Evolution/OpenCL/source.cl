@@ -9,12 +9,19 @@
 #define complex_real(a) a.x
 #define complex_imag(a) a.y
 #define complex_unit (float2)(0, 1)
+#define complex_exp(a) complex_ctr(cos(a), sin(a))
+
 constant int N=10002; 
 constant float dx=0.01; 
 constant float dt=0.01; 
 constant float P0=1.0; 
 constant float DELTA=1.0; 
 constant float GAMA=1.0; 
+constant float EPS=100.000002235; 
+constant float G=0.01; 
+constant float Kp=1.0; 
+constant float Wp=1.0; 
+constant float CC=0.0; 
 
 void evolve_state(__global float2 *P,
                   __global float2 *A,
@@ -99,4 +106,19 @@ __kernel void RK4Step(__global float2 *P,
 		idx = gID_x*W+i;
 		P[idx] = Ps[idx];
 	}
+}
+
+__kernel void PulseEvolution(__global float2 *A,
+						  __global float2 *P,
+						  __global float *X,
+						  uint W,
+						  float t){
+	//p21 = P[gID_x*W+3]
+	const int gID_x = get_global_id(0);
+	float2 aux;
+	
+	aux = (A[gID_x] + complex_mul(EPS*(A[gID_x+1] + A[gID_x-1]), complex_unit)
+	       + complex_mul(G*(complex_mul(P[gID_x*W+3], complex_exp(Kp*X[gID_x] - Wp*t)) + CC), complex_unit));
+
+	A[gID_x] = aux;
 }
