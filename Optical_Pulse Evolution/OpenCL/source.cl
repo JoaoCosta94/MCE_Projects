@@ -108,8 +108,8 @@ __kernel void RK4Step(__global float2 *P,
 	}
 }
 
-__kernel void PulseEvolution(__global float2 *A,
-						  __global float2 *P,
+__kernel void PulseEvolution(__global float2 *P,
+						  __global float2 *A,
 						  __global float *X,
 						  uint W,
 						  float t){

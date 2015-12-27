@@ -143,7 +143,7 @@ if __name__ == "__main__":
     start = time.time()
     for i in range(len(T_h)):
         # Evolve Pulse
-        evolvePulse = prg.PulseEvolution(queue, (N,), None, A_d, p_d, X_d, W, T_h[i])
+        evolvePulse = prg.PulseEvolution(queue, (N,), None, p_d, A_d, X_d, W, T_h[i])
         evolvePulse.wait()
         # Evolve State
         evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
