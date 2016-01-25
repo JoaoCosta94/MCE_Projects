@@ -59,6 +59,17 @@ def device_allocate(ctx, MF, X_h, p_h, A_h, OC_h):
     pm_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=sp.empty_like(p_h))
     return X_d, p_d, A_d, OC_d, k_d, ps_d, pm_d
 
+def plotting_pulse(X, T, evolution):
+    """
+    This function plots the amplitude of the pulse's envelope over time on all the grid positions
+    """
+    xGrid, tGrid = sp.meshgrid(X, T)
+
+    pl.figure()
+    pl.contourf(tGrid, xGrid, evolution.real)
+    pl.colorbar()
+    pl.show()
+
 if __name__ == "__main__":
 
     # Definition of problem parameters
@@ -175,3 +186,5 @@ if __name__ == "__main__":
 
     tCalc = time.time() - start
     print 'Calculations & saving to files took ' + str(tCalc) + ' seconds'
+
+    plotting_pulse(X_h, tInstants, pulseEvolution)
