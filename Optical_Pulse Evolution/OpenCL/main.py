@@ -11,12 +11,12 @@ def initial_state(N):
     This function generates the initial state of the N atoms
     """
     # TODO: Change pxy to values that make sense (p11+p22+p33=1)
-    p11 = sp.random.random_sample(N) #
-    p22 = sp.random.random_sample(N) #
-    p33 = sp.random.random_sample(N) # Creation of initial states of the 3 state atoms
-    p21 = sp.random.random_sample(N) #
-    p31 = sp.random.random_sample(N) #
-    p32 = sp.random.random_sample(N) #
+    p11 = sp.ones(N)  #
+    p22 = sp.zeros(N) #
+    p33 = sp.zeros(N) # Creation of initial states of the 3 state atoms
+    p21 = sp.zeros(N) #
+    p31 = sp.zeros(N) #
+    p32 = sp.zeros(N) #
     return p11, p22, p33, p21, p31, p32
 
 def device_code(N, dx, dt, P0, DELTA, GAMA, EPS, G, Kp, Wp, CC):
@@ -102,7 +102,9 @@ if __name__ == "__main__":
 
     # Generating initial envelope status
     # TODO: Change A to values that make sense
-    A_h = 100.0*(sp.random.random_sample(N) + 1j*sp.random.random_sample(N)).astype(complex)
+    # A_h = 100.0*(sp.random.random_sample(N) + 1j*sp.random.random_sample(N)).astype(complex)
+    A_h = (sp.arange(N) + 1j*sp.zeros(N)).astype(sp.complex64)
+    A_h = (sp.exp(-((A_h-N/2.0)/(0.05 * N))**2)*sp.exp(1j * 200.0 * A_h /N)).astype(complex)
 
     # Preparing GPU code
     device_code(N, dx, dt, P0, DELTA, GAMA, EPS, G, Kp, Wp, CC)
