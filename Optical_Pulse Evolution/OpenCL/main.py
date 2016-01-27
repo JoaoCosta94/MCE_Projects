@@ -10,7 +10,6 @@ def initial_state(N):
     """
     This function generates the initial state of the N atoms
     """
-    # TODO: Change pxy to values that make sense (p11+p22+p33=1)
     p11 = sp.ones(N)  #
     p22 = sp.zeros(N) #
     p33 = sp.zeros(N) # Creation of initial states of the 3 state atoms
@@ -64,9 +63,8 @@ def plotting_pulse(X, T, evolution):
     This function plots the amplitude of the pulse's envelope over time on all the grid positions
     """
     xGrid, tGrid = sp.meshgrid(X, T)
-
     pl.figure()
-    pl.contourf(tGrid, xGrid, evolution.real)
+    pl.contourf(xGrid, tGrid, evolution.real)
     pl.colorbar()
     pl.show()
 
@@ -76,10 +74,10 @@ if __name__ == "__main__":
 
     # Grid parameters
     gWidth = 100 # atom grid width
-    dx = sp.float32(0.01) # atom grid spacing
+    dx = sp.float32(0.1) # atom grid spacing
 
     # Time parameters
-    tInterval = sp.float32(10.0)
+    tInterval = sp.float32(1.0)
     dt = sp.float32(0.01)
 
     # Generating grids
@@ -88,14 +86,12 @@ if __name__ == "__main__":
     N = len(X_h)
 
     # State density parameters
-    # TODO: Change OC to values that make sense
     P0 = sp.float32(1.0)
     GAMA = sp.float32(1.0)
     DELTA = sp.float32(1.0)
     OC_h = sp.ones(X_h.shape).astype(sp.float32)
 
     # Envelope parameters
-    # TODO: Change to values that make sense
     a = sp.float32(1.0)
     b = sp.float32(1.0)
     Kp = sp.float32(1.0)
@@ -112,10 +108,10 @@ if __name__ == "__main__":
     p_h = sp.array(p_h).astype(complex)
 
     # Generating initial envelope status
-    # TODO: Change A to values that make sense
-    # A_h = 100.0*(sp.random.random_sample(N) + 1j*sp.random.random_sample(N)).astype(complex)
-    A_h = (sp.arange(N) + 1j*sp.zeros(N)).astype(sp.complex64)
-    A_h = (sp.exp(-((A_h-N/2.0)/(0.05 * N))**2)*sp.exp(1j * 200.0 * A_h /N)).astype(complex)
+    A_h = (sp.exp(-((X_h-gWidth/4.0)/0.75)**2)).astype(complex)
+
+    pl.figure()
+    pl.plot(X_h, A_h.real)
 
     # Preparing GPU code
     device_code(N, dx, dt, P0, DELTA, GAMA, EPS, G, Kp, Wp, CC)
@@ -178,13 +174,13 @@ if __name__ == "__main__":
     p21Evolution = sp.array(p21Evolution)
     tInstants = sp.array(tInstants)
 
-    # Saving data to files
-    sp.save(pulsePath, pulseEvolution)
-    sp.save(p21Path, p21Evolution)
-    sp.save(tPath, tInstants)
-    sp.save(xPath, X_h)
-
-    tCalc = time.time() - start
-    print 'Calculations & saving to files took ' + str(tCalc) + ' seconds'
-
-    plotting_pulse(X_h, tInstants, pulseEvolution)
+    # # Saving data to files
+    # sp.save(pulsePath, pulseEvolution)
+    # sp.save(p21Path, p21Evolution)
+    # sp.save(tPath, tInstants)
+    # sp.save(xPath, X_h)
+    #
+    # tCalc = time.time() - start
+    # print 'Calculations & saving to files took ' + str(tCalc) + ' seconds'
+    #
+    # plotting_pulse(X_h, tInstants, pulseEvolution)

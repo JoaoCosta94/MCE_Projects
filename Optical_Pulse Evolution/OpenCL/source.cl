@@ -11,13 +11,13 @@
 #define complex_unit (float2)(0, 1)
 #define complex_exp(a) complex_ctr(cos(a), sin(a))
 
-constant int N=10002; 
-constant float dx=0.01; 
+constant int N=1001; 
+constant float dx=0.1; 
 constant float dt=0.01; 
 constant float P0=1.0; 
 constant float DELTA=1.0; 
 constant float GAMA=1.0; 
-constant float EPS=100.000002235; 
+constant float EPS=0.999999947846; 
 constant float G=0.01; 
 constant float Kp=1.0; 
 constant float Wp=1.0; 
@@ -36,21 +36,27 @@ void evolve_state(__global float2 *P,
 	//p31 = P[id*W+4];
 	//p32 = P[id*W+5];
 
-	K[id*W] = (GAMA*(P[id*W+1] + conj(P[id*W+1]))/2
-	           + complex_mul(P0*complex_mul(A[id], (P[id*W+3] + conj(P[id*W+3]))), complex_unit));
+	float2 OP = P0 * A[id];
 
-	K[id*W+1] = (-GAMA*(P[id*W+1] + conj(P[id*W+1])) - complex_mul(P0*complex_mul(A[id], (P[id*W+3] + conj(P[id*W+3])))
+	if (id <= N/2){
+		OP = complex_ctr(0,0);
+	}
+
+	K[id*W] = (GAMA*(P[id*W+1] + conj(P[id*W+1]))/2
+	           + complex_mul(complex_mul(OP, (P[id*W+3] + conj(P[id*W+3]))), complex_unit));
+
+	K[id*W+1] = (-GAMA*(P[id*W+1] + conj(P[id*W+1])) - complex_mul(complex_mul(OP, (P[id*W+3] + conj(P[id*W+3])))
 				 - OC[id]*(P[id*W+5] + conj(P[id*W+5])), complex_unit));
 
 	K[id*W+2] = (GAMA*(P[id*W+1] + conj(P[id*W+1]))/2
 	             - complex_mul(OC[id]*(P[id*W+5] + conj(P[id*W+5])), complex_unit));
 
-	K[id*W+3] = (complex_mul(P0*complex_mul(A[id],(P[id*W] - P[id*W+1])) + OC[id]*P[id*W+4]
+	K[id*W+3] = (complex_mul(complex_mul(OP,(P[id*W] - P[id*W+1])) + OC[id]*P[id*W+4]
 	             - DELTA*P[id*W+3], complex_unit) - GAMA*P[id*W+3]);
 
-	K[id*W+4] = complex_mul(-P0*complex_mul(A[id], P[id*W+5]) + OC[id]*P[id*W+3] + DELTA*P[id*W+4], complex_unit);
+	K[id*W+4] = complex_mul(-complex_mul(OP, P[id*W+5]) + OC[id]*P[id*W+3] + DELTA*P[id*W+4], complex_unit);
 
-	K[id*W+5] = (complex_mul(-P0*complex_mul(A[id], P[id*W+4]) + OC[id]*(P[id*W+1] - P[id*W+2]), complex_unit)
+	K[id*W+5] = (complex_mul(-complex_mul(OP, P[id*W+4]) + OC[id]*(P[id*W+1] - P[id*W+2]), complex_unit)
 	             - GAMA*P[id*W+5]);
 }
 
@@ -119,6 +125,8 @@ __kernel void PulseEvolution(__global float2 *P,
 	
 	aux = (A[gID_x] + complex_mul(EPS*(A[gID_x+1] + A[gID_x-1]), complex_unit)
 	       + complex_mul(G*(complex_mul(P[gID_x*W+3], complex_exp(Kp*gID_x*dx - Wp*t)) + CC), complex_unit));
+
+	//aux = (A[gID_x] + complex_mul(EPS*(A[gID_x+1] + A[gID_x-1]), complex_unit));
 
 	A[gID_x] = aux;
 }
