@@ -53,7 +53,8 @@ def evolve_envelope(A, p21, X, t):
     """
     This function evolves the envelope
     """
-    aux = eps*(sp.roll(A, 1) + sp.roll(A, -1)) + gama*(p21*sp.exp(1j*(Kp*X - Wp*t)) + CC)
+    aux = eps*(A[2:] + A[:-2]) #+ gama*(p21*sp.exp(1j*(Kp*X - Wp*t)) + CC)
+
     return A + 1j*aux
 
 if __name__ == '__main__':
@@ -82,11 +83,11 @@ if __name__ == '__main__':
 
     # Grid parameters and definition
     width = 100 # atom chain width
-    dx = 0.01 # atom chain spacing
+    dx = 0.1 # atom chain spacing
     X = sp.arange(0.0, width, dx) # atom grid
 
     # Time parameters and definition
-    interval = 10.0 # simulation duration
+    interval = 0.1 # simulation duration
     dt = 0.01 # time step
     T = sp.arange(dt, interval, dt) # time array
 
@@ -102,8 +103,10 @@ if __name__ == '__main__':
         p.append(sp.array([p11[i], p22[i], p33[i], p21[i], p31[i], p32[i]]))
     p = sp.array(p).astype(complex)
 
-    # TODO: Create a real envelope later like a cosine
-    A = 100.0*(sp.random.random_sample(N) + 1j*sp.random.random_sample(N)) # Initial envelope generated as random dist
+    A = (sp.exp(-((X-width/4.0)/0.75)**2)*sp.exp(1j*5.0)).astype(complex) # Initial envelope generated as random dist
+
+    pl.figure()
+    pl.plot(X, abs(A)**2)
 
     print 'All calculations will be performed using only python'
 
@@ -113,32 +116,34 @@ if __name__ == '__main__':
     for t in T:
         # Evolve envelope
         A = evolve_envelope(A, p[:, 3], X, t)
-        # For each time instant evolve the state with the new values of A
-        p = RK4_STEP(dt, A, p)
-        # Append to mesh
-        A_evolution.append(A)
-        p21_evolution.append(abs(p[3]))
+        # # For each time instant evolve the state with the new values of A
+        # p = RK4_STEP(dt, A, p)
+        # # Append to mesh
+        # A_evolution.append(A)
+        # p21_evolution.append(abs(p[3]))
 
     tCalc = time.time() - start
     print 'Calculations took ' + str(tCalc) + ' seconds'
 
-    # Plotting preparation and presentation
-    X_MESH, T_MESH = sp.meshgrid(X, T)
-    p21_evolution = sp.array(p21_evolution)
-    A_evolution = sp.array(A_evolution)
+    # # Plotting preparation and presentation
+    # X_MESH, T_MESH = sp.meshgrid(X, T)
+    # p21_evolution = sp.array(p21_evolution)
+    # A_evolution = sp.array(A_evolution)
+    #
+    # # p21 evolution
+    # pl.figure()
+    # pl.xlabel('X')
+    # pl.ylabel('t')
+    # pl.contourf(X_MESH, T_MESH, p21_evolution, levels = sp.linspace(p21_evolution.min(), p21_evolution.max(), 100))
+    # pl.colorbar()
+    #
+    # # Envelope evolution
+    # pl.figure()
+    # pl.xlabel('X')
+    # pl.ylabel('t')
+    # pl.contourf(X_MESH, T_MESH, abs(A_evolution), levels = sp.linspace(A_evolution.min(), A_evolution.max(), 100))
+    # pl.colorbar()
 
-    # p21 evolution
-    pl.figure()
-    pl.xlabel('X')
-    pl.ylabel('t')
-    pl.contourf(X_MESH, T_MESH, p21_evolution, levels = sp.linspace(p21_evolution.min(), p21_evolution.max(), 100))
-    pl.colorbar()
-
-    # Envelope evolution
-    pl.figure()
-    pl.xlabel('X')
-    pl.ylabel('t')
-    pl.contourf(X_MESH, T_MESH, abs(A_evolution), levels = sp.linspace(A_evolution.min(), A_evolution.max(), 100))
-    pl.colorbar()
+    pl.plot(X, abs(A)**2)
 
     pl.show()

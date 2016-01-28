@@ -96,9 +96,12 @@ if __name__ == "__main__":
     b = sp.float32(1.0)
     Kp = sp.float32(1.0)
     Wp = sp.float32(1.0)
-    EPS = a * dt/dx**2
+    #EPS = a * dt/dx**2
+    EPS = 0.1
     G = b*dt*P0
     CC = sp.float32(0.0)
+
+########################################################################################################################
 
     # Generating initial states density
     p11_h, p22_h, p33_h, p21_h, p31_h, p32_h = initial_state(N)
@@ -108,10 +111,12 @@ if __name__ == "__main__":
     p_h = sp.array(p_h).astype(complex)
 
     # Generating initial envelope status
-    A_h = (sp.exp(-((X_h-gWidth/4.0)/0.75)**2)).astype(complex)
+    A_h = (sp.exp(-((X_h-gWidth/2.0)/1.0)**2)*sp.exp(-1j*1000.0*X_h)).astype(sp.complex64)
 
     pl.figure()
-    pl.plot(X_h, A_h.real)
+    pl.plot(X_h, abs(A_h)**2 / (abs(A_h)**2).max())
+
+########################################################################################################################
 
     # Preparing GPU code
     device_code(N, dx, dt, P0, DELTA, GAMA, EPS, G, Kp, Wp, CC)
@@ -131,6 +136,8 @@ if __name__ == "__main__":
     f.close()
     prg = cl.Program(ctx, source).build()
 
+########################################################################################################################
+
     # Save values interval & variables
     snapMultiple = 10
     pulseEvolution = [A_h]
@@ -147,33 +154,36 @@ if __name__ == "__main__":
     tPath = fPath+'T_'+str(N)+'_dx_'+str(dx)+'_dt_'+str(dt)+'.npy'
     xPath = fPath+'X_'+str(N)+'_dx_'+str(dx)+'_dt_'+str(dt)+'.npy'
 
+########################################################################################################################
+
     print 'All calculations will be performed using OpenCL sweet sweet magic'
 
     start = time.time()
     for i in range(len(T_h)):
-        # Evolve State
-        evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
-        evolveSate.wait()
+        # # Evolve State
+        # evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
+        # evolveSate.wait()
         # Evolve Pulse
         evolvePulse = prg.PulseEvolution(queue, (N,), None, p_d, A_d, dx, T_h[i], W)
         evolvePulse.wait()
-        if (i % snapMultiple == 0):
-            # Grabbing snapshot instant
-            tInstants.append(T_h[i])
-            # Copying state to RAM
-            cl.enqueue_copy(queue, p_h, p_d)
-            p21Evolution.append(p_h[:, 3])
-            # Copying pulse to RAM
-            cl.enqueue_copy(queue, A_h, A_d)
-            pulseEvolution.append(A_h)
-            print 'Snapshot Saved'
-        print "{:.2f}".format(T_h[i] / tInterval * 100) + '%'
+        cl.enqueue_copy(queue, A_h, A_d)
+        # if (i % snapMultiple == 0):
+        #     # Grabbing snapshot instant
+        #     tInstants.append(T_h[i])
+        #     # Copying state to RAM
+        #     cl.enqueue_copy(queue, p_h, p_d)
+        #     p21Evolution.append(p_h[:, 3])
+        #     # Copying pulse to RAM
+        #     cl.enqueue_copy(queue, A_h, A_d)
+        #     pulseEvolution.append(A_h)
+        #     print 'Snapshot Saved'
+        # print "{:.2f}".format(T_h[i] / tInterval * 100) + '%'
 
-    # Converting to arrays
-    pulseEvolution = sp.array(pulseEvolution)
-    p21Evolution = sp.array(p21Evolution)
-    tInstants = sp.array(tInstants)
-
+    # # Converting to arrays
+    # pulseEvolution = sp.array(pulseEvolution)
+    # p21Evolution = sp.array(p21Evolution)
+    # tInstants = sp.array(tInstants)
+    #
     # # Saving data to files
     # sp.save(pulsePath, pulseEvolution)
     # sp.save(p21Path, p21Evolution)
@@ -184,3 +194,7 @@ if __name__ == "__main__":
     # print 'Calculations & saving to files took ' + str(tCalc) + ' seconds'
     #
     # plotting_pulse(X_h, tInstants, pulseEvolution)
+
+    pl.plot(X_h, abs(A_h)**2/(abs(A_h)**2).max())
+
+    pl.show()
