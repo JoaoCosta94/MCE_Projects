@@ -45,18 +45,17 @@ def device_code(N, dx, dt, P0, DELTA, GAMA, EPS, G, Kp, Wp, CC):
     f2.close()
     f3.close()
 
-def device_allocate(ctx, MF, X_h, p_h, A_h, OC_h):
+def device_allocate(ctx, MF, p_h, A_h, OC_h):
     """
     This function allocates memory on the device
     """
-    X_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=X_h)
     p_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=p_h)
     A_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=A_h)
     OC_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=OC_h)
     k_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=sp.empty_like(p_h))
     ps_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=sp.empty_like(p_h))
     pm_d = cl.Buffer(ctx, MF.READ_WRITE | MF.COPY_HOST_PTR, hostbuf=sp.empty_like(p_h))
-    return X_d, p_d, A_d, OC_d, k_d, ps_d, pm_d
+    return p_d, A_d, OC_d, k_d, ps_d, pm_d
 
 def plotting_pulse(X, T, evolution):
     """
@@ -64,7 +63,10 @@ def plotting_pulse(X, T, evolution):
     """
     xGrid, tGrid = sp.meshgrid(X, T)
     pl.figure()
-    pl.contourf(xGrid, tGrid, evolution.real)
+    pl.xlabel("x")
+    pl.ylabel("t")
+    # pl.contourf(xGrid, tGrid, evolution, levels = sp.linspace(0.0, evolution.max(), 100))
+    pl.contourf(xGrid, tGrid, evolution)
     pl.colorbar()
     pl.show()
 
@@ -77,8 +79,8 @@ if __name__ == "__main__":
     dx = sp.float32(0.1) # atom grid spacing
 
     # Time parameters
-    tInterval = sp.float32(1.0)
-    dt = sp.float32(0.01)
+    tInterval = sp.float32(6.0)
+    dt = sp.float32(0.0001)
 
     # Generating grids
     X_h = sp.arange(0.0, gWidth+dx, dx).astype(sp.float32)
@@ -94,10 +96,16 @@ if __name__ == "__main__":
     # Envelope parameters
     a = sp.float32(1.0)
     b = sp.float32(1.0)
-    Kp = sp.float32(1.0)
-    Wp = sp.float32(1.0)
-    #EPS = a * dt/dx**2
-    EPS = 0.1
+    disp = gWidth/4.0
+    iWidth = 10.0
+    k = sp.float32(1000.0)
+
+    # Polarization parameters
+    Kp = sp.float32(1000.0)
+    Wp = sp.float32(10000.0)
+
+    # System Constants
+    EPS = a * dt/dx**2
     G = b*dt*P0
     CC = sp.float32(0.0)
 
@@ -108,13 +116,10 @@ if __name__ == "__main__":
     p_h = []
     for i in range (N):
         p_h.append(sp.array([p11_h[i], p22_h[i], p33_h[i], p21_h[i], p31_h[i], p32_h[i]]))
-    p_h = sp.array(p_h).astype(complex)
+    p_h = sp.array(p_h).astype(sp.complex64)
 
     # Generating initial envelope status
-    A_h = (sp.exp(-((X_h-gWidth/2.0)/1.0)**2)*sp.exp(-1j*1000.0*X_h)).astype(sp.complex64)
-
-    pl.figure()
-    pl.plot(X_h, abs(A_h)**2 / (abs(A_h)**2).max())
+    A_h = (sp.exp(-((X_h-disp)/iWidth)**2)*sp.exp(-1j*k*X_h)).astype(sp.complex64)
 
 ########################################################################################################################
 
@@ -127,7 +132,7 @@ if __name__ == "__main__":
     MF = cl.mem_flags
 
     # Allocating gpu variables
-    X_d, p_d, A_d, OC_d, k_d, ps_d, pm_d= device_allocate(ctx, MF, X_h, p_h, A_h, OC_h)
+    p_d, A_d, OC_d, k_d, ps_d, pm_d= device_allocate(ctx, MF, p_h, A_h, OC_h)
     W = sp.uint32(6) # The row width to compute the index inside the kernel
 
     # Loading the source
@@ -140,7 +145,7 @@ if __name__ == "__main__":
 
     # Save values interval & variables
     snapMultiple = 10
-    pulseEvolution = [A_h]
+    pulseEvolution = [abs(A_h)**2 / (abs(A_h)**2).max()]
     p21Evolution = [p_h[:, 3]]
     tInstants = [0.0]
 
@@ -160,30 +165,33 @@ if __name__ == "__main__":
 
     start = time.time()
     for i in range(len(T_h)):
-        # # Evolve State
-        # evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
-        # evolveSate.wait()
+        # Evolve State
+        evolveSate = prg.RK4Step(queue, (N,), None, p_d, A_d, OC_d, k_d, ps_d, pm_d, W, T_h[i])
+        evolveSate.wait()
         # Evolve Pulse
         evolvePulse = prg.PulseEvolution(queue, (N,), None, p_d, A_d, dx, T_h[i], W)
         evolvePulse.wait()
-        cl.enqueue_copy(queue, A_h, A_d)
-        # if (i % snapMultiple == 0):
-        #     # Grabbing snapshot instant
-        #     tInstants.append(T_h[i])
-        #     # Copying state to RAM
-        #     cl.enqueue_copy(queue, p_h, p_d)
-        #     p21Evolution.append(p_h[:, 3])
-        #     # Copying pulse to RAM
-        #     cl.enqueue_copy(queue, A_h, A_d)
-        #     pulseEvolution.append(A_h)
-        #     print 'Snapshot Saved'
-        # print "{:.2f}".format(T_h[i] / tInterval * 100) + '%'
+        # Fix Borders
+        fix = prg.FixBorder(queue, (1,), None, A_d)
+        fix.wait()
+        # cl.enqueue_copy(queue, A_h, A_d)
+        if (i % snapMultiple == 0):
+            # Grabbing snapshot instant
+            tInstants.append(T_h[i])
+            # Copying state to RAM
+            cl.enqueue_copy(queue, p_h, p_d)
+            p21Evolution.append(p_h[:, 3])
+            # Copying pulse to RAM
+            cl.enqueue_copy(queue, A_h, A_d)
+            pulseEvolution.append(abs(A_h)**2 / (abs(A_h)**2).max())
+            print 'Snapshot Saved'
+        print "{:.3f}".format(T_h[i] / tInterval * 100) + '%'
 
-    # # Converting to arrays
-    # pulseEvolution = sp.array(pulseEvolution)
-    # p21Evolution = sp.array(p21Evolution)
-    # tInstants = sp.array(tInstants)
-    #
+    # Converting to arrays
+    pulseEvolution = sp.array(pulseEvolution)
+    p21Evolution = sp.array(p21Evolution)
+    tInstants = sp.array(tInstants)
+
     # # Saving data to files
     # sp.save(pulsePath, pulseEvolution)
     # sp.save(p21Path, p21Evolution)
@@ -192,9 +200,7 @@ if __name__ == "__main__":
     #
     # tCalc = time.time() - start
     # print 'Calculations & saving to files took ' + str(tCalc) + ' seconds'
-    #
-    # plotting_pulse(X_h, tInstants, pulseEvolution)
 
-    pl.plot(X_h, abs(A_h)**2/(abs(A_h)**2).max())
+    plotting_pulse(X_h, tInstants, pulseEvolution)
 
     pl.show()

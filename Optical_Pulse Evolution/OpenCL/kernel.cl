@@ -14,9 +14,9 @@ void evolve_state(__global float2 *P,
 
 	float2 OP = P0 * A[id];
 
-	if (id <= N/2){
-		OP = complex_ctr(0,0);
-	}
+	//if (id <= N/2){
+	//	OP = complex_ctr(0,0);
+	//}
 
 	K[id*W] = (GAMA*(P[id*W+1] + conj(P[id*W+1]))/2
 	           + complex_mul(complex_mul(OP, (P[id*W+3] + conj(P[id*W+3]))), complex_unit));
@@ -98,9 +98,13 @@ __kernel void PulseEvolution(__global float2 *P,
 	//p21 = P[gID_x*W+3]
 	const int gID_x = get_global_id(0);
 	
-	//aux = (A[gID_x] + complex_mul(EPS*(A[gID_x+1] + A[gID_x-1]), complex_unit)
-	//       + complex_mul(G*(complex_mul(P[gID_x*W+3], complex_exp(Kp*gID_x*dx - Wp*t)) + CC), complex_unit));
+	A[gID_x] = (A[gID_x] + complex_mul(EPS*(A[gID_x+1] + A[gID_x-1]), complex_unit)
+	       + G*complex_mul(complex_mul(P[gID_x*W+3], complex_exp(Kp*gID_x*dx - Wp*t)) + CC, complex_unit));
 
-	A[gID_x] = (A[gID_x] + EPS*complex_mul((A[gID_x+1] + A[gID_x-1]), complex_unit));
+	//A[gID_x] = (A[gID_x] + EPS*complex_mul((A[gID_x+1] + A[gID_x-1]), complex_unit));
+}
 
+__kernel void FixBorder(__global float2 *A){
+	A[0] = complex_ctr(0, 0);
+	A[N-1] = complex_ctr(0, 0);
 }
