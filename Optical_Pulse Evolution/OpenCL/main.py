@@ -88,7 +88,7 @@ if __name__ == "__main__":
     N = len(X_h)
 
     # State density parameters
-    P0 = sp.float32(1.0)
+    P0 = sp.float32(0.0)
     GAMA = sp.float32(1.0)
     DELTA = sp.float32(1.0)
     OC_h = sp.ones(X_h.shape).astype(sp.float32)
