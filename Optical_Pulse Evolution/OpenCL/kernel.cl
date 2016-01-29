@@ -92,7 +92,6 @@ __kernel void RK4Step(__global float2 *P,
 
 __kernel void PulseEvolution(__global float2 *P,
 						  __global float2 *A,
-						  float dx,
 						  float t,
 						  uint W){
 	//p21 = P[gID_x*W+3]

@@ -14,11 +14,11 @@
 constant int N=1001; 
 constant float dx=0.1; 
 constant float dt=0.0001; 
-constant float P0=2.0; 
+constant float P0=0.2; 
 constant float DELTA=1.0; 
 constant float GAMA=1.0; 
 constant float EPS=0.01; 
-constant float G=0.0002; 
+constant float G=2e-05; 
 constant float Kp=1000.0; 
 constant float Wp=10000.0; 
 constant float CC=0.0; 
@@ -116,7 +116,6 @@ __kernel void RK4Step(__global float2 *P,
 
 __kernel void PulseEvolution(__global float2 *P,
 						  __global float2 *A,
-						  float dx,
 						  float t,
 						  uint W){
 	//p21 = P[gID_x*W+3]
