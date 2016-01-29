@@ -193,10 +193,10 @@ if __name__ == "__main__":
     N = len(X_h)
 
     # State density parameters
-    P0_List = sp.array([1.0]).astype(sp.float32)
+    P0_List = sp.array([0.5, 1.0, 1.5, 2.0]).astype(sp.float32)
     DELTA = sp.float32(1.0)
     GAMA = (1.0*DELTA).astype(sp.float32)
-    OC_List = sp.array([0.5]).astype(sp.float32)
+    OC_List = sp.array([0.5, 1.0, 1.5, 2.0]).astype(sp.float32)
 
     # Envelope parameters
     A0 = 1.0
@@ -204,7 +204,8 @@ if __name__ == "__main__":
     b = sp.float32(1.0)
     disp = gWidth/4.0
     iWidth = 10.0
-    k = 0.5*sp.float32(len(T_h)/len(X_h))
+    # k = 0.5*sp.float32(len(T_h)/len(X_h))
+    k = 1000.0
 
     # Polarization parameters
     Kp = sp.float32(1.0)
@@ -241,6 +242,8 @@ if __name__ == "__main__":
     start = time.time()
     for P0 in P0_List:
         for OC in OC_List:
+
+            print "Simulating " + " P0=" + str(P0) + ", OC=" + str(OC)
 
             # System Constants
             EPS = sp.float32(a * dt/dx**2)
