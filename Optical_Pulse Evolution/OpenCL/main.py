@@ -88,25 +88,25 @@ if __name__ == "__main__":
     N = len(X_h)
 
     # State density parameters
-    P0 = sp.float32(0.0)
-    GAMA = sp.float32(1.0)
+    P0 = sp.float32(2.0)
     DELTA = sp.float32(1.0)
-    OC_h = sp.ones(X_h.shape).astype(sp.float32)
+    GAMA = (1.0*DELTA).astype(sp.float32)
+    OC_h = 0.1*sp.ones(X_h.shape).astype(sp.float32)
 
     # Envelope parameters
     a = sp.float32(1.0)
     b = sp.float32(1.0)
     disp = gWidth/4.0
     iWidth = 10.0
-    k = sp.float32(1000.0)
+    k = sp.float32(len(T_h)/len(X_h))
 
     # Polarization parameters
     Kp = sp.float32(1000.0)
     Wp = sp.float32(10000.0)
 
     # System Constants
-    EPS = a * dt/dx**2
-    G = b*dt*P0
+    EPS = sp.float32(a * dt/dx**2)
+    G = sp.float32(b*dt*P0)
     CC = sp.float32(0.0)
 
 ########################################################################################################################
@@ -144,8 +144,9 @@ if __name__ == "__main__":
 ########################################################################################################################
 
     # Save values interval & variables
-    snapMultiple = 10
-    pulseEvolution = [abs(A_h)**2 / (abs(A_h)**2).max()]
+    snapMultiple = 100
+    # pulseEvolution = [abs(A_h)**2 / (abs(A_h)**2).max()]
+    pulseEvolution = [abs(A_h)**2]
     p21Evolution = [p_h[:, 3]]
     tInstants = [0.0]
 
@@ -171,10 +172,6 @@ if __name__ == "__main__":
         # Evolve Pulse
         evolvePulse = prg.PulseEvolution(queue, (N,), None, p_d, A_d, dx, T_h[i], W)
         evolvePulse.wait()
-        # Fix Borders
-        fix = prg.FixBorder(queue, (1,), None, A_d)
-        fix.wait()
-        # cl.enqueue_copy(queue, A_h, A_d)
         if (i % snapMultiple == 0):
             # Grabbing snapshot instant
             tInstants.append(T_h[i])
@@ -183,7 +180,8 @@ if __name__ == "__main__":
             p21Evolution.append(p_h[:, 3])
             # Copying pulse to RAM
             cl.enqueue_copy(queue, A_h, A_d)
-            pulseEvolution.append(abs(A_h)**2 / (abs(A_h)**2).max())
+            # pulseEvolution.append(abs(A_h)**2 / (abs(A_h)**2).max())
+            pulseEvolution.append(abs(A_h)**2)
             print 'Snapshot Saved'
         print "{:.3f}".format(T_h[i] / tInterval * 100) + '%'
 
