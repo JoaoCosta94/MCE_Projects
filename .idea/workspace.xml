@@ -1,0 +1,1171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="68657d7a-806b-460a-b74d-d9e68bd2e6e3" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/Bloch Goes to Nonlineae Schro.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_10002_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_0.2.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_0.8.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_100.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_2001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_4001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_4001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_10002_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_0.2.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_0.8.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_100.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_2001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_4001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_4001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_10002_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_0.2.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_0.8.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_100.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_2001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_4001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_4001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_10002_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_0.2.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_0.8.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_100.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_0.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_1.5.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_2001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_4001_oc_0.5_p0_1.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_4001_oc_0.5_p0_2.0.npy" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_2.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_0.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_1.0.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_1.5.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_2.0.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+    </list>
+    <ignored path="Projects.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/Projects$test_with_kernel.coverage" NAME="test with kernel Coverage Results" MODIFIED="1451245838007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL" />
+    <SUITE FILE_PATH="coverage/Projects$sum_complexes.coverage" NAME="sum_complexes Coverage Results" MODIFIED="1451311783427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL" />
+    <SUITE FILE_PATH="coverage/Projects$OpenCL_main.coverage" NAME="OpenCL_main Coverage Results" MODIFIED="1454014326039" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL" />
+    <SUITE FILE_PATH="coverage/Projects$HW1_2.coverage" NAME="HW1_2 Coverage Results" MODIFIED="1446754036368" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork2" />
+    <SUITE FILE_PATH="coverage/Projects$HW4_1_graphs.coverage" NAME="HW4_1_graphs Coverage Results" MODIFIED="1450629310054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork4" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_4.coverage" NAME="HW3_4 Coverage Results" MODIFIED="1448815936235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_1d.coverage" NAME="HW3_1d Coverage Results" MODIFIED="1448729172671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$contour.coverage" NAME="contour Coverage Results" MODIFIED="1449789358245" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:/Python27/Lib/site-packages/matplotlib" />
+    <SUITE FILE_PATH="coverage/Projects$HW2_3.coverage" NAME="HW2_3 Coverage Results" MODIFIED="1446823869613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork2" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_1.coverage" NAME="HW3_1 Coverage Results" MODIFIED="1448130964944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$HW2_5.coverage" NAME="HW2_5 Coverage Results" MODIFIED="1446823900417" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork2" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_1bBessel.coverage" NAME="HW3_1bBessel Coverage Results" MODIFIED="1448660004540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$HW4_4.coverage" NAME="HW4_4 Coverage Results" MODIFIED="1450622521577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork4" />
+    <SUITE FILE_PATH="coverage/Projects$HW2_2.coverage" NAME="HW2_2 Coverage Results" MODIFIED="1446823861134" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork2" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_2a.coverage" NAME="HW3_2a Coverage Results" MODIFIED="1448663870068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_3.coverage" NAME="HW3_3 Coverage Results" MODIFIED="1448815892538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_1c2.coverage" NAME="HW3_1c2 Coverage Results" MODIFIED="1448718886946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$HW4_1.coverage" NAME="HW4_1 Coverage Results" MODIFIED="1450622570202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork4" />
+    <SUITE FILE_PATH="coverage/Projects$HW4_3.coverage" NAME="HW4_3 Coverage Results" MODIFIED="1450564280767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork4" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_1b.coverage" NAME="HW3_1b Coverage Results" MODIFIED="1450713574840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$main.coverage" NAME="main Coverage Results" MODIFIED="1454017115714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python" />
+    <SUITE FILE_PATH="coverage/Projects$HW2_4.coverage" NAME="HW2_4 Coverage Results" MODIFIED="1446823893299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork2" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_2.coverage" NAME="HW3_2 Coverage Results" MODIFIED="1448729145383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$linalg.coverage" NAME="linalg Coverage Results" MODIFIED="1446149746645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="C:/Python27/Lib/site-packages/numpy/linalg" />
+    <SUITE FILE_PATH="coverage/Projects$HW1_1.coverage" NAME="HW1_1 Coverage Results" MODIFIED="1445696845053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork1" />
+    <SUITE FILE_PATH="coverage/Projects$s1.coverage" NAME="s1 Coverage Results" MODIFIED="1443351053823" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sheet_1" />
+    <SUITE FILE_PATH="coverage/Projects$Absorbing_borders.coverage" NAME="Absorbing_borders Coverage Results" MODIFIED="1450632752008" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork4" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_1a.coverage" NAME="HW3_1a Coverage Results" MODIFIED="1450712924831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$HW4_2.coverage" NAME="HW4_2 Coverage Results" MODIFIED="1450622156961" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork4" />
+    <SUITE FILE_PATH="coverage/Projects$HW4_1a.coverage" NAME="HW4_1a Coverage Results" MODIFIED="1450714596452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork4" />
+    <SUITE FILE_PATH="coverage/Projects$HW1_3.coverage" NAME="HW1_3 Coverage Results" MODIFIED="1445696861706" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork1" />
+    <SUITE FILE_PATH="coverage/Projects$HW3_1c.coverage" NAME="HW3_1c Coverage Results" MODIFIED="1448729205729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork3" />
+    <SUITE FILE_PATH="coverage/Projects$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1453934997505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL" />
+    <SUITE FILE_PATH="coverage/Projects$test_bounds.coverage" NAME="test_bounds Coverage Results" MODIFIED="1451242835846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL" />
+    <SUITE FILE_PATH="coverage/Projects$HW2_1.coverage" NAME="HW2_1 Coverage Results" MODIFIED="1446823849875" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/HomeWork2" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="Projects" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+              <folding>
+                <element signature="e#26#44#0" expanded="true" />
+                <element signature="e#141#445#0" expanded="false" />
+                <element signature="e#516#1546#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/sheet_1/s1.py" />
+        <option value="$PROJECT_DIR$/HomeWork1/main.py" />
+        <option value="$PROJECT_DIR$/HomeWork1/Missing.txt" />
+        <option value="$PROJECT_DIR$/HomeWork1/HW1_1.py" />
+        <option value="$PROJECT_DIR$/HomeWork1/HW1_3.py" />
+        <option value="$PROJECT_DIR$/HomeWork1/HW1_2.py" />
+        <option value="$PROJECT_DIR$/HomeWork2/HW2_3.py" />
+        <option value="$PROJECT_DIR$/HomeWork2/HW2_5.py" />
+        <option value="$PROJECT_DIR$/HomeWork2/HW2_1.py" />
+        <option value="$PROJECT_DIR$/HomeWork2/HW2_2.py" />
+        <option value="$PROJECT_DIR$/HomeWork2/HW2_4.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_1.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_1bBessel.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_2a.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_1c2.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_1a.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_1d.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_2.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_1c.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_3.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_4.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/HW4_4.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/HW4_2_graphs.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/HW4_1.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/HW4_1_graphs.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/Absorbing_borders.py" />
+        <option value="$PROJECT_DIR$/HomeWork3/HW3_1b.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/HW4_1a.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/HW4_2.py" />
+        <option value="$PROJECT_DIR$/HomeWork4/HW4_3.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Stuff.txt" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/precode.cl" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/test_bounds.py" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/test with kernel.py" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/mul_complexes.py" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/sum_complexes.py" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/kernel.cl" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Optical_Pulse Evolution" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Pure_Python" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Projects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Optical_Pulse Evolution" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenCL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="options.lastSelected" value="configurable.group.project" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FullScreen" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="271" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="299" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="301" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="975" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="293" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="292" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="293" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="968" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Faculdade\4º Ano\MCE\Projects\Optical_Pulse Evolution\OpenCL" />
+      <recent name="D:\Faculdade\4º Ano\MCE\Projects\HomeWork2" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="OpenCL_main" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Python27\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Projects" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python.OpenCL_main" />
+      <item index="1" class="java.lang.String" itemvalue="Python.main" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="68657d7a-806b-460a-b74d-d9e68bd2e6e3" name="Default" comment="" />
+      <created>1443270102726</created>
+      <option name="number" value="Default" />
+      <updated>1443270102726</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13166311" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32834226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23351352" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32869378" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17237687" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21520342" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20877944" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32834226" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23351352" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32869378" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24385026" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17326203" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12313433" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20962566" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="46" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="0" selection-start-line="98" selection-start-column="0" selection-end-line="99" selection-end-column="17" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="153" column="120" selection-start-line="153" selection-start-column="120" selection-end-line="153" selection-end-column="120" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/kernel.cl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="107" column="1" selection-start-line="107" selection-start-column="1" selection-end-line="107" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="150" column="35" selection-start-line="150" selection-start-column="35" selection-end-line="150" selection-end-column="35" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="85" column="38" selection-start-line="85" selection-start-column="38" selection-end-line="85" selection-end-column="38" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/kernel.cl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="41" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/precode.cl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/kernel.cl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#C:/Python27/Lib/site-packages/pylab.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Python27/Lib/site-packages/pylab.py</OriginalElement>
+          <nodes />
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="376.0" y="323.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/numpy/linalg/linalg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.64502764">
+          <caret line="228" column="48" selection-start-line="228" selection-start-column="48" selection-end-line="228" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#D:/Faculdade/4º Ano/MCE/Projects/HomeWork3/HW3_1.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#D:/Faculdade/4º Ano/MCE/Projects/HomeWork3/HW3_1.py</OriginalElement>
+          <nodes />
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="844.0" y="356.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/matplotlib/contour.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.476874">
+          <caret line="1550" column="0" selection-start-line="1550" selection-start-column="0" selection-end-line="1550" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/source.cl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.551724">
+          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.03876853">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/precode.cl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/kernel.cl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.8350824">
+          <caret line="93" column="45" selection-start-line="93" selection-start-column="45" selection-end-line="93" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/propagation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+            <element signature="e#141#445#0" expanded="false" />
+            <element signature="e#516#1546#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
