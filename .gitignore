@@ -1,0 +1,4 @@
+# Files Here are ignored by git
+/.idea/*
+/Optical_Pulse Evolution/OpenCL/Data_Files/*
+/Optical_Pulse Evolution/OpenCL/Images/*

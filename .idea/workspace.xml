@@ -2,213 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68657d7a-806b-460a-b74d-d9e68bd2e6e3" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/Bloch Goes to Nonlineae Schro.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/scopes/scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P11_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_10002_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_0.2.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_0.8.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_100.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.2_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_2001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_4001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P21_Evol_4001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P22_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/P33_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_10002_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_0.2.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_0.8.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_100.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.2_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_1.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_1001_oc_2.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_2001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_4001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/Pulse_Evol_4001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_10002_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_0.2.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_0.8.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_100.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.2_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_1.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_1001_oc_2.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_2001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_4001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/T_4001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_10002_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_0.2.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_0.8.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_100.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.2_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_1.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_0.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_1.5.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_1001_oc_2.0_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_2001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_4001_oc_0.5_p0_1.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Data_Files/X_4001_oc_0.5_p0_2.0.npy" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_0.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.0_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_1.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/Pulse_P0_2.0_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_0.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.0_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_1.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p11_P0_2.0_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_0.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.0_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_1.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p22_P0_2.0_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_0.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.0_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_1.5_OC_2.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_0.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_1.0.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_1.5.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/p33_P0_2.0_OC_2.0.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Projects.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -294,8 +89,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.05629139">
+              <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -356,6 +151,7 @@
         <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/kernel.cl" />
         <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/main.py" />
         <option value="$PROJECT_DIR$/Optical_Pulse Evolution/Pure_Python/main.py" />
+        <option value="$PROJECT_DIR$/Optical_Pulse Evolution/OpenCL/Images/sadasd" />
         <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
@@ -427,28 +223,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Optical_Pulse Evolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Pure_Python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Projects" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Projects" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Optical_Pulse Evolution" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="OpenCL" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1161,8 +935,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.05629139">
+          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
           <folding />
         </state>
       </provider>
