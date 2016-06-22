@@ -86,5 +86,5 @@ def simulation_run(queue, A0, P0, OC, N, W, X_h, T_h, tInterval, prg, A_h, p_h, 
 
     # Generate and save respective graphs
     pulseScale = sp.linspace(0.0, 1.5 * A0, 100)
-    plotting.pulse_graph(P0, OC, X_h, T_h, pulseEvolution, pulseScale)
-    plotting.state_graph(P0, OC, X_h, T_h, p11Evolution, p22Evolution, p33Evolution)
+    plotting.pulse_graph(P0, OC, X_h, tInstants, pulseEvolution, pulseScale)
+    plotting.state_graph(P0, OC, X_h, tInstants, p11Evolution, p22Evolution, p33Evolution)

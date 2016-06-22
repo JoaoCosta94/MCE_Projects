@@ -3,7 +3,6 @@ __author__ = 'JoaoCosta'
 import scipy as sp
 import time
 import device
-import plotting
 import simulation
 
 if __name__ == "__main__":

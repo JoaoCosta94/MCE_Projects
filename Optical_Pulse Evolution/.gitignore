@@ -2,3 +2,4 @@
 .idea/*
 OpenCL/Images/*
 OpenCL/Data_Files/*
+OpenCL/*.pyc
